@@ -8,5 +8,7 @@ export const generateMessage = (resource:string)=>{
         NOTFOUND: `${resource} not found!`,
         EXIST: `This ${resource} already exists!`,
         BADREQUEST: `Bad Request!`,
+        INVALID_PASSWORD:`Invalid Password`,
+        IS_DISABLED:`User is disabled. Contact Admin for verification.`
     }
 }
