@@ -10,10 +10,15 @@ import { generateMessage } from 'src/utils/message.utility';
 @Injectable()
 export class RoleService {
   constructor(@InjectModel(Role.name) private roleModel: Model<Role>) { }
+
+
   private MESSAGES = generateMessage('Role')
   private StatusCode: number = 200;
   async create(createRoleDto: CreateRoleDto) {
     try {
+
+      console.log(this.roleModel)
+      await this.roleModel.findOne({})
       const exists = await this.roleModel.findOne({
         name: createRoleDto.name
       })

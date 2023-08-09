@@ -4,20 +4,22 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose'
 import { User } from './entities/user.entity';
-import { generateMessage } from 'src/utils/message.utility';
+import { generateMessage, roleEnums } from 'src/utils/message.utility';
 import { Response } from 'src/utils/response.utility';
 import { comparePassword, generateToken, hashPassword, objectIsEmpty } from 'src/utils/wrapper.utility';
 import { LoginUserDto } from './dto/login-user.dto';
+import { Role } from 'src/role/entities/role.entity';
 
 @Injectable()
 export class UserService {
 
-  constructor(@InjectModel(User.name) private userModel: Model<User>) { }
+  constructor(@InjectModel(User.name) private userModel: Model<User>,
+    @InjectModel(Role.name) private roleModel: Model<Role>) { }
 
   private MESSAGES = generateMessage('User')
   private StatusCode: number = 200;
 
-
+//extra
   async signup(createUserDto: CreateUserDto) {
     try {
       const exists = await this.userModel.findOne({
@@ -35,7 +37,7 @@ export class UserService {
 
       //generate token
       const token = generateToken(createdUser)
-      return new Response(this.StatusCode = 201, this.MESSAGES.CREATED, {user:createdUser,token})
+      return new Response(this.StatusCode = 201, this.MESSAGES.CREATED, { user: createdUser, token })
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
       return new Response(this.StatusCode, err?.message, err).error()
@@ -53,19 +55,19 @@ export class UserService {
       }
 
       // password check
-      if(!comparePassword(loginUserDto.password,exists.password)){
+      if (!comparePassword(loginUserDto.password, exists.password)) {
         this.StatusCode = 400;
         throw new Error(this.MESSAGES.INVALID_PASSWORD);
       }
 
       //access check
-      if(exists.isDisable){
+      if (exists.isDisable) {
         this.StatusCode = 400;
         throw new Error(this.MESSAGES.IS_DISABLED);
       }
       //generate token
       const token = generateToken(exists)
-      return new Response(this.StatusCode = 201, this.MESSAGES.CREATED, {user:exists,token})
+      return new Response(this.StatusCode = 200, this.MESSAGES.LOGIN, { user: exists, token })
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
       return new Response(this.StatusCode, err?.message, err).error()
@@ -73,7 +75,8 @@ export class UserService {
   }
 
 
-  async create(createUserDto: CreateUserDto) {
+  //to create new user
+  async create(createUserDto: CreateUserDto,user:User) {
     try {
       const exists = await this.userModel.findOne({
         name: createUserDto.email
@@ -82,7 +85,12 @@ export class UserService {
         this.StatusCode = 400;
         throw new Error(this.MESSAGES.EXIST)
       }
-
+      const isValid = await this.isPermitted(user.role.name,createUserDto.role)
+      if(!isValid){
+        this.StatusCode = 400;
+        throw new Error(this.MESSAGES.INVALID_CREATOR)
+      }
+      
       // hash password
       createUserDto.password = await hashPassword(createUserDto.password)
       const createdUser = await this.userModel.create(createUserDto);
@@ -95,6 +103,23 @@ export class UserService {
 
   }
 
+  private async isPermitted(myRole: string, userRoleId: string) {
+    const userRole = await this.roleModel.findById(userRoleId)
+    let isValid = false;
+    switch (myRole) {
+      case 'admin':
+        isValid = userRole.name == roleEnums.MANAGER || userRole.name == roleEnums.CR
+        break;
+      case 'manager':
+        isValid = userRole.name == roleEnums.CR 
+        break;
+      default:
+        isValid = false;
+        break;
+    }
+    return isValid;
+
+  }
   findAll() {
     return `This action returns all user`;
   }

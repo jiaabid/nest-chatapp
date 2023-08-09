@@ -9,6 +9,14 @@ export const generateMessage = (resource:string)=>{
         EXIST: `This ${resource} already exists!`,
         BADREQUEST: `Bad Request!`,
         INVALID_PASSWORD:`Invalid Password`,
-        IS_DISABLED:`User is disabled. Contact Admin for verification.`
+        IS_DISABLED:`User is disabled. Contact Admin for verification.`,
+        INVALID_CREATOR:`You are not allowed to create this user!.`,
+        LOGIN:`${resource} logged in successfully!`
     }
+}
+
+export const roleEnums = {
+    MANAGER:'manager',
+    ADMIN:'admin',
+    CR:'customer representative'
 }

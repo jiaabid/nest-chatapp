@@ -8,7 +8,6 @@ export class CreateUserMiddleware implements CanActivate {
    
     canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
         let test = context.getArgByIndex(0)
-        // console.log(context.getArgByIndex(0),'reflactor')
         console.log(test.res)
         
         const request = context.switchToHttp().getRequest();

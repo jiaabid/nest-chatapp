@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from "@nestjs/swagger"
 import { RoleModule } from './role/role.module';
 import { UserModule } from './user/user.module';
+// import { DefaultEntities } from './utils/initial-script.utility';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -19,6 +20,8 @@ async function bootstrap() {
   
     });
     SwaggerModule.setup("apis", app, document);
+  
   await app.listen(3000);
+  
 }
 bootstrap();
