@@ -53,11 +53,14 @@ export class UserController {
   }
 
  
+  @ApiBearerAuth()
   @Get(':id')
   @UseGuards(AuthGuard('jwt'))
   findOne(@Param('id') id: string) {
     return this.userService.findOne(id);
   }
+
+  @ApiBearerAuth()
   @Get()
   @UseGuards(AuthGuard('jwt'))
   findAll(@Req() req:Request) {
