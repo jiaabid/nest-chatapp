@@ -185,8 +185,35 @@ export class UserService {
     }
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    try {
+
+      const user = await this.userModel.findById(id);
+      
+      if (Object.values(user).length == 0) {
+        this.StatusCode = 404;
+        throw new Error(this.MESSAGES.NOTFOUND)
+      }
+      let updates = {}
+      if ('newPassword' in updateUserDto) {
+        let isMatched =await comparePassword(updateUserDto.oldPassword, user.password)
+        console.log(isMatched)
+        if (isMatched) {
+          updates['password'] = await hashPassword(updateUserDto.newPassword)
+        } else {
+          this.StatusCode = 400;
+          throw new Error(this.MESSAGES.INVALID_PASSWORD)
+        }
+      }
+      'name' in updateUserDto && (updates['name'] = updateUserDto.name)
+
+      await this.userModel.findByIdAndUpdate(id, updates)
+      const updated = await this.userModel.findById(id);
+      return new Response(this.StatusCode, this.MESSAGES.UPDATED, updated)
+    } catch (err: any) {
+      this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
+      return new Response(this.StatusCode, err?.message, err).error()
+    }
   }
 
   async remove(id: string, user: User) {
