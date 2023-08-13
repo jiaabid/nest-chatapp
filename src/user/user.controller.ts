@@ -54,8 +54,14 @@ export class UserController {
 
  
   @Get(':id')
+  @UseGuards(AuthGuard('jwt'))
   findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
+    return this.userService.findOne(id);
+  }
+  @Get()
+  @UseGuards(AuthGuard('jwt'))
+  findAll(@Req() req:Request) {
+    return this.userService.findAll((req as any)?.user);
   }
 
   @Patch(':id')

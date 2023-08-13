@@ -162,12 +162,50 @@ export class UserService {
   }
 
 
-  findAll() {
-    return `This action returns all user`;
+ async findAll(user:User) {
+    try {
+      let users:any ;
+      if(user.role.name == roleEnums.ADMIN){
+      users = await  this.userModel.find({
+        role:{
+          $ne:null
+        }
+      })
+        .populate({
+            path: 'role',
+            match: { name: { $in: [ roleEnums.CR,roleEnums.MANAGER] },
+            _id: { $ne: null } }
+        })
+      }else if(user.role.name == roleEnums.MANAGER){
+        users = await  this.userModel.find({})
+        .populate({
+            path: 'role',
+            match: { name: { $in: [ roleEnums.CR] } }
+        })
+      }else{
+        users = []
+      }
+      
+    
+      return new Response(this.StatusCode = 200, this.MESSAGES.RETRIEVEALL, users)
+    } catch (err: any) {
+      this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
+      return new Response(this.StatusCode, err?.message, err).error()
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: string) {
+   try{
+    let user = await this.userModel.findById(id).populate('role');
+    if ((objectIsEmpty(user))) {
+      this.StatusCode = 404;
+      throw new Error(this.MESSAGES.NOTFOUND)
+    }
+    return new Response(this.StatusCode = 200, this.MESSAGES.RETRIEVE, user)
+  } catch (err: any) {
+    this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
+    return new Response(this.StatusCode, err?.message, err).error()
+  }
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
