@@ -1,20 +1,17 @@
 import { Module,NestModule,MiddlewareConsumer, RequestMethod } from '@nestjs/common';
-import { UserService } from './user.service';
-import { UserController } from './user.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { User, UserSchema } from './entities/user.entity';
-import { JwtModule } from '@nestjs/jwt';
-import { JwtStrategy } from './strategy/jwt.strategy';
+import { User, UserSchema } from 'src/user/entities/user.entity';
 import { Role, RoleSchema } from 'src/role/entities/role.entity';
+import { ChatGateway } from './socket.gateway';
 
 
 @Module({
   imports:[
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     MongooseModule.forFeature([{ name: Role.name, schema: RoleSchema }]),    
-    JwtModule.register({})
+
   ],
-  controllers: [UserController],
-  providers: [UserService,User,JwtStrategy]
+  controllers: [],
+  providers: [ChatGateway]
 })
-export class UserModule  {}
+export class ChatModule  {}

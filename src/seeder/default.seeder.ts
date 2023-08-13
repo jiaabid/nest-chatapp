@@ -20,9 +20,9 @@ export class DefaultSeed {
     }}).exec()
     if(!(roles.length>0)){
     await   this.roleModel.insertMany([
-        {name:roleEnums.ADMIN},
-        {name: roleEnums.MANAGER},
-        {name: roleEnums.CR}
+        {name:roleEnums.ADMIN, id:0},
+        {name: roleEnums.MANAGER, id:1},
+        {name: roleEnums.CR, id:2}
         
        ])
      return console.log('role inserted!')  
@@ -35,7 +35,7 @@ export class DefaultSeed {
             path: 'role',
             match: { name: 'admin' }
         })
-     console.log(adminExists,objectIsEmpty(adminExists),'from admin')   
+    //  console.log(adminExists,objectIsEmpty(adminExists),'from admin')   
     if (objectIsEmpty(adminExists)) {
         let adminRole:any = await this.roleModel.findOne({ name: 'admin' })
         // adminRole = objectIsEmpty(adminRole) || await this.roleModel.create({ name: 'admin' })

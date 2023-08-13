@@ -1,21 +1,23 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete,UseGuards, Req} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete,UseGuards, Req, Request, UseInterceptors} from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { CreateUserMiddleware } from 'src/middleware/create-user.middleware';
+import { IsManager, IsRepresentative } from 'src/middleware/role-access.middleware';
 import {
   ApiBearerAuth,
   ApiTags,
 } from '@nestjs/swagger';
-import { Request } from 'express';
+import { EnableUserDto } from './dto/enable-user.dto';
+import { OnlineUserDto } from './dto/online-user.dto';
+// import { Request } from 'express';
 
 @ApiTags('User Module')
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
-
+  
   @ApiBearerAuth()
   @Post()
   @UseGuards(AuthGuard('jwt'))
@@ -33,14 +35,24 @@ export class UserController {
   login(@Body() loginUserDto: LoginUserDto) {
     return this.userService.login(loginUserDto);
   }
+
+   
+  
   @ApiBearerAuth()
-  @Get()
+  @Post('/access')
   @UseGuards(AuthGuard('jwt'))
-  @UseGuards(CreateUserMiddleware)
-  findAll() {
-    return this.userService.findAll();
+  manageAccessibilty(@IsManager() payload:EnableUserDto) {
+    return this.userService.manageAccessibilty(payload);
   }
 
+  @ApiBearerAuth()
+  @Post('/available')
+  @UseGuards(AuthGuard('jwt'))
+  manageAvailability(@IsRepresentative() payload:OnlineUserDto) {
+    return this.userService.manageAvailability(payload);
+  }
+
+ 
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.userService.findOne(+id);
@@ -52,7 +64,8 @@ export class UserController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+  @UseGuards(AuthGuard('jwt'))
+  remove(@Param('id') id: string, @Req() req:Request) {
+    return this.userService.remove(id,(req as any).user);
   }
 }
