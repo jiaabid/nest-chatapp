@@ -7,6 +7,9 @@ export type RoleDocument = HydratedDocument<Role>;
 export class Role {
     @Prop()
     name: string;
+
+    @Prop()
+    identity: number;
 }
 
 export const RoleSchema = SchemaFactory.createForClass(Role);

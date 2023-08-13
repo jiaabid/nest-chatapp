@@ -138,11 +138,9 @@ export class UserService {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
       return new Response(this.StatusCode, err?.message, err).error()
     }
-
-
   }
 
-  
+
   async manageAvailability(payload: OnlineUserDto) {
     try {
       console.log(payload)
@@ -162,31 +160,10 @@ export class UserService {
   }
 
 
- async findAll(user:User) {
+  async findAll(user: User) {
     try {
-      let users:any ;
-      if(user.role.name == roleEnums.ADMIN){
-      users = await  this.userModel.find({
-        role:{
-          $ne:null
-        }
-      })
-        .populate({
-            path: 'role',
-            match: { name: { $in: [ roleEnums.CR,roleEnums.MANAGER] },
-            _id: { $ne: null } }
-        })
-      }else if(user.role.name == roleEnums.MANAGER){
-        users = await  this.userModel.find({})
-        .populate({
-            path: 'role',
-            match: { name: { $in: [ roleEnums.CR] } }
-        })
-      }else{
-        users = []
-      }
-      
-    
+      let users = await this.userModel.find({})
+        .populate('role')
       return new Response(this.StatusCode = 200, this.MESSAGES.RETRIEVEALL, users)
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
@@ -195,37 +172,37 @@ export class UserService {
   }
 
   async findOne(id: string) {
-   try{
-    let user = await this.userModel.findById(id).populate('role');
-    if ((objectIsEmpty(user))) {
-      this.StatusCode = 404;
-      throw new Error(this.MESSAGES.NOTFOUND)
+    try {
+      let user = await this.userModel.findById(id).populate('role');
+      if ((objectIsEmpty(user))) {
+        this.StatusCode = 404;
+        throw new Error(this.MESSAGES.NOTFOUND)
+      }
+      return new Response(this.StatusCode = 200, this.MESSAGES.RETRIEVE, user)
+    } catch (err: any) {
+      this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
+      return new Response(this.StatusCode, err?.message, err).error()
     }
-    return new Response(this.StatusCode = 200, this.MESSAGES.RETRIEVE, user)
-  } catch (err: any) {
-    this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
-    return new Response(this.StatusCode, err?.message, err).error()
-  }
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
   }
 
- async  remove(id: string,user:User) {
-   try{
-    const userToDelete = await this.userModel.findById(id)
-    let roleId = userToDelete.role
-    const isValid = await this.isPermitted(user.role.name,roleId.toString() )
-    if (!isValid) {
-      this.StatusCode = 403;
-      throw new Error(this.MESSAGES.FORBIDDEN)
+  async remove(id: string, user: User) {
+    try {
+      const userToDelete = await this.userModel.findById(id)
+      let roleId = userToDelete.role
+      const isValid = await this.isPermitted(user.role.name, roleId.toString())
+      if (!isValid) {
+        this.StatusCode = 403;
+        throw new Error(this.MESSAGES.FORBIDDEN)
+      }
+      const deletedUser = await this.userModel.findByIdAndDelete(id);
+      return new Response(this.StatusCode = 201, this.MESSAGES.CREATED, deletedUser)
+    } catch (err: any) {
+      this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
+      return new Response(this.StatusCode, err?.message, err).error()
     }
-    const deletedUser = await this.userModel.findByIdAndDelete(id);
-    return new Response(this.StatusCode = 201, this.MESSAGES.CREATED, deletedUser)
-  } catch (err: any) {
-    this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
-    return new Response(this.StatusCode, err?.message, err).error()
-  }
   }
 }
