@@ -20,9 +20,9 @@ export class DefaultSeed {
     }}).exec()
     if(!(roles.length>0)){
     await   this.roleModel.insertMany([
-        {name:roleEnums.ADMIN, id:0},
-        {name: roleEnums.MANAGER, id:1},
-        {name: roleEnums.CR, id:2}
+        {name:roleEnums.ADMIN, identity:0},
+        {name: roleEnums.MANAGER, identity:1},
+        {name: roleEnums.CR, identity:2}
         
        ])
      return console.log('role inserted!')  
