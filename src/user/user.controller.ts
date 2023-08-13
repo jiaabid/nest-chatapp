@@ -9,7 +9,7 @@ import {
   ApiBearerAuth,
   ApiTags,
 } from '@nestjs/swagger';
-import { EnableUserDto } from './dto/enable-user.dto';
+import {  EnableUserDto } from './dto/enable-user.dto';
 import { OnlineUserDto } from './dto/online-user.dto';
 // import { Request } from 'express';
 
@@ -41,14 +41,14 @@ export class UserController {
   @ApiBearerAuth()
   @Post('/access')
   @UseGuards(AuthGuard('jwt'))
-  manageAccessibilty(@IsAllowed() payload:EnableUserDto) {
+  manageAccessibilty(@IsAllowed() @Body() payload:EnableUserDto) {
     return this.userService.manageAccessibilty(payload);
   }
 
   @ApiBearerAuth()
   @Post('/available')
   @UseGuards(AuthGuard('jwt'))
-  manageAvailability(@IsRepresentative() payload:OnlineUserDto) {
+  manageAvailability(@IsRepresentative() @Body() payload:OnlineUserDto) {
     return this.userService.manageAvailability(payload);
   }
 
