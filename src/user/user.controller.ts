@@ -4,7 +4,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { IsManager, IsRepresentative } from 'src/middleware/role-access.middleware';
+import { IsAllowed,  IsRepresentative } from 'src/middleware/role-access.middleware';
 import {
   ApiBearerAuth,
   ApiTags,
@@ -41,7 +41,7 @@ export class UserController {
   @ApiBearerAuth()
   @Post('/access')
   @UseGuards(AuthGuard('jwt'))
-  manageAccessibilty(@IsManager() payload:EnableUserDto) {
+  manageAccessibilty(@IsAllowed() payload:EnableUserDto) {
     return this.userService.manageAccessibilty(payload);
   }
 
@@ -67,11 +67,13 @@ export class UserController {
     return this.userService.findAll((req as any)?.user);
   }
 
+  @ApiBearerAuth()
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(+id, updateUserDto);
   }
 
+  @ApiBearerAuth()
   @Delete(':id')
   @UseGuards(AuthGuard('jwt'))
   remove(@Param('id') id: string, @Req() req:Request) {
