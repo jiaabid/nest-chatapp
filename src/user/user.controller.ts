@@ -4,12 +4,12 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { IsManager, IsRepresentative } from 'src/middleware/role-access.middleware';
+import { IsAllowed,  IsRepresentative } from 'src/middleware/role-access.middleware';
 import {
   ApiBearerAuth,
   ApiTags,
 } from '@nestjs/swagger';
-import { EnableUserDto } from './dto/enable-user.dto';
+import {  EnableUserDto } from './dto/enable-user.dto';
 import { OnlineUserDto } from './dto/online-user.dto';
 // import { Request } from 'express';
 
@@ -41,14 +41,14 @@ export class UserController {
   @ApiBearerAuth()
   @Post('/access')
   @UseGuards(AuthGuard('jwt'))
-  manageAccessibilty(@IsManager() payload:EnableUserDto) {
+  manageAccessibilty(@IsAllowed() @Body() payload:EnableUserDto) {
     return this.userService.manageAccessibilty(payload);
   }
 
   @ApiBearerAuth()
   @Post('/available')
   @UseGuards(AuthGuard('jwt'))
-  manageAvailability(@IsRepresentative() payload:OnlineUserDto) {
+  manageAvailability(@IsRepresentative() @Body() payload:OnlineUserDto) {
     return this.userService.manageAvailability(payload);
   }
 
@@ -67,11 +67,13 @@ export class UserController {
     return this.userService.findAll((req as any)?.user);
   }
 
+  @ApiBearerAuth()
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
+    return this.userService.update(id, updateUserDto);
   }
 
+  @ApiBearerAuth()
   @Delete(':id')
   @UseGuards(AuthGuard('jwt'))
   remove(@Param('id') id: string, @Req() req:Request) {

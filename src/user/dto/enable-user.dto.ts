@@ -2,7 +2,7 @@ import { ApiProperty } from "@nestjs/swagger";
 
 export class EnableUserDto {
 
-    @ApiProperty()
+    @ApiProperty({example:"true"})
     isDisable:boolean;
 
     @ApiProperty()
