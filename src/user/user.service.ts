@@ -9,6 +9,8 @@ import { Response } from 'src/utils/response.utility';
 import { comparePassword, generateToken, hashPassword, objectIsEmpty } from 'src/utils/wrapper.utility';
 import { LoginUserDto } from './dto/login-user.dto';
 import { Role } from 'src/role/entities/role.entity';
+import { EnableUserDto } from './dto/enable-user.dto';
+import { OnlineUserDto } from './dto/online-user.dto';
 
 @Injectable()
 export class UserService {
@@ -19,7 +21,7 @@ export class UserService {
   private MESSAGES = generateMessage('User')
   private StatusCode: number = 200;
 
-//extra
+  //extra
   async signup(createUserDto: CreateUserDto) {
     try {
       const exists = await this.userModel.findOne({
@@ -48,7 +50,7 @@ export class UserService {
     try {
       const exists = await this.userModel.findOne({
         email: loginUserDto.email
-      })
+      }).populate('role')
       if ((objectIsEmpty(exists))) {
         this.StatusCode = 404;
         throw new Error(this.MESSAGES.NOTFOUND)
@@ -76,7 +78,7 @@ export class UserService {
 
 
   //to create new user
-  async create(createUserDto: CreateUserDto,user:User) {
+  async create(createUserDto: CreateUserDto, user: User) {
     try {
       const exists = await this.userModel.findOne({
         name: createUserDto.email
@@ -85,12 +87,12 @@ export class UserService {
         this.StatusCode = 400;
         throw new Error(this.MESSAGES.EXIST)
       }
-      const isValid = await this.isPermitted(user.role.name,createUserDto.role)
-      if(!isValid){
+      const isValid = await this.isPermitted(user.role.name, createUserDto.role)
+      if (!isValid) {
         this.StatusCode = 400;
         throw new Error(this.MESSAGES.INVALID_CREATOR)
       }
-      
+
       // hash password
       createUserDto.password = await hashPassword(createUserDto.password)
       const createdUser = await this.userModel.create(createUserDto);
@@ -111,15 +113,55 @@ export class UserService {
         isValid = userRole.name == roleEnums.MANAGER || userRole.name == roleEnums.CR
         break;
       case 'manager':
-        isValid = userRole.name == roleEnums.CR 
+        isValid = userRole.name == roleEnums.CR
         break;
       default:
         isValid = false;
         break;
     }
     return isValid;
+  }
+
+  async manageAccessibilty(payload: EnableUserDto) {
+    try {
+      console.log(payload)
+      let updatedUser = await this.userModel.findByIdAndUpdate({ _id: payload.userId }, {
+        isDisable: payload.isDisable
+      });
+      if ((objectIsEmpty(updatedUser))) {
+        this.StatusCode = 404;
+        throw new Error(this.MESSAGES.NOTFOUND)
+      }
+      updatedUser = await this.userModel.findById(payload.userId)
+      return new Response(this.StatusCode = 200, this.MESSAGES.UPDATED, updatedUser)
+    } catch (err: any) {
+      this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
+      return new Response(this.StatusCode, err?.message, err).error()
+    }
+
 
   }
+
+  
+  async manageAvailability(payload: OnlineUserDto) {
+    try {
+      console.log(payload)
+      let updatedUser = await this.userModel.findByIdAndUpdate({ _id: payload.userId }, {
+        isOnline: payload.isOnline
+      });
+      if ((objectIsEmpty(updatedUser))) {
+        this.StatusCode = 404;
+        throw new Error(this.MESSAGES.NOTFOUND)
+      }
+      updatedUser = await this.userModel.findById(payload.userId)
+      return new Response(this.StatusCode = 200, this.MESSAGES.UPDATED, updatedUser)
+    } catch (err: any) {
+      this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
+      return new Response(this.StatusCode, err?.message, err).error()
+    }
+  }
+
+
   findAll() {
     return `This action returns all user`;
   }
@@ -132,7 +174,20 @@ export class UserService {
     return `This action updates a #${id} user`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+ async  remove(id: string,user:User) {
+   try{
+    const userToDelete = await this.userModel.findById(id)
+    let roleId = userToDelete.role
+    const isValid = await this.isPermitted(user.role.name,roleId.toString() )
+    if (!isValid) {
+      this.StatusCode = 403;
+      throw new Error(this.MESSAGES.FORBIDDEN)
+    }
+    const deletedUser = await this.userModel.findByIdAndDelete(id);
+    return new Response(this.StatusCode = 201, this.MESSAGES.CREATED, deletedUser)
+  } catch (err: any) {
+    this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
+    return new Response(this.StatusCode, err?.message, err).error()
+  }
   }
 }

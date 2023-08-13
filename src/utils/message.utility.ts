@@ -11,7 +11,8 @@ export const generateMessage = (resource:string)=>{
         INVALID_PASSWORD:`Invalid Password`,
         IS_DISABLED:`User is disabled. Contact Admin for verification.`,
         INVALID_CREATOR:`You are not allowed to create this user!.`,
-        LOGIN:`${resource} logged in successfully!`
+        LOGIN:`${resource} logged in successfully!`,
+        FORBIDDEN :"Forbidden!"
     }
 }
 
