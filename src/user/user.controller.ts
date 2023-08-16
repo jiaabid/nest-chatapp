@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete,UseGuards, Req, Request, UseInterceptors} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete,UseGuards, Req, Request, UseInterceptors, Query} from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -7,10 +7,12 @@ import { AuthGuard } from '@nestjs/passport';
 import { IsAllowed,  IsRepresentative } from 'src/middleware/role-access.middleware';
 import {
   ApiBearerAuth,
+  ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
 import {  EnableUserDto } from './dto/enable-user.dto';
 import { OnlineUserDto } from './dto/online-user.dto';
+import { PaginationParams } from 'src/utils/pagination.utility';
 // import { Request } from 'express';
 
 @ApiTags('User Module')
@@ -61,16 +63,25 @@ export class UserController {
   }
 
   @ApiBearerAuth()
+  @ApiQuery({
+    name:'pageIndex',
+    required:false
+  })
+  @ApiQuery({
+    name:'pageSize',
+    required:false
+  })
   @Get()
   @UseGuards(AuthGuard('jwt'))
-  findAll(@Req() req:Request) {
-    return this.userService.findAll((req as any)?.user);
+  findAll(@Req() req:Request,@Query() paginationQuery:PaginationParams) {
+    return this.userService.findAll((req as any)?.user,paginationQuery);
   }
 
   @ApiBearerAuth()
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(id, updateUserDto);
+  @UseGuards(AuthGuard('jwt'))
+  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto,@Req() req:Request) {
+    return this.userService.update(id, updateUserDto,(req as any)?.user);
   }
 
   @ApiBearerAuth()

@@ -11,6 +11,7 @@ import { LoginUserDto } from './dto/login-user.dto';
 import { Role } from 'src/role/entities/role.entity';
 import { EnableUserDto } from './dto/enable-user.dto';
 import { OnlineUserDto } from './dto/online-user.dto';
+import { PaginationParams } from 'src/utils/pagination.utility';
 
 @Injectable()
 export class UserService {
@@ -55,9 +56,9 @@ export class UserService {
         this.StatusCode = 404;
         throw new Error(this.MESSAGES.NOTFOUND)
       }
-
+      console.log(comparePassword(loginUserDto.password, exists.password), 'is same password')
       // password check
-      if (!comparePassword(loginUserDto.password, exists.password)) {
+      if (!(await comparePassword(loginUserDto.password, exists.password))) {
         this.StatusCode = 400;
         throw new Error(this.MESSAGES.INVALID_PASSWORD);
       }
@@ -160,11 +161,19 @@ export class UserService {
   }
 
 
-  async findAll(user: User) {
+  async findAll(user: User, paginationQuery: PaginationParams) {
     try {
-      let users = await this.userModel.find({})
+      let query = this.userModel.find({})
         .populate('role')
-      return new Response(this.StatusCode = 200, this.MESSAGES.RETRIEVEALL, users)
+      query = paginationQuery.pageIndex ? query.skip(paginationQuery.pageIndex) : query.skip(0)
+      query = paginationQuery.pageSize ? query.limit(paginationQuery.pageSize) : query
+      let users = await query;
+      let totalUser = await this.userModel.count()
+      return new Response(this.StatusCode = 200, this.MESSAGES.RETRIEVEALL, {
+        users,
+        total: totalUser,
+        ...paginationQuery
+      })
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
       return new Response(this.StatusCode, err?.message, err).error()
@@ -185,28 +194,33 @@ export class UserService {
     }
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto) {
+  async update(id: string, updateUserDto: UpdateUserDto, user: User) {
     try {
 
-      const user = await this.userModel.findById(id);
-      
-      if (Object.values(user).length == 0) {
+      const userExist = await this.userModel.findById(id).populate('role');
+      if (objectIsEmpty(userExist)) {
         this.StatusCode = 404;
         throw new Error(this.MESSAGES.NOTFOUND)
       }
       let updates = {}
-      if ('newPassword' in updateUserDto) {
-        let isMatched =await comparePassword(updateUserDto.oldPassword, user.password)
-        console.log(isMatched)
-        if (isMatched) {
-          updates['password'] = await hashPassword(updateUserDto.newPassword)
-        } else {
-          this.StatusCode = 400;
-          throw new Error(this.MESSAGES.INVALID_PASSWORD)
-        }
+      //if its admin can update all
+      if (user.role.name === roleEnums.ADMIN) {
+        'newPassword' in updateUserDto && (updates['password'] = await this.updatePassword(updateUserDto.oldPassword, updateUserDto.newPassword, userExist.password))
+        delete updateUserDto.newPassword;
+        delete updateUserDto.oldPassword;
+        Object.keys(updateUserDto).forEach(key => {
+          updates[key] = updateUserDto[key];
+        })
       }
-      'name' in updateUserDto && (updates['name'] = updateUserDto.name)
-
+      // if the manager or CR is updating, validate to whom they are updating
+      else if (this.isAllowToUpdate(user.role.name, userExist.role.name)) {
+        'newPassword' in updateUserDto && (updates['password'] = await this.updatePassword(updateUserDto.oldPassword, updateUserDto.newPassword, userExist.password))
+        //if its manager then its allowed to  
+        'name' in updateUserDto && (updates['name'] = updateUserDto['name'])
+      } else {
+        this.StatusCode = 403;
+        throw new Error(this.MESSAGES.FORBIDDEN)
+      }
       await this.userModel.findByIdAndUpdate(id, updates)
       const updated = await this.userModel.findById(id);
       return new Response(this.StatusCode, this.MESSAGES.UPDATED, updated)
@@ -214,6 +228,32 @@ export class UserService {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
       return new Response(this.StatusCode, err?.message, err).error()
     }
+  }
+
+  //update the old password to new one
+  private async updatePassword(oldPassword, newPassword, hashedPassword) {
+    let isMatched = await comparePassword(oldPassword, hashedPassword)
+    console.log(isMatched)
+    if (isMatched) {
+      return await hashPassword(newPassword)
+    } else {
+      this.StatusCode = 400;
+      throw new Error(this.MESSAGES.INVALID_PASSWORD)
+    }
+  }
+
+  //check are you allowed to update or not
+  private isAllowToUpdate(myRole, userRole) {
+    let isValid = false;
+    switch (myRole) {
+      case roleEnums.MANAGER:
+        isValid = userRole == roleEnums.MANAGER || userRole == roleEnums.CR;
+        break;
+      case roleEnums.CR:
+        isValid = userRole == roleEnums.CR;
+        break;
+    }
+    return isValid;
   }
 
   async remove(id: string, user: User) {
@@ -227,6 +267,24 @@ export class UserService {
       }
       const deletedUser = await this.userModel.findByIdAndDelete(id);
       return new Response(this.StatusCode = 201, this.MESSAGES.CREATED, deletedUser)
+    } catch (err: any) {
+      this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
+      return new Response(this.StatusCode, err?.message, err).error()
+    }
+  }
+
+  //forget password
+  async forgetPassword(email: string) {
+    try {
+      const userExist = await this.userModel.findOne({ email })
+      if (objectIsEmpty(userExist)) {
+        this.StatusCode = 404;
+        throw new Error(this.MESSAGES.NOTFOUND)
+      }
+      let newPassword = await hashPassword('123456');
+      const updatedUser = await this.userModel.findByIdAndUpdate(userExist._id, { password: newPassword });
+      //send email to the user
+      return new Response(this.StatusCode = 201, this.MESSAGES.CREATED, updatedUser)
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
       return new Response(this.StatusCode, err?.message, err).error()

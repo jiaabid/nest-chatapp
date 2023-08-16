@@ -21,8 +21,9 @@ import { ChatModule } from './chat/chat.module';
       rootPath: join(__dirname, '..', 'chat-client'),
       exclude: ['/api/(.*)'],
     }),
-    MongooseModule.forRoot(process.env.DATABASE_URL, { dbName: process.env.DATABASE_NAME }),
+    MongooseModule.forRoot(process.env.DATABASE_URL, { dbName: process.env.DATABASE_NAME}),
     UserModule,
+    RoleModule,
     MongooseModule.forFeature([{ name: Role.name, schema: RoleSchema }]),
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
    ChatModule

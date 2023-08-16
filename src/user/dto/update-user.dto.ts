@@ -10,4 +10,10 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
 
     @ApiProperty({example:'123456'})
     oldPassword?:string
+    
+    @ApiProperty({example:'abc@gmail'})
+    email?:string
+    
+    @ApiProperty({example:'<mongoId of role>'})
+    role?:string
 }

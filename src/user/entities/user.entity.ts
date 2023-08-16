@@ -5,7 +5,7 @@ import { Role } from 'src/role/entities/role.entity';
 
 export type UserDocument = HydratedDocument<User>;
 
-@Schema()
+@Schema({versionKey:false})
 export class User {
     
     @Prop()

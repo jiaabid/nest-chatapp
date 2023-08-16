@@ -10,7 +10,7 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     @WebSocketServer() wss;
 
     afterInit(server: Server) {
-        console.log(server,'this is sercwe')
+        console.log(server, 'this is sercwe')
     }
 
     handleDisconnect(client: Socket) {
@@ -19,72 +19,59 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 
     handleConnection(client: Socket, ...args: any[]) {
         console.log(`Client Connected: ${client.id}`);
-        if(client.handshake.query.token){
+        //if it has token, it means its a customer representative
+        if (client.handshake.query.token) {
             //join room
-          
-                this.rooms.push({
-                
-                   socketId:client.id
-                })
-                 client.join(`${client.id}`)
-                 this.wss.emit('available-cr',this.rooms)
-        }else{
+            this.wss.emit('available-cr', this.rooms)
+        } else {
             //boradcast this to the CR clients
-            this.wss.emit('new-user',{client:client.id})
+            this.wss.emit('new-user', { client: client.id })
         }
     }
 
-
-    @SubscribeMessage('hello')
-    connectClient(client, data): void {
-        // console.log(client, data)
-        client.emit(data)
+    //when CR accept the user request, send to join-room request to the user interface
+    @SubscribeMessage('accept-user')
+    acceptUser(socket, data): void {
+        // console.log(socket, data)
+        this.rooms.push({
+            id: `${socket.id}_${data.client}`
+        })
+        socket.to(data.client).emit('join-room-request', { representative: socket.id })
     }
 
-    @SubscribeMessage('create-my-room')
-    createRepresentativeRoom(client, data) {
-        if(data.role == roleEnums.CR){
-            this.rooms.push({
-               id:data.userId,
-               socketId:client.id
-            })
-             client.join(`${data.userId}`)
-             this.wss.emit('available-cr',this.rooms)
-        }else{
-            client.emit('error',{message:"You are not allowed to create your room"})
-        }
-        // client.emit(data)
-    }
-
-    @SubscribeMessage('send-request')
-    sendRequest(client, data) {
-         let receiver = this.rooms.find(room=> room.id == data.to)
-          client.to(receiver.socketId).emit('connection-request',{
-            from: client.id,
-            receiver 
-          })
-        // client.emit(data)
-    }
-
-    @SubscribeMessage('accept-request')
-    AcceptRequest(client, data) {
-         client.to(data.from).emit('request-reply',{
-            accepted: data.accepted,
-            to:data.from,
-            from:data.receiver
-
-         })
-    }
-
+    //user interface on receiving the join room request, emits the join-room event
     @SubscribeMessage('join-room')
-    joinRoom(client, data) {
-       client.join(data.room.id)
-       client.emit("room-joined",{room:data.room.id})
-       this.wss.to(data.room.id).emit('client-joined',{client:client.id})
+    joinRoom(socket, data) {
+        let myRoom = this.rooms.find(room => room.id.includes(socket.id))
+        socket.join(myRoom)
+        socket.emit('room-joined',{room:myRoom})
     }
+
+    //send message to the room
     @SubscribeMessage('send-message')
     sendMessage(client, data) {
-       client.to(data.to).emit("message",{message:data.message})
+        client.to(data.to).emit("message", { message: data.message })
     }
 
+
+    // @SubscribeMessage('create-my-room')
+    // createRepresentativeRoom(client, data) {
+    //     if(data.role == roleEnums.CR){
+    //         this.rooms.push({
+    //            id:data.userId,
+    //            socketId:client.id
+    //         })
+    //          client.join(`${data.userId}`)
+    //          this.wss.emit('available-cr',this.rooms)
+    //     }else{
+    //         client.emit('error',{message:"You are not allowed to create your room"})
+    //     }
+    //     // client.emit(data)
+    // }
+
+    // @SubscribeMessage('hello')
+    // connectClient(client, data): void {
+    //     // console.log(client, data)
+    //     client.emit(data)
+    // }
 }
