@@ -19,5 +19,8 @@ export const generateMessage = (resource:string)=>{
 export const roleEnums = {
     MANAGER:'manager',
     ADMIN:'admin',
-    CR:'customer representative'
+    CR:'customer representative',
+    ADMIN_IDENTITY:0,
+    MANAGER_IDENTITY:1,
+    CR_IDENTITY:2
 }
