@@ -12,6 +12,8 @@ import { ConfigModule } from '@nestjs/config'; import { DefaultSeed } from './se
 import { Role, RoleSchema } from './role/entities/role.entity';
 import { User, UserSchema } from './user/entities/user.entity';
 import { ChatModule } from './chat/chat.module';
+import { RoomModule } from './room/room.module';
+import { VisitorModule } from './visitor/visitor.module';
 ;
 
 @Module({
@@ -26,7 +28,9 @@ import { ChatModule } from './chat/chat.module';
     RoleModule,
     MongooseModule.forFeature([{ name: Role.name, schema: RoleSchema }]),
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
-   ChatModule
+   ChatModule,
+   RoomModule,
+   VisitorModule
   ],
   controllers: [AppController],
   providers: [AppService,DefaultSeed],
