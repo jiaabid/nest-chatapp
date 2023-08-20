@@ -8,7 +8,7 @@ window.onload = () => {
   let isRepresentative = prompt('are u representative')
   document.querySelector('h3').innerHTML = isRepresentative
   if (isRepresentative == 'yes') {
-    socket = io('http://localhost:3000/', {
+    socket = io('ws://localhost:3000/', {
       query: { token: "abc" }
     })
     document.querySelector('h3').innerHTML = socket.id

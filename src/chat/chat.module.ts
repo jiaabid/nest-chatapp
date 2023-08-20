@@ -9,12 +9,14 @@ import { RoomService } from 'src/room/room.service';
 import { Visitor, VisitorSchema } from 'src/room/entities/visitor.entity';
 import { ChatService } from './chat.service';
 import { VisitorService } from 'src/visitor/visitor.service';
+import { Chat, ChatSchema } from './entities/chat.entity';
 
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Room.name, schema: RoomSchema }]),
     MongooseModule.forFeature([{ name: Visitor.name, schema: VisitorSchema }]),
+    MongooseModule.forFeature([{ name: Chat.name, schema: ChatSchema }]),
     RoomModule
   ],
   controllers: [],

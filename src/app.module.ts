@@ -14,6 +14,9 @@ import { User, UserSchema } from './user/entities/user.entity';
 import { ChatModule } from './chat/chat.module';
 import { RoomModule } from './room/room.module';
 import { VisitorModule } from './visitor/visitor.module';
+import { BannerModule } from './banner/banner.module';
+import { AboutUsModule } from './about-us/about-us.module';
+import { SchoolModule } from './school/school.module';
 ;
 
 @Module({
@@ -30,7 +33,10 @@ import { VisitorModule } from './visitor/visitor.module';
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
    ChatModule,
    RoomModule,
-   VisitorModule
+   VisitorModule,
+   BannerModule,
+   AboutUsModule,
+   SchoolModule
   ],
   controllers: [AppController],
   providers: [AppService,DefaultSeed],

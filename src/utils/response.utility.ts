@@ -2,7 +2,7 @@
 import {HttpCode,HttpStatus,HttpException} from '@nestjs/common'
 import { Role } from 'src/role/entities/role.entity';
 export class Response{
-   
+    
     statusCode:HttpStatus;
     message
     payload: any | Role
@@ -11,7 +11,6 @@ export class Response{
         this.message= message;
         this.payload = payload;
     }
-
     error(){
         console.log(this.payload)
         throw new HttpException({

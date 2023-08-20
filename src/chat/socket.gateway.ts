@@ -42,6 +42,13 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
         this.chatService.sendMessage(socket, data)
     }
 
+     //send message to the room
+     @SubscribeMessage('end-call')
+     endCall(socket: Socket, data: { room: string, visitorId: string }) {
+         this.chatService.endCall(socket, data)
+     }
+ 
+
     //send message to the room
     @SubscribeMessage('get-rooms')
     async getRooms(socket:Socket, data) {

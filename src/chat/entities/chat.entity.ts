@@ -1,15 +1,18 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 
-export type RoleDocument = HydratedDocument<Role>;
+export type ChatDocument = HydratedDocument<Chat>;
 
 @Schema({versionKey:false})
-export class Role {
+export class Chat {
     @Prop()
-    name: string;
+    message: string;
 
     @Prop()
-    identity: number;
+    from: string;
+
+    @Prop()
+    room: string;
 }
 
-export const RoleSchema = SchemaFactory.createForClass(Role);
+export const ChatSchema = SchemaFactory.createForClass(Chat);
