@@ -8,8 +8,8 @@ window.onload = () => {
   let isRepresentative = prompt('are u representative')
   document.querySelector('h3').innerHTML = isRepresentative
   if (isRepresentative == 'yes') {
-    socket = io('ws://localhost:3000/', {
-      query: { token: "abc" }
+    socket = io('http://localhost:3001/', {
+      query: { address: "abc" }
     })
     document.querySelector('h3').innerHTML = socket.id
     socket.on('connect', data => {
@@ -26,6 +26,9 @@ window.onload = () => {
       attachEvent()
     })
 
+    socket.on('hello1234', data => {
+      console.log(data)
+    })
     //on recieving new user
     socket.on('new-user', data => {
       let ul = document.querySelector('ul')
@@ -64,10 +67,10 @@ window.onload = () => {
   document.getElementById('sendMsg').addEventListener('click', e => {
     e.preventDefault()
     let message = prompt('Enter the Message')
-      socket.emit('send-message', {
-        message,
-        to: room
-      });
+    socket.emit('send-message', {
+      message,
+      to: room
+    });
   })
 
   socket.on('message', data => {
@@ -76,7 +79,7 @@ window.onload = () => {
   socket.on('error', payload => {
     console.log(payload.message)
   })
-  
+
 }
 
 

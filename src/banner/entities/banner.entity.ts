@@ -3,27 +3,24 @@ import { HydratedDocument } from 'mongoose';
 
 export type BannerDocument = HydratedDocument<Banner>;
 
-@Schema({versionKey:false})
+@Schema({ versionKey: false })
 export class Banner {
-    @Prop()
-    title: string;
+  @Prop()
+  title: string;
 
-    @Prop()
-    media: string;
+  @Prop()
+  media: string;
 
-    @Prop({type:()=>Object})
-    outerLink:  Link
-
-    @Prop({type:()=>Object})
-    link: Link
-
-    @Prop()
-    description?: string;
-}
-
-interface Link {
-    linkTitle:string
-    linkUrl:string
+  @Prop()
+  outerLink: string;
+  @Prop()
+  outerTitle: string;
+  @Prop()
+  linkTitle: string;
+  @Prop()
+  linkUrl: string;
+  @Prop()
+  description?: string;
 }
 
 

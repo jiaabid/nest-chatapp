@@ -1,37 +1,23 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateBannerDto {
+  @ApiProperty()
+  title: string;
 
-    @ApiProperty()
-    title: string;
+  @ApiProperty()
+  media: string;
 
-    @ApiProperty()
-    media: string;
+  @ApiProperty()
+  outerLink: string;
 
-    @ApiProperty({
-        example: {
-            linkTitle: "abc",
-            linkUrl: "xyz"
-        }
-    })
-    outerLink: {
+  @ApiProperty()
+  outerTitle: string;
+  @ApiProperty()
+  linkTitle: string;
 
-        linkTitle: string;
+  @ApiProperty()
+  linkUrl?: string;
 
-        linkUrl: string
-    }
-
-    @ApiProperty({
-        example: {
-            linkTitle: "abc",
-            linkUrl: "xyz"
-        }
-    })
-    link: {
-        linkTitle: string
-        linkUrl: string
-    };
-
-    @ApiProperty()
-    description?: string;
+  @ApiProperty()
+  description?: string;
 }
