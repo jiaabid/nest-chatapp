@@ -6,6 +6,8 @@ import { UserModule } from './user/user.module';
 import { BannerModule } from './banner/banner.module';
 import { AboutUsModule } from './about-us/about-us.module';
 import { SchoolModule } from './school/school.module';
+import { PageModule } from './page/page.module';
+import { SectionModule } from './section/section.module';
 // import { DefaultEntities } from './utils/initial-script.utility';
 
 async function bootstrap() {
@@ -19,7 +21,7 @@ async function bootstrap() {
     .addBearerAuth()
     .build();
     const document = SwaggerModule.createDocument(app, config, {
-      include: [RoleModule,UserModule,BannerModule,AboutUsModule,SchoolModule],
+      include: [RoleModule,UserModule,BannerModule,AboutUsModule,SchoolModule,PageModule,SectionModule],
   
     });
     SwaggerModule.setup("apis", app, document);

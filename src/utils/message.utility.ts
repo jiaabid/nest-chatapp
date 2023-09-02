@@ -24,3 +24,11 @@ export const roleEnums = {
     MANAGER_IDENTITY:1,
     CR_IDENTITY:2
 }
+
+export const childEnum ={
+    SCHOOLS:'SCHOOLS',
+    EVENTS:'EVENTS',
+    VALUES:'VALUES',
+    NEWS:'NEWS',
+    SERVICES:'SERVICES',
+}

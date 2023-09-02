@@ -1,10 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
 
-export type AboutUsDocument = HydratedDocument<AboutUs>;
+export type SectionDocument = HydratedDocument<Section>;
 
 @Schema({versionKey:false})
-export class AboutUs {
+export class Section {
     @Prop()
     title: string;
 
@@ -18,13 +18,23 @@ export class AboutUs {
     imageTitle:  string
 
     @Prop({type:()=>[Object]})
-    list: any[]
+    items: any[]
+
+    @Prop({default:false})
+    isTab: boolean
+
+
+    @Prop()
+    tab: string[];
 
     
-   
+    @Prop()
+    child: string;
+
+
 }
 
 
 
 
-export const AboutUsSchema = SchemaFactory.createForClass(AboutUs);
+export const SectionSchema = SchemaFactory.createForClass(Section);

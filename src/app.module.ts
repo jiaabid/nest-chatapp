@@ -17,6 +17,8 @@ import { VisitorModule } from './visitor/visitor.module';
 import { BannerModule } from './banner/banner.module';
 import { AboutUsModule } from './about-us/about-us.module';
 import { SchoolModule } from './school/school.module';
+import { PageModule } from './page/page.module';
+import { SectionModule } from './section/section.module';
 ;
 
 @Module({
@@ -36,7 +38,9 @@ import { SchoolModule } from './school/school.module';
    VisitorModule,
    BannerModule,
    AboutUsModule,
-   SchoolModule
+   SchoolModule,
+   PageModule,
+   SectionModule
   ],
   controllers: [AppController],
   providers: [AppService,DefaultSeed],
