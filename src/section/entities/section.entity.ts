@@ -31,7 +31,8 @@ export class Section {
     @Prop()
     child: string;
 
-
+    @Prop()
+    data?: any[];
 }
 
 

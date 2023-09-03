@@ -9,13 +9,11 @@ export class Page {
     @Prop()
     name: string; 
 
-    @Prop(()=>[{
+    @Prop([{
         type: mongoose.Schema.Types.ObjectId,
-        reference:'Section'}]
+        ref:'Section'}]
     )
-    sections: [{
-        type: mongoose.Schema.Types.ObjectId,
-        reference:'Section'}];
+    sections: Section[];
 }
 
 export const PageSchema = SchemaFactory.createForClass(Page);

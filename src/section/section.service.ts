@@ -8,11 +8,13 @@ import { childEnum, generateMessage } from 'src/utils/message.utility';
 import { Response } from 'src/utils/response.utility';
 import { objectIsEmpty } from 'src/utils/wrapper.utility';
 import { Page } from 'src/page/entities/page.entity';
+import { SchoolService } from 'src/school/school.service';
 
 @Injectable()
 export class SectionService {
   constructor(@InjectModel(Section.name) private sectionModel: Model<Section>,
-  @InjectModel(Page.name) private pageModel: Model<Page>
+    @InjectModel(Page.name) private pageModel: Model<Page>,
+    private readonly schoolService: SchoolService
   ) { }
 
   private MESSAGES = generateMessage('Section')
@@ -21,6 +23,7 @@ export class SectionService {
     try {
       const pages = createSectionDto.pages;
       delete createSectionDto.pages;
+      
       const exists = await this.sectionModel.findOne({
         name: createSectionDto
       })
@@ -30,10 +33,10 @@ export class SectionService {
       }
       const createdSection = await this.sectionModel.create(createSectionDto); // create the section
       await this.pageModel.updateMany({
-        _id:{$in:pages}
-      },{
-        $push:{sections:createdSection?._id}
-      })
+        _id: { $in: pages }
+      }, {
+        $push: { sections: createdSection?._id }
+      });
       return new Response(this.StatusCode = 201, this.MESSAGES.CREATED, createdSection)
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
@@ -41,7 +44,15 @@ export class SectionService {
     }
 
   }
-
+  // private async addChildData(child, data) {
+  //       let service; 
+  //       switch(child){
+  //         case childEnum.SCHOOLS:
+  //            service = this.schoolService;
+  //            break; 
+  //       }
+  //      await service.createMany(data)
+  // }
   async findAll() {
     try {
       const Sections = await this.sectionModel.find();
@@ -89,9 +100,12 @@ export class SectionService {
   async remove(id: string) {
     try {
       const deleted = await this.sectionModel.deleteOne({
-        _id:id
+        _id: id
       });
-      if(deleted.deletedCount == 0){
+      await this.pageModel.updateMany({},{
+        $pull:{sections:id}
+      })
+      if (deleted.deletedCount == 0) {
         this.StatusCode = 400;
         throw new Error(this.MESSAGES.BADREQUEST)
       }
@@ -102,10 +116,10 @@ export class SectionService {
     }
   }
 
-  
+
   async findChilds() {
     try {
-      const childs = childEnum 
+      const childs = childEnum
       return new Response(this.StatusCode, "Childs retrieve successfully", childs)
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;

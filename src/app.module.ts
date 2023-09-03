@@ -19,6 +19,8 @@ import { AboutUsModule } from './about-us/about-us.module';
 import { SchoolModule } from './school/school.module';
 import { PageModule } from './page/page.module';
 import { SectionModule } from './section/section.module';
+import { EventModule } from './event/event.module';
+import { ImageModule } from './image/image.module';
 ;
 
 @Module({
@@ -40,7 +42,9 @@ import { SectionModule } from './section/section.module';
    AboutUsModule,
    SchoolModule,
    PageModule,
-   SectionModule
+   SectionModule,
+   EventModule,
+   ImageModule
   ],
   controllers: [AppController],
   providers: [AppService,DefaultSeed],

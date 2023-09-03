@@ -1,16 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePageDto } from './dto/create-page.dto';
 import { UpdatePageDto } from './dto/update-page.dto';
-import { generateMessage } from 'src/utils/message.utility';
+import { childEnum, generateMessage } from 'src/utils/message.utility';
 import { Page } from './entities/page.entity';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Response } from 'src/utils/response.utility';
 import { objectIsEmpty } from 'src/utils/wrapper.utility';
+import { School } from 'src/school/entities/school.entity';
 
 @Injectable()
 export class PageService {
-  constructor(@InjectModel(Page.name) private pageModel: Model<Page>) { }
+  constructor(@InjectModel(Page.name) private pageModel: Model<Page>,
+  @InjectModel(School.name) private schoolModel: Model<School>,
+  @InjectModel(Event.name) private eventModel: Model<Event>
+  ) { }
 
   private MESSAGES = generateMessage('Page')
   private StatusCode: number = 200;
@@ -35,13 +39,33 @@ export class PageService {
 
   async findAll() {
     try {
-      const pages = await this.pageModel.find().populate('sections').exec();
+      console.log('in the find')
+      const pages:Page[] = await this.pageModel.find().populate('sections');
+        
+     
+
       return new Response(this.StatusCode, this.MESSAGES.RETRIEVEALL, pages)
     } catch (err: any) {
+      console.log(err)
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
       return new Response(this.StatusCode, err?.message, err).error()
     }
 
+  }
+
+  async childData(child){
+    let model;
+    let query={};
+    switch(child){
+      case childEnum.SCHOOLS:
+        model = this.schoolModel
+        break;
+      case childEnum.EVENTS || childEnum.NEWS:
+        model = this.eventModel
+        query={type:childEnum.EVENTS?'event':'news'};
+        break;
+     }
+     return await model.find(query)
   }
 
   async findOne(id: string) {
@@ -51,7 +75,12 @@ export class PageService {
         this.StatusCode = 404;
         throw new Error(this.MESSAGES.NOTFOUND)
       }
-      return new Response(this.StatusCode, this.MESSAGES.RETRIEVE, page)
+      for(const key in page.sections ){
+        let data = await this.childData((page as any).sections[key]['child']);
+        page.sections[key].data = data;
+      }
+      // page.sections = result
+      return new Response(this.StatusCode, this.MESSAGES.RETRIEVE,page)
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
       return new Response(this.StatusCode, err?.message, err).error()

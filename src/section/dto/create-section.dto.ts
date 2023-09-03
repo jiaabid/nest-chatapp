@@ -2,33 +2,63 @@ import { ApiProperty } from "@nestjs/swagger";
 
 export class CreateSectionDto {
 
-    @ApiProperty()
+    @ApiProperty({
+        required:true
+    })
     title: string;
 
-    @ApiProperty()
+    @ApiProperty({
+        required:false
+    })
     description?: string;
 
-    @ApiProperty()
+    @ApiProperty({
+        required:false
+    })
     image?: string;
 
-    @ApiProperty()
+    @ApiProperty({
+        required:false
+    })
     imageTitle?:  string
 
-    @ApiProperty()
+    @ApiProperty({
+        required:false,
+        example: [
+            {
+                title:"string",
+                description:"string",
+                img:"image path"
+            }
+        ]
+       
+    })
     items?: any[]
 
-    @ApiProperty()
+    @ApiProperty({
+        required:false,
+        default:false})
     isTab: boolean
 
 
-    @ApiProperty()
+    @ApiProperty({
+        required:false,
+        example:['upcoming event','recent event']
+    })
     tab?: string[];
 
     
-    @ApiProperty()
+    @ApiProperty({
+        required:false,
+        example:'school | event | services'
+    })
     child?: string;
 
     
-    @ApiProperty()
+    @ApiProperty({
+        required:true,
+        example:["<page objectid>"]
+    })
     pages: string[];
+
 }

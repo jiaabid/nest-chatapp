@@ -31,6 +31,25 @@ export class SchoolService {
 
   }
 
+  async createMany(createSchoolDto: CreateSchoolDto[]) {
+    try {
+      // const exists = await this.schoolModel.findOne({
+      //   name: createSchoolDto.name
+      // })
+      // if (exists) {
+      //   this.StatusCode = 400;
+      //   throw new Error(this.MESSAGES.EXIST)
+      // }
+      const createdSchool = await this.schoolModel.insertMany(createSchoolDto);
+      return true;
+      return new Response(this.StatusCode = 201, this.MESSAGES.CREATED, createdSchool)
+    } catch (err: any) {
+      this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
+      return new Response(this.StatusCode, err?.message, err).error()
+    }
+
+  }
+
   async findAll() {
     try {
       const schools = await this.schoolModel.find();
