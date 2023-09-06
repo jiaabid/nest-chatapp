@@ -25,15 +25,17 @@ export class SectionController {
     return this.sectionService.findAll();
   }
 
+  @Get('/childs')
+  findChilds() {
+    console.log('in find child')
+    return this.sectionService.findChilds();
+  }
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.sectionService.findOne(id);
   }
 
-  @Get('/childs')
-  findChilds() {
-    return this.sectionService.findChilds();
-  }
+
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateSectionDto: UpdateSectionDto) {

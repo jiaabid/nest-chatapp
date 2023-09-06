@@ -9,6 +9,9 @@ import { SchoolModule } from './school/school.module';
 import { PageModule } from './page/page.module';
 import { SectionModule } from './section/section.module';
 import { EventModule } from './event/event.module';
+import { AssetModule } from './asset/asset.module';
+import { ServiceModule } from './service/service.module';
+import { ValueModule } from './value/value.module';
 // import { DefaultEntities } from './utils/initial-script.utility';
 
 async function bootstrap() {
@@ -21,8 +24,9 @@ async function bootstrap() {
     .setVersion("1.0.0")
     .addBearerAuth()
     .build();
+
     const document = SwaggerModule.createDocument(app, config, {
-      include: [RoleModule,UserModule,BannerModule,AboutUsModule,SchoolModule,PageModule,SectionModule,EventModule],
+      include: [RoleModule,UserModule,BannerModule,AboutUsModule,SchoolModule,PageModule,SectionModule,EventModule,AssetModule,ServiceModule,ValueModule],
   
     });
     SwaggerModule.setup("apis", app, document);

@@ -20,7 +20,9 @@ import { SchoolModule } from './school/school.module';
 import { PageModule } from './page/page.module';
 import { SectionModule } from './section/section.module';
 import { EventModule } from './event/event.module';
-import { ImageModule } from './image/image.module';
+import { AssetModule } from './asset/asset.module';
+import { ValueModule } from './value/value.module';
+import { ServiceModule } from './service/service.module';
 ;
 
 @Module({
@@ -30,24 +32,26 @@ import { ImageModule } from './image/image.module';
       rootPath: join(__dirname, '..', 'chat-client'),
       exclude: ['/api/(.*)'],
     }),
-    MongooseModule.forRoot(process.env.DATABASE_URL, { dbName: process.env.DATABASE_NAME}),
+    MongooseModule.forRoot(process.env.DATABASE_URL, { dbName: process.env.DATABASE_NAME }),
     UserModule,
     RoleModule,
     MongooseModule.forFeature([{ name: Role.name, schema: RoleSchema }]),
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
-   ChatModule,
-   RoomModule,
-   VisitorModule,
-   BannerModule,
-   AboutUsModule,
-   SchoolModule,
-   PageModule,
-   SectionModule,
-   EventModule,
-   ImageModule
+    ChatModule,
+    RoomModule,
+    VisitorModule,
+    BannerModule,
+    AboutUsModule,
+    SchoolModule,
+    PageModule,
+    SectionModule,
+    EventModule,
+    AssetModule,
+    ValueModule,
+    ServiceModule
   ],
   controllers: [AppController],
-  providers: [AppService,DefaultSeed],
+  providers: [AppService, DefaultSeed],
 })
 
 //create a default admin

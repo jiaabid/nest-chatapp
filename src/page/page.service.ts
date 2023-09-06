@@ -1,19 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePageDto } from './dto/create-page.dto';
 import { UpdatePageDto } from './dto/update-page.dto';
-import { childEnum, generateMessage } from 'src/utils/message.utility';
+import {  generateMessage } from 'src/utils/message.utility';
 import { Page } from './entities/page.entity';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Response } from 'src/utils/response.utility';
 import { objectIsEmpty } from 'src/utils/wrapper.utility';
-import { School } from 'src/school/entities/school.entity';
+
+import { ChildDataService } from 'src/utils/data.utility';
 
 @Injectable()
 export class PageService {
   constructor(@InjectModel(Page.name) private pageModel: Model<Page>,
-  @InjectModel(School.name) private schoolModel: Model<School>,
-  @InjectModel(Event.name) private eventModel: Model<Event>
+    private readonly childDataService: ChildDataService
   ) { }
 
   private MESSAGES = generateMessage('Page')
@@ -40,9 +40,9 @@ export class PageService {
   async findAll() {
     try {
       console.log('in the find')
-      const pages:Page[] = await this.pageModel.find().populate('sections');
-        
-     
+      const pages: Page[] = await this.pageModel.find().populate('sections');
+
+
 
       return new Response(this.StatusCode, this.MESSAGES.RETRIEVEALL, pages)
     } catch (err: any) {
@@ -53,20 +53,7 @@ export class PageService {
 
   }
 
-  async childData(child){
-    let model;
-    let query={};
-    switch(child){
-      case childEnum.SCHOOLS:
-        model = this.schoolModel
-        break;
-      case childEnum.EVENTS || childEnum.NEWS:
-        model = this.eventModel
-        query={type:childEnum.EVENTS?'event':'news'};
-        break;
-     }
-     return await model.find(query)
-  }
+
 
   async findOne(id: string) {
     try {
@@ -75,12 +62,12 @@ export class PageService {
         this.StatusCode = 404;
         throw new Error(this.MESSAGES.NOTFOUND)
       }
-      for(const key in page.sections ){
-        let data = await this.childData((page as any).sections[key]['child']);
+      for (const key in page.sections) {
+        let data = await this.childDataService.data((page as any).sections[key]['child']);
         page.sections[key].data = data;
       }
       // page.sections = result
-      return new Response(this.StatusCode, this.MESSAGES.RETRIEVE,page)
+      return new Response(this.StatusCode, this.MESSAGES.RETRIEVE, page)
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
       return new Response(this.StatusCode, err?.message, err).error()
@@ -109,9 +96,9 @@ export class PageService {
   async remove(id: string) {
     try {
       const deleted = await this.pageModel.deleteOne({
-        _id:id
+        _id: id
       });
-      if(deleted.deletedCount == 0){
+      if (deleted.deletedCount == 0) {
         this.StatusCode = 400;
         throw new Error(this.MESSAGES.BADREQUEST)
       }

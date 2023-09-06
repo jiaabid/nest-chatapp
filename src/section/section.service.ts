@@ -9,12 +9,15 @@ import { Response } from 'src/utils/response.utility';
 import { objectIsEmpty } from 'src/utils/wrapper.utility';
 import { Page } from 'src/page/entities/page.entity';
 import { SchoolService } from 'src/school/school.service';
+import { ChildDataService } from 'src/utils/data.utility';
 
 @Injectable()
 export class SectionService {
   constructor(@InjectModel(Section.name) private sectionModel: Model<Section>,
     @InjectModel(Page.name) private pageModel: Model<Page>,
-    private readonly schoolService: SchoolService
+    private readonly schoolService: SchoolService,
+    private readonly childDataService: ChildDataService
+
   ) { }
 
   private MESSAGES = generateMessage('Section')
@@ -23,7 +26,7 @@ export class SectionService {
     try {
       const pages = createSectionDto.pages;
       delete createSectionDto.pages;
-      
+
       const exists = await this.sectionModel.findOne({
         name: createSectionDto
       })
@@ -44,15 +47,7 @@ export class SectionService {
     }
 
   }
-  // private async addChildData(child, data) {
-  //       let service; 
-  //       switch(child){
-  //         case childEnum.SCHOOLS:
-  //            service = this.schoolService;
-  //            break; 
-  //       }
-  //      await service.createMany(data)
-  // }
+
   async findAll() {
     try {
       const Sections = await this.sectionModel.find();
@@ -66,17 +61,22 @@ export class SectionService {
 
   async findOne(id: string) {
     try {
-      const Section = await this.sectionModel.findById(id);
-      if (!Section) {
+      const section = await this.sectionModel.findById(id);
+      if (!section) {
         this.StatusCode = 404;
         throw new Error(this.MESSAGES.NOTFOUND)
       }
-      return new Response(this.StatusCode, this.MESSAGES.RETRIEVE, Section)
+      if (section.child) {
+        let data = await this.childDataService.data(section.child);
+        section.data = data;
+      }
+      return new Response(this.StatusCode, this.MESSAGES.RETRIEVE, section)
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
       return new Response(this.StatusCode, err?.message, err).error()
     }
   }
+
 
   async update(id: string, updateSectionDto: UpdateSectionDto) {
     try {
@@ -102,8 +102,8 @@ export class SectionService {
       const deleted = await this.sectionModel.deleteOne({
         _id: id
       });
-      await this.pageModel.updateMany({},{
-        $pull:{sections:id}
+      await this.pageModel.updateMany({}, {
+        $pull: { sections: id }
       })
       if (deleted.deletedCount == 0) {
         this.StatusCode = 400;
@@ -117,7 +117,7 @@ export class SectionService {
   }
 
 
-  async findChilds() {
+  findChilds() {
     try {
       const childs = childEnum
       return new Response(this.StatusCode, "Childs retrieve successfully", childs)

@@ -1,30 +1,30 @@
 import { Injectable } from '@nestjs/common';
-import { CreateEventDto } from './dto/create-event.dto';
-import { UpdateEventDto } from './dto/update-event.dto';
+import { CreateServiceDto } from './dto/create-service.dto';
+import { UpdateServiceDto } from './dto/update-service.dto';
+import { Service } from './entities/service.entity';
 import { Model } from 'mongoose';
-import { generateMessage } from 'src/utils/message.utility';
 import { InjectModel } from '@nestjs/mongoose';
-import { Response } from 'src/utils/response.utility';
 import { objectIsEmpty } from 'src/utils/wrapper.utility';
+import { generateMessage } from 'src/utils/message.utility';
+import { Response } from 'src/utils/response.utility';
 
 @Injectable()
-export class EventService {
-  constructor(@InjectModel(Event.name) private eventModel: Model<Event>) { }
+export class ServiceService {
+  constructor(@InjectModel(Service.name) private serviceModel: Model<Service>) { }
 
-  private MESSAGES = generateMessage('Event')
+  private MESSAGES = generateMessage('Service')
   private StatusCode: number = 200;
-  async create(createEventDto: CreateEventDto) {
+  async create(createServiceDto: CreateServiceDto) {
     try {
-      const exists = await this.eventModel.findOne({
-        title: createEventDto.title,
-        type:createEventDto.type
+      const exists = await this.serviceModel.findOne({
+        title: createServiceDto.title
       })
       if (!(objectIsEmpty(exists))) {
         this.StatusCode = 400;
         throw new Error(this.MESSAGES.EXIST)
       }
-      const createdEvent = await this.eventModel.create(createEventDto);
-      return new Response(this.StatusCode = 201, this.MESSAGES.CREATED, createdEvent)
+      const createdService = await this.serviceModel.create(createServiceDto);
+      return new Response(this.StatusCode = 201, this.MESSAGES.CREATED, createdService)
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
       return new Response(this.StatusCode, err?.message, err).error()
@@ -32,16 +32,10 @@ export class EventService {
 
   }
 
-  async findAll(type:string,isRecent:boolean|null) {
+  async findAll() {
     try {
-      let query = {
-        type:type
-      }
-      if(isRecent !== null){
-        query['isRecent'] = isRecent
-      }
-      const Events = await this.eventModel.find(query);
-      return new Response(this.StatusCode=200, this.MESSAGES.RETRIEVEALL, Events)
+      const services = await this.serviceModel.find();
+      return new Response(this.StatusCode=200, this.MESSAGES.RETRIEVEALL, services)
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
       return new Response(this.StatusCode, err?.message, err).error()
@@ -51,30 +45,30 @@ export class EventService {
 
   async findOne(id: string) {
     try {
-      const Event = await this.eventModel.findById(id);
-      if (!Event) {
+      const service = await this.serviceModel.findById(id);
+      if (!service) {
         this.StatusCode = 404;
         throw new Error(this.MESSAGES.NOTFOUND)
       }
-      return new Response(this.StatusCode=200, this.MESSAGES.RETRIEVE, Event)
+      return new Response(this.StatusCode=200, this.MESSAGES.RETRIEVE, service)
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
       return new Response(this.StatusCode, err?.message, err).error()
     }
   }
 
-  async update(id: string, updateEventDto: UpdateEventDto) {
+  async update(id: string, updateServiceDto: UpdateServiceDto) {
     try {
-      const Event = await this.eventModel.findById(id);
-      if (Object.values(Event).length == 0) {
+      const service = await this.serviceModel.findById(id);
+      if (Object.values(service).length == 0) {
         this.StatusCode = 404;
         throw new Error(this.MESSAGES.NOTFOUND)
       }
-      Object.keys(Event).forEach(key => {
-        Event[key] = updateEventDto[key]
+      Object.keys(service).forEach(key => {
+        service[key] = updateServiceDto[key]
       })
-      await this.eventModel.findByIdAndUpdate(id, updateEventDto)
-      const updated = await this.eventModel.findById(id);
+      await this.serviceModel.findByIdAndUpdate(id, updateServiceDto)
+      const updated = await this.serviceModel.findById(id);
       return new Response(this.StatusCode=200, this.MESSAGES.UPDATED, updated)
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
@@ -84,7 +78,7 @@ export class EventService {
 
   async remove(id: string) {
     try {
-      const deleted = await this.eventModel.deleteOne({
+      const deleted = await this.serviceModel.deleteOne({
         _id:id
       });
       if(deleted.deletedCount == 0){

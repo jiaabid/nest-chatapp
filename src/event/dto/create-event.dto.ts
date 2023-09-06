@@ -27,14 +27,21 @@ export class CreateEventDto {
 
     @ApiProperty({
         required:true,
-        example:"event"
+        example:"event|news"
     })
     type: string;
 
     @ApiProperty({
         required:true,
-        example:"/abc/path"
+        example:["/abc/path"]
     })
-    img: string;
+    img: string[];
+
+
+    @ApiProperty({
+        required:true,
+        example:"true/false"
+    })
+    isRecent: boolean;
 
 }

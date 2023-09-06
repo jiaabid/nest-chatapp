@@ -22,7 +22,12 @@ export class Event {
     type: string;
 
     @Prop()
-    img: string;
+    img: string[];
+
+    @Prop({
+        default:false
+    })
+    isRecent: boolean;
 
    
 }

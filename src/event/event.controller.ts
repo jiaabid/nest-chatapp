@@ -21,8 +21,8 @@ export class EventController {
   }
 
   @Get()
-  findAll(@Query('type') type:string) {
-    return this.eventService.findAll(type);
+  findAll(@Query('type') type:string,@Query('isRecent') isRecent:boolean) {
+    return this.eventService.findAll(type,isRecent);
   }
 
   @Get(':id')
