@@ -20,4 +20,7 @@ export class CreateBannerDto {
 
   @ApiProperty()
   description?: string;
+  
+  @ApiProperty()
+    lang: string;
 }

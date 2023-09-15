@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { BannerService } from './banner.service';
 import { CreateBannerDto } from './dto/create-banner.dto';
 import { UpdateBannerDto } from './dto/update-banner.dto';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { QueryDto } from 'src/utils/query.utility';
 
 @ApiBearerAuth()
 @ApiTags('Banner Module')
@@ -16,8 +17,12 @@ export class BannerController {
   }
 
   @Get()
-  findAll() {
-    return this.bannerService.findAll();
+  @ApiQuery({
+    name:'lang',
+    required:false
+  })
+  findAll(@Query() query: QueryDto) {
+    return this.bannerService.findAll(query);
   }
 
   @Get(':id')

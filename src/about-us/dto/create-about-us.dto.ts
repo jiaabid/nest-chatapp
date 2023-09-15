@@ -15,4 +15,7 @@ export class CreateAboutUsDto {
 
     @ApiProperty()
     list: any[]
+
+    @ApiProperty()
+    lang: string;
 }

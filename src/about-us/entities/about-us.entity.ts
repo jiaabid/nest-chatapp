@@ -20,7 +20,8 @@ export class AboutUs {
     @Prop({type:()=>[Object]})
     list: any[]
 
-    
+    @Prop()
+    lang: string;
    
 }
 

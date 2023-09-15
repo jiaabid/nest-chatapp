@@ -21,6 +21,9 @@ export class Banner {
   linkUrl: string;
   @Prop()
   description?: string;
+
+  @Prop()
+    lang: string;
 }
 
 

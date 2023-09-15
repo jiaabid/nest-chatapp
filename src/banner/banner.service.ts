@@ -6,6 +6,7 @@ import { Banner } from './entities/banner.entity';
 import { Model } from 'mongoose';
 import { generateMessage } from 'src/utils/message.utility';
 import { Response } from 'src/utils/response.utility';
+import { QueryDto } from 'src/utils/query.utility';
 
 @Injectable()
 export class BannerService {
@@ -31,9 +32,9 @@ export class BannerService {
 
   }
 
-  async findAll() {
+  async findAll(query: QueryDto) {
     try {
-      const Banners = await this.bannerModel.find();
+      const Banners = await this.bannerModel.find(query);
       return new Response(this.StatusCode, this.MESSAGES.RETRIEVEALL, Banners)
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
