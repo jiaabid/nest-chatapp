@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { SchoolService } from './school.service';
 import { CreateSchoolDto } from './dto/create-school.dto';
 import { UpdateSchoolDto } from './dto/update-school.dto';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { QueryDto } from 'src/utils/query.utility';
 
 @ApiBearerAuth()
 @ApiTags('School Module')
@@ -16,8 +17,12 @@ export class SchoolController {
   }
 
   @Get()
-  findAll() {
-    return this.schoolService.findAll();
+  @ApiQuery({
+    name:'lang',
+    required:false
+  })
+  findAll(@Query() query: QueryDto) {
+    return this.schoolService.findAll(query);
   }
 
   @Get(':id')

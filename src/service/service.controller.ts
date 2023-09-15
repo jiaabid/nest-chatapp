@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { ServiceService } from './service.service';
 import { CreateServiceDto } from './dto/create-service.dto';
 import { UpdateServiceDto } from './dto/update-service.dto';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { QueryDto } from 'src/utils/query.utility';
 
 @ApiBearerAuth()
 @ApiTags('Service Module')
@@ -16,8 +17,12 @@ export class ServiceController {
   }
 
   @Get()
-  findAll() {
-    return this.serviceService.findAll();
+  @ApiQuery({
+    name:'lang',
+    required:false
+  })
+  findAll(@Query() query: QueryDto) {
+    return this.serviceService.findAll(query);
   }
 
   @Get(':id')

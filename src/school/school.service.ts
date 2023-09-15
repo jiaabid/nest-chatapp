@@ -6,6 +6,7 @@ import { School } from './entities/school.entity';
 import { Model } from 'mongoose';
 import { generateMessage } from 'src/utils/message.utility';
 import { Response } from 'src/utils/response.utility';
+import { QueryDto } from 'src/utils/query.utility';
 
 @Injectable()
 export class SchoolService {
@@ -50,9 +51,9 @@ export class SchoolService {
 
   }
 
-  async findAll() {
+  async findAll(query: QueryDto) {
     try {
-      const schools = await this.schoolModel.find();
+      const schools = await this.schoolModel.find(query);
       return new Response(this.StatusCode, this.MESSAGES.RETRIEVEALL, schools)
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;

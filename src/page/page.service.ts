@@ -9,6 +9,7 @@ import { Response } from 'src/utils/response.utility';
 import { objectIsEmpty } from 'src/utils/wrapper.utility';
 
 import { ChildDataService } from 'src/utils/data.utility';
+import { QueryDto } from 'src/utils/query.utility';
 
 @Injectable()
 export class PageService {
@@ -37,13 +38,10 @@ export class PageService {
 
   }
 
-  async findAll() {
+  async findAll(query:QueryDto) {
     try {
       console.log('in the find')
-      const pages: Page[] = await this.pageModel.find().populate('sections');
-
-
-
+      const pages: Page[] = await this.pageModel.find(query).populate('sections');
       return new Response(this.StatusCode, this.MESSAGES.RETRIEVEALL, pages)
     } catch (err: any) {
       console.log(err)
@@ -62,10 +60,10 @@ export class PageService {
         this.StatusCode = 404;
         throw new Error(this.MESSAGES.NOTFOUND)
       }
-      for (const key in page.sections) {
-        let data = await this.childDataService.data((page as any).sections[key]['child']);
-        page.sections[key].data = data;
-      }
+      // for (const key in page.sections) {
+      //   let data = await this.childDataService.data((page as any).sections[key]['child']);
+      //   page.sections[key].data = data;
+      // }
       // page.sections = result
       return new Response(this.StatusCode, this.MESSAGES.RETRIEVE, page)
     } catch (err: any) {

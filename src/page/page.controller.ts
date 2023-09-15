@@ -1,13 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { PageService } from './page.service';
 import { CreatePageDto } from './dto/create-page.dto';
 import { UpdatePageDto } from './dto/update-page.dto';
 
 import {
   ApiBearerAuth,
+  ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
+import { QueryDto } from 'src/utils/query.utility';
 @ApiBearerAuth()
 @ApiTags('Page Module')
 @Controller('page')
@@ -18,10 +20,13 @@ export class PageController {
   create(@Body() createPageDto: CreatePageDto) {
     return this.pageService.create(createPageDto);
   }
-
   @Get()
-  findAll() {
-    return this.pageService.findAll();
+  @ApiQuery({
+    name:'lang',
+    required:false
+  })
+  findAll(@Query() query: QueryDto) {
+    return this.pageService.findAll(query);
   }
 
   @Get(':id')

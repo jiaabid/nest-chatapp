@@ -15,8 +15,8 @@ export class Event {
     @Prop()
     location: string;
 
-    @Prop({type:Date})
-    date: Date;
+    @Prop()
+    date: string;
 
     @Prop()
     type: string;
@@ -29,6 +29,8 @@ export class Event {
     })
     isRecent: boolean;
 
+    @Prop()
+    lang: string;
    
 }
 

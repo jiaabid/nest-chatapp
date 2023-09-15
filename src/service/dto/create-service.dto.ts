@@ -19,4 +19,7 @@ export class CreateServiceDto {
     })
     description?: string;
 
+    @ApiProperty()
+    lang: string;
+
 }

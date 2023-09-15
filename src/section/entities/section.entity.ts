@@ -28,11 +28,14 @@ export class Section {
     tab: string[];
 
     
-    @Prop()
-    child: string;
+    // @Prop()
+    // child: string;
+
+    // @Prop()
+    // data?: any[];
 
     @Prop()
-    data?: any[];
+    lang: string;
 }
 
 

@@ -14,6 +14,9 @@ export class Page {
         ref:'Section'}]
     )
     sections: Section[];
+    
+    @Prop()
+    lang: string;
 }
 
 export const PageSchema = SchemaFactory.createForClass(Page);

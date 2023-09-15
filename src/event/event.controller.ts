@@ -6,9 +6,11 @@ import { UpdateEventDto } from './dto/update-event.dto';
 
 import {
   ApiBearerAuth,
+  ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
+import { EventQueryDto } from './dto/query.dto';
 @ApiBearerAuth()
 @ApiTags('Event Module')
 @Controller('event')
@@ -21,8 +23,20 @@ export class EventController {
   }
 
   @Get()
-  findAll(@Query('type') type:string,@Query('isRecent') isRecent:boolean) {
-    return this.eventService.findAll(type,isRecent);
+  @ApiQuery({
+    name:'type',
+    required:false
+  }) 
+  @ApiQuery({
+    name:'isRecent',
+    required:false
+  }) 
+  @ApiQuery({
+    name:'lang',
+    required:false
+  })
+  findAll(@Query() query: EventQueryDto) {
+    return this.eventService.findAll(query);
   }
 
   @Get(':id')

@@ -13,7 +13,8 @@ export class Service {
 
     @Prop()
     description?: string;
-
+    @Prop()
+    lang: string;
    
 }
 

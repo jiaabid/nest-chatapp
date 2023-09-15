@@ -19,4 +19,10 @@ export class CreateValueDto {
     })
     description?: string;
 
+    @ApiProperty({
+        required: true,
+        example: "en | ar"
+    })
+    lang: string;
+
 }

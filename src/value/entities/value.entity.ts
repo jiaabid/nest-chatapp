@@ -14,7 +14,8 @@ export class Value {
     @Prop()
     description?: string;
 
-   
+    @Prop()
+    lang: string;
 }
 
 

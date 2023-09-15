@@ -48,11 +48,11 @@ export class CreateSectionDto {
     tab?: string[];
 
     
-    @ApiProperty({
-        required:false,
-        example:'school | event | services'
-    })
-    child?: string;
+    // @ApiProperty({
+    //     required:false,
+    //     example:'school | event | services'
+    // })
+    // child?: string;
 
     
     @ApiProperty({
@@ -61,4 +61,9 @@ export class CreateSectionDto {
     })
     pages: string[];
 
+    @ApiProperty({
+        required:true,
+        example:"eng|ar"
+    })
+    lang: string;
 }

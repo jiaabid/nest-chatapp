@@ -7,6 +7,7 @@ import { Model } from 'mongoose';
 import { generateMessage } from 'src/utils/message.utility';
 import { objectIsEmpty } from 'src/utils/wrapper.utility';
 import { Response } from 'src/utils/response.utility';
+import { QueryDto } from 'src/utils/query.utility';
 
 @Injectable()
 export class ValueService {
@@ -32,9 +33,9 @@ export class ValueService {
 
   }
 
-  async findAll() {
+  async findAll( query: QueryDto) {
     try {
-      const Values = await this.valueModel.find();
+      const Values = await this.valueModel.find(query);
       return new Response(this.StatusCode=200, this.MESSAGES.RETRIEVEALL, Values)
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;

@@ -6,6 +6,7 @@ import { generateMessage } from 'src/utils/message.utility';
 import { InjectModel } from '@nestjs/mongoose';
 import { Response } from 'src/utils/response.utility';
 import { objectIsEmpty } from 'src/utils/wrapper.utility';
+import { EventQueryDto } from './dto/query.dto';
 
 @Injectable()
 export class EventService {
@@ -32,14 +33,9 @@ export class EventService {
 
   }
 
-  async findAll(type:string,isRecent:boolean|null) {
+  async findAll(query:EventQueryDto) {
     try {
-      let query = {
-        type:type
-      }
-      if(isRecent !== null){
-        query['isRecent'] = isRecent
-      }
+     
       const Events = await this.eventModel.find(query);
       return new Response(this.StatusCode=200, this.MESSAGES.RETRIEVEALL, Events)
     } catch (err: any) {

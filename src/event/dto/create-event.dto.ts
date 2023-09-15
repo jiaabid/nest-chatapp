@@ -44,4 +44,10 @@ export class CreateEventDto {
     })
     isRecent: boolean;
 
+    @ApiProperty({
+        required: true,
+        example: "en | ar"
+    })
+    lang: string;
+
 }

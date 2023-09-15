@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { ValueService } from './value.service';
 import { CreateValueDto } from './dto/create-value.dto';
 import { UpdateValueDto } from './dto/update-value.dto';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { QueryDto } from 'src/utils/query.utility';
 
 @ApiBearerAuth()
 @ApiTags('Value Module')
@@ -16,8 +17,12 @@ export class ValueController {
   }
 
   @Get()
-  findAll() {
-    return this.valueService.findAll();
+  @ApiQuery({
+    name:'lang',
+    required:false
+  })
+  findAll(@Query() query: QueryDto) {
+    return this.valueService.findAll(query);
   }
 
   @Get(':id')

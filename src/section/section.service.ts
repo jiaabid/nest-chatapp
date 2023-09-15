@@ -10,6 +10,7 @@ import { objectIsEmpty } from 'src/utils/wrapper.utility';
 import { Page } from 'src/page/entities/page.entity';
 import { SchoolService } from 'src/school/school.service';
 import { ChildDataService } from 'src/utils/data.utility';
+import { QueryDto } from 'src/utils/query.utility';
 
 @Injectable()
 export class SectionService {
@@ -48,9 +49,9 @@ export class SectionService {
 
   }
 
-  async findAll() {
+  async findAll(query: QueryDto) {
     try {
-      const Sections = await this.sectionModel.find();
+      const Sections = await this.sectionModel.find(query);
       return new Response(this.StatusCode, this.MESSAGES.RETRIEVEALL, Sections)
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
@@ -66,10 +67,10 @@ export class SectionService {
         this.StatusCode = 404;
         throw new Error(this.MESSAGES.NOTFOUND)
       }
-      if (section.child) {
-        let data = await this.childDataService.data(section.child);
-        section.data = data;
-      }
+      // if (section.child) {
+      //   let data = await this.childDataService.data(section.child);
+      //   section.data = data;
+      // }
       return new Response(this.StatusCode, this.MESSAGES.RETRIEVE, section)
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;

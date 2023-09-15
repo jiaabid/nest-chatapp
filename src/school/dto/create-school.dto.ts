@@ -13,4 +13,16 @@ export class CreateSchoolDto {
 
     @ApiProperty()
     location: string;
+
+    @ApiProperty()
+    teachers?: string;
+
+    @ApiProperty()
+    trainers?: string;
+
+    @ApiProperty()
+    video?: string;
+    
+    @ApiProperty()
+    lang: string;
 }

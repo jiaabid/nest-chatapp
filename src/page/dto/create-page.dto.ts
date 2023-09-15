@@ -5,4 +5,7 @@ export class CreatePageDto {
     @ApiProperty({example:'home'})
     @Transform(({value})=>value.toLowerCase())
     name:string;
+    
+    @ApiProperty({example:"en | ar"})
+    lang: string;
 }

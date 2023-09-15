@@ -25,6 +25,9 @@ export class School {
 
     @Prop()
     video?: string;
+
+    @Prop()
+    lang: string;
 }
 
 

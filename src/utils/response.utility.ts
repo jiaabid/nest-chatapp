@@ -13,6 +13,15 @@ export class Response{
     }
     error(){
         console.log(this.payload)
+        if(this.payload.name == 'CastError'){
+            console.log('in if')
+            let newMessage = `Invalid id for associated ${this.payload.message.slice(this.payload.message.lastIndexOf('model'))}. Verify the value you are selecting from dropdown.`
+            throw new HttpException({
+                statusCode: this.statusCode,
+                error: this.payload,
+                message: newMessage
+            }, this.statusCode);  
+        }
         throw new HttpException({
             statusCode: this.statusCode,
             error: this.payload,
