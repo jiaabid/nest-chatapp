@@ -21,7 +21,20 @@ export class AboutUs {
     list: any[]
 
     @Prop()
-    lang: string;
+    ar_title: string;
+
+    @Prop()
+    ar_description?: string;
+
+    @Prop()
+    ar_image: string;
+
+    @Prop()
+    ar_imageTitle:  string
+
+    @Prop({type:()=>[Object]})
+    ar_list: any[]
+
    
 }
 

@@ -23,12 +23,8 @@ export class SectionController {
   }
 
   @Get()
-  @ApiQuery({
-    name:'lang',
-    required:false
-  })
-  findAll(@Query() query: QueryDto) {
-    return this.sectionService.findAll(query);
+  findAll() {
+    return this.sectionService.findAll();
   }
 
   @Get('/childs')

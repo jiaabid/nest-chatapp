@@ -27,15 +27,28 @@ export class Section {
     @Prop()
     tab: string[];
 
-    
-    // @Prop()
-    // child: string;
-
-    // @Prop()
-    // data?: any[];
+    @Prop()
+    ar_title: string;
 
     @Prop()
-    lang: string;
+    ar_description?: string;
+
+    @Prop()
+    ar_image: string;
+
+    @Prop()
+    ar_imageTitle:  string
+
+    @Prop({type:()=>[Object]})
+    ar_items: any[]
+
+    @Prop({default:false})
+    ar_isTab: boolean
+
+
+    @Prop()
+    ar_tab: string[];
+
 }
 
 

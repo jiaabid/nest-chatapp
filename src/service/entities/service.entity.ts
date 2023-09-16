@@ -13,8 +13,16 @@ export class Service {
 
     @Prop()
     description?: string;
+
     @Prop()
-    lang: string;
+    ar_assets?: string[];
+
+    @Prop()
+    ar_title: string;
+
+    @Prop()
+    ar_description?: string;
+  
    
 }
 

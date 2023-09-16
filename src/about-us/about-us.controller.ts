@@ -18,12 +18,9 @@ export class AboutUsController {
   }
 
   @Get()
-  @ApiQuery({
-    name:'lang',
-    required:false
-  })
-  findAll(@Query() query: QueryDto) {
-    return this.aboutUsService.findAll(query);
+ 
+  findAll() {
+    return this.aboutUsService.findAll();
   }
 
   @Get(':id')

@@ -16,17 +16,14 @@ export class SchoolService {
   private StatusCode: number = 200;
   async create(createSchoolDto: CreateSchoolDto) {
     try {
-      const schoolExists = createSchoolDto.schools.map(school=>school.name)
-      const exists = await this.schoolModel.find({
-        name: {
-          $in:schoolExists
-        }
+      const exists = await this.schoolModel.findOne({
+        name: createSchoolDto.name
       })
-      if (exists.length > 0) {
+      if (exists) {
         this.StatusCode = 400;
-        throw new Error(this.MESSAGES.DUPLICATE)
+        throw new Error(this.MESSAGES.EXIST)
       }
-      const createdSchool = await this.schoolModel.insertMany(createSchoolDto.schools);
+      const createdSchool = await this.schoolModel.create(createSchoolDto);
       return new Response(this.StatusCode = 201, this.MESSAGES.CREATED, createdSchool)
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
@@ -54,9 +51,9 @@ export class SchoolService {
 
   }
 
-  async findAll(query: QueryDto) {
+  async findAll() {
     try {
-      const schools = await this.schoolModel.find(query);
+      const schools = await this.schoolModel.find();
       return new Response(this.StatusCode, this.MESSAGES.RETRIEVEALL, schools)
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;

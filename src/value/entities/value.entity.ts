@@ -15,7 +15,14 @@ export class Value {
     description?: string;
 
     @Prop()
-    lang: string;
+    ar_assets?: string[];
+
+    @Prop()
+    ar_title: string;
+
+    @Prop()
+    ar_description?: string;
+
 }
 
 

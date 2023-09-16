@@ -21,12 +21,8 @@ export class PageController {
     return this.pageService.create(createPageDto);
   }
   @Get()
-  @ApiQuery({
-    name:'lang',
-    required:false
-  })
-  findAll(@Query() query: QueryDto) {
-    return this.pageService.findAll(query);
+  findAll() {
+    return this.pageService.findAll();
   }
 
   @Get(':id')

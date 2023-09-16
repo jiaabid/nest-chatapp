@@ -32,9 +32,9 @@ export class BannerService {
 
   }
 
-  async findAll(query: QueryDto) {
+  async findAll() {
     try {
-      const Banners = await this.bannerModel.find(query);
+      const Banners = await this.bannerModel.find();
       return new Response(this.StatusCode, this.MESSAGES.RETRIEVEALL, Banners)
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;

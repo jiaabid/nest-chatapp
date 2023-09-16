@@ -5,9 +5,7 @@ export type SchoolDocument = HydratedDocument<School>;
 
 @Schema({versionKey:false})
 export class School {
-    @Prop()
-    assets?: string[];
-
+  
     @Prop()
     name: string;
 
@@ -23,11 +21,29 @@ export class School {
     @Prop()
     trainers?: string;
 
-    @Prop()
-    video?: string;
+
 
     @Prop()
-    lang: string;
+    ar_name: string;
+
+    @Prop()
+    ar_description?: string;
+
+    @Prop()
+    ar_location: string;
+
+    @Prop()
+    ar_teachers?: string;
+
+    @Prop()
+    ar_trainers?: string;
+
+    @Prop()
+    assets?: string[];
+
+    @Prop()
+    video?: string;
+   
 }
 
 

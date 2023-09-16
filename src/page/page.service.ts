@@ -38,10 +38,9 @@ export class PageService {
 
   }
 
-  async findAll(query:QueryDto) {
+  async findAll() {
     try {
-      console.log('in the find')
-      const pages: Page[] = await this.pageModel.find(query).populate('sections');
+      const pages: Page[] = await this.pageModel.find().populate('sections');
       return new Response(this.StatusCode, this.MESSAGES.RETRIEVEALL, pages)
     } catch (err: any) {
       console.log(err)

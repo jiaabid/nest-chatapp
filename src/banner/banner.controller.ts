@@ -17,12 +17,8 @@ export class BannerController {
   }
 
   @Get()
-  @ApiQuery({
-    name:'lang',
-    required:false
-  })
-  findAll(@Query() query: QueryDto) {
-    return this.bannerService.findAll(query);
+  findAll() {
+    return this.bannerService.findAll();
   }
 
   @Get(':id')

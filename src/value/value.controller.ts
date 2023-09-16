@@ -17,12 +17,8 @@ export class ValueController {
   }
 
   @Get()
-  @ApiQuery({
-    name:'lang',
-    required:false
-  })
-  findAll(@Query() query: QueryDto) {
-    return this.valueService.findAll(query);
+  findAll() {
+    return this.valueService.findAll();
   }
 
   @Get(':id')

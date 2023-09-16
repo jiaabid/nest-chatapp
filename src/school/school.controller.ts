@@ -17,12 +17,9 @@ export class SchoolController {
   }
 
   @Get()
-  @ApiQuery({
-    name:'lang',
-    required:false
-  })
-  findAll(@Query() query: QueryDto) {
-    return this.schoolService.findAll(query);
+ 
+  findAll() {
+    return this.schoolService.findAll();
   }
 
   @Get(':id')

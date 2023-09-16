@@ -49,9 +49,9 @@ export class SectionService {
 
   }
 
-  async findAll(query: QueryDto) {
+  async findAll() {
     try {
-      const Sections = await this.sectionModel.find(query);
+      const Sections = await this.sectionModel.find();
       return new Response(this.StatusCode, this.MESSAGES.RETRIEVEALL, Sections)
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;

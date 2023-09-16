@@ -19,10 +19,13 @@ export class CreateValueDto {
     })
     description?: string;
 
-    @ApiProperty({
-        required: true,
-        example: "en | ar"
-    })
-    lang: string;
+    @ApiProperty()
+    ar_assets?: string[];
+
+    @ApiProperty()
+    ar_title: string;
+
+    @ApiProperty()
+    ar_description?: string;
 
 }

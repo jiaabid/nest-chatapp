@@ -31,10 +31,7 @@ export class EventController {
     name:'isRecent',
     required:false
   }) 
-  @ApiQuery({
-    name:'lang',
-    required:false
-  })
+  
   findAll(@Query() query: EventQueryDto) {
     return this.eventService.findAll(query);
   }

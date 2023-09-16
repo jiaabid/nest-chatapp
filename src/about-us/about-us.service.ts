@@ -32,9 +32,9 @@ export class AboutUsService {
 
   }
 
-  async findAll(query: QueryDto) {
+  async findAll() {
     try {
-      const abouts = await this.aboutModel.find(query);
+      const abouts = await this.aboutModel.find();
       return new Response(this.StatusCode, this.MESSAGES.RETRIEVEALL, abouts)
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;

@@ -19,7 +19,20 @@ export class CreateServiceDto {
     })
     description?: string;
 
-    @ApiProperty()
-    lang: string;
+    @ApiProperty({
+        required: false,
+    })
+    ar_assets?: string[];
+
+    @ApiProperty({
+        required: true,
+    
+    })
+    ar_title: string;
+
+    @ApiProperty({
+        required: false, 
+    })
+    ar_description?: string;
 
 }

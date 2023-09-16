@@ -20,7 +20,21 @@ export class CreateBannerDto {
 
   @ApiProperty()
   description?: string;
-  
+
   @ApiProperty()
-    lang: string;
+  ar_title: string;
+
+  @ApiProperty()
+  ar_media: string;
+
+  @ApiProperty()
+  ar_outerTitle: string;
+
+  @ApiProperty()
+  ar_linkTitle: string;
+
+  @ApiProperty()
+  ar_description?: string;
+
+  
 }

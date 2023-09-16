@@ -33,9 +33,9 @@ export class ValueService {
 
   }
 
-  async findAll( query: QueryDto) {
+  async findAll( ) {
     try {
-      const Values = await this.valueModel.find(query);
+      const Values = await this.valueModel.find();
       return new Response(this.StatusCode=200, this.MESSAGES.RETRIEVEALL, Values)
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;

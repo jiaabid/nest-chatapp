@@ -17,12 +17,8 @@ export class ServiceController {
   }
 
   @Get()
-  @ApiQuery({
-    name:'lang',
-    required:false
-  })
-  findAll(@Query() query: QueryDto) {
-    return this.serviceService.findAll(query);
+  findAll() {
+    return this.serviceService.findAll();
   }
 
   @Get(':id')

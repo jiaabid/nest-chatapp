@@ -23,7 +23,19 @@ export class Banner {
   description?: string;
 
   @Prop()
-    lang: string;
+  ar_title: string;
+
+  @Prop()
+  ar_media: string;
+
+  @Prop()
+  ar_outerTitle: string;
+
+  @Prop()
+  ar_linkTitle: string;
+
+  @Prop()
+  ar_description?: string;
 }
 
 

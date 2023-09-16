@@ -17,5 +17,17 @@ export class CreateAboutUsDto {
     list: any[]
 
     @ApiProperty()
-    lang: string;
+    ar_title: string;
+
+   @ApiProperty()
+    ar_description?: string;
+
+   @ApiProperty()
+    ar_image: string;
+
+   @ApiProperty()
+    ar_imageTitle:  string
+
+    @ApiProperty()
+    ar_list: any[]
 }

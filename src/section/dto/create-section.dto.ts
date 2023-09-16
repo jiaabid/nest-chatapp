@@ -46,24 +46,33 @@ export class CreateSectionDto {
         example:['upcoming event','recent event']
     })
     tab?: string[];
-
-    
-    // @ApiProperty({
-    //     required:false,
-    //     example:'school | event | services'
-    // })
-    // child?: string;
-
     
     @ApiProperty({
         required:true,
         example:["<page objectid>"]
     })
     pages: string[];
+    
+    @ApiProperty()
+    ar_title: string;
 
-    @ApiProperty({
-        required:true,
-        example:"eng|ar"
-    })
-    lang: string;
+    @ApiProperty()
+    ar_description?: string;
+
+    @ApiProperty()
+    ar_image: string;
+
+    @ApiProperty()
+    ar_imageTitle:  string
+
+    @ApiProperty()
+    ar_items: any[]
+
+    @ApiProperty()
+    ar_isTab: boolean
+
+
+    @ApiProperty()
+    ar_tab: string[];
+   
 }

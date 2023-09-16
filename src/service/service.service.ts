@@ -33,9 +33,9 @@ export class ServiceService {
 
   }
 
-  async findAll(query: QueryDto) {
+  async findAll() {
     try {
-      const services = await this.serviceModel.find(query);
+      const services = await this.serviceModel.find();
       return new Response(this.StatusCode=200, this.MESSAGES.RETRIEVEALL, services)
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;

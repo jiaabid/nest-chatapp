@@ -44,10 +44,25 @@ export class CreateEventDto {
     })
     isRecent: boolean;
 
-    @ApiProperty({
-        required: true,
-        example: "en | ar"
-    })
-    lang: string;
+    @ApiProperty()
+    cover: string;
+
+    @ApiProperty()
+    ar_title: string;
+    
+    @ApiProperty()
+    ar_description?: string;
+
+    @ApiProperty()
+    ar_location: string;
+
+    @ApiProperty()
+    ar_date: string;
+
+    @ApiProperty()
+    ar_img: string[];
+
+    @ApiProperty()
+    ar_cover: string;
 
 }

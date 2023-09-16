@@ -30,7 +30,25 @@ export class Event {
     isRecent: boolean;
 
     @Prop()
-    lang: string;
+    cover: string;
+
+    @Prop()
+    ar_title: string;
+    
+    @Prop()
+    ar_description?: string;
+
+    @Prop()
+    ar_location: string;
+
+    @Prop()
+    ar_date: string;
+
+    @Prop()
+    ar_img: string[];
+
+    @Prop()
+    ar_cover: string;
    
 }
 
