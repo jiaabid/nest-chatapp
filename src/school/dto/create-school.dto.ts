@@ -1,9 +1,11 @@
 import { ApiProperty } from "@nestjs/swagger";
 
-export class CreateSchoolDto {
 
+
+
+class School {
     @ApiProperty()
-    assets: string;
+    assets: string[];
 
     @ApiProperty()
     name: string;
@@ -22,7 +24,13 @@ export class CreateSchoolDto {
 
     @ApiProperty()
     video?: string;
-    
+
     @ApiProperty()
     lang: string;
+}
+export class CreateSchoolDto {
+    @ApiProperty({
+        type:[School]
+    })
+  schools: School[]
 }

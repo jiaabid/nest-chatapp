@@ -12,7 +12,8 @@ export const generateMessage = (resource:string)=>{
         IS_DISABLED:`User is disabled. Contact Admin for verification.`,
         INVALID_CREATOR:`You are not allowed to create this user!.`,
         LOGIN:`${resource} logged in successfully!`,
-        FORBIDDEN :"Forbidden!"
+        FORBIDDEN :"Forbidden!",
+        DUPLICATE :"Invalid data. Data contains duplicate entries."
     }
 }
 
