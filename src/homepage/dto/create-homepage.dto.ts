@@ -20,6 +20,18 @@ export class CreateHomepageDto {
   ar_list: any[];
 
   @ApiProperty()
+  mainImage: string;
+
+  @ApiProperty()
+  extraImage: string;
+
+  @ApiProperty()
+  years: string;
+
+  @ApiProperty()
+  yearsTitle: string;
+
+  @ApiProperty()
   schoolTitle: string;
 
   @ApiProperty()

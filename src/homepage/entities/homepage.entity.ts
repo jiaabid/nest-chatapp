@@ -17,6 +17,18 @@ export class Homepage {
   @Prop()
   ar_introDescription: string;
 
+  @Prop()
+  mainImage: string;
+
+  @Prop()
+  extraImage: string;
+
+  @Prop()
+  years: string;
+
+  @Prop()
+  yearsTitle: string;
+
   @Prop({ type: () => [Object] })
   list: any[];
 
