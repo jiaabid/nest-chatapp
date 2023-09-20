@@ -11,12 +11,6 @@ export class CreateAboutUsDto {
   image: string;
 
   @ApiProperty()
-  imageTitle: string;
-
-  @ApiProperty()
-  list: any[];
-
-  @ApiProperty()
   ar_title: string;
 
   @ApiProperty()
@@ -24,10 +18,4 @@ export class CreateAboutUsDto {
 
   @ApiProperty()
   ar_image: string;
-
-  @ApiProperty()
-  ar_imageTitle: string;
-
-  @ApiProperty()
-  ar_list: any[];
 }
