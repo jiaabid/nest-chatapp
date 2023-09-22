@@ -23,6 +23,7 @@ import { EventModule } from './event/event.module';
 import { AssetModule } from './asset/asset.module';
 import { ValueModule } from './value/value.module';
 import { ServiceModule } from './service/service.module';
+import { HomepageModule } from './homepage/homepage.module';
 ;
 
 @Module({
@@ -48,7 +49,8 @@ import { ServiceModule } from './service/service.module';
     EventModule,
     AssetModule,
     ValueModule,
-    ServiceModule
+    ServiceModule,
+    HomepageModule,
   ],
   controllers: [AppController],
   providers: [AppService, DefaultSeed],
