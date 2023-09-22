@@ -17,10 +17,11 @@ export class RoomService {
 
   private MESSAGES = generateMessage('Room')
   private StatusCode: number = 200;
-  private socketResponse(success, message) {
+  private socketResponse(success, message,payload=null) {
     return {
       success,
-      message
+      message,
+      payload
     }
   }
   async create(createRoomDto: CreateRoomDto) {
@@ -30,8 +31,8 @@ export class RoomService {
       if (exists) {
         return this.socketResponse(false, this.MESSAGES.EXIST)
       }
-      await this.roomModel.create(createRoomDto);
-      return this.socketResponse(true, this.MESSAGES.CREATED)
+      let room = await this.roomModel.create(createRoomDto);
+      return this.socketResponse(true, this.MESSAGES.CREATED,room)
 
     } catch (err: any) {
       return this.socketResponse(false, this.MESSAGES.BADREQUEST);
