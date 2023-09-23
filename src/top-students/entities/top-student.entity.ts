@@ -22,6 +22,24 @@ export class TopStudent {
 
   @Prop()
   image: string;
+
+  @Prop()
+  ar_name: string;
+
+  @Prop()
+  ar_school: string;
+
+  @Prop()
+  ar_level: string;
+
+  @Prop()
+  ar_mester: string;
+
+  @Prop()
+  ar_present: string;
+
+  @Prop()
+  ar_image: string;
 }
 
 export const TopStudentsSchema = SchemaFactory.createForClass(TopStudent)

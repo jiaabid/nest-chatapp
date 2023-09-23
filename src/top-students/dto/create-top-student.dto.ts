@@ -18,5 +18,23 @@ export class CreateTopStudentDto {
 
   @ApiProperty()
   image: string;
+
+  @ApiProperty()
+  ar_name: string;
+
+  @ApiProperty()
+  ar_school: string;
+
+  @ApiProperty()
+  ar_level: string;
+
+  @ApiProperty()
+  ar_mester: string;
+
+  @ApiProperty()
+  ar_present: string;
+
+  @ApiProperty()
+  ar_image: string;
 }
 
