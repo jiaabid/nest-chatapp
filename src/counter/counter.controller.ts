@@ -19,16 +19,16 @@ export class CounterController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.counterService.findOne(+id);
+    return this.counterService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateCounterDto: UpdateCounterDto) {
-    return this.counterService.update(+id, updateCounterDto);
+    return this.counterService.update(id, updateCounterDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.counterService.remove(+id);
+    return this.counterService.remove(id);
   }
 }
