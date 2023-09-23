@@ -1,7 +1,3 @@
-
-
-
-
 window.onload = () => {
   let socket = ""
   let room = ""
@@ -18,18 +14,18 @@ window.onload = () => {
     })
 
     //CR section
-    socket.on('available-users', data => {
-      let ul = document.querySelector('ul')
-      ul.innerHTML = ''
-      data.visitors.forEach(cr => {
-        ul.innerHTML += `<li>${cr.visitorId} <button class='btn'>Accept</button></li>`
+    socket.on('available-users', (data) => {
+      let ul = document.querySelector('ul');
+      ul.innerHTML = '';
+      data.visitors.forEach((cr) => {
+        ul.innerHTML += `<li>${cr.visitorId} <button class='btn'>Accept</button></li>`;
       });
-      attachEvent()
-    })
+      attachEvent();
+    });
 
-    socket.on('hello1234', data => {
-      console.log(data)
-    })
+    socket.on('hello1234', (data) => {
+      console.log(data);
+    });
     //on recieving new user
     socket.on('new-user', data => {
       let ul = document.querySelector('ul')
@@ -37,9 +33,9 @@ window.onload = () => {
       attachEvent()
     })
     function attachEvent() {
-      document.querySelectorAll('.btn').forEach(btn => {
-        btn.addEventListener('click', acceptUser)
-      })
+      document.querySelectorAll('.btn').forEach((btn) => {
+        btn.addEventListener('click', acceptUser);
+      });
     }
 
     //accept the user
@@ -69,9 +65,9 @@ window.onload = () => {
     socket.emit('join-room', { room })
   })
 
-  document.getElementById('sendMsg').addEventListener('click', e => {
-    e.preventDefault()
-    let message = prompt('Enter the Message')
+  document.getElementById('sendMsg').addEventListener('click', (e) => {
+    e.preventDefault();
+    let message = prompt('Enter the Message');
     socket.emit('send-message', {
       message,
       to: room,
@@ -109,3 +105,10 @@ function generateUniqueId(length = 8) {
 }
 
 
+  socket.on('message', (data) => {
+    alert(data.message);
+  });
+  socket.on('error', (payload) => {
+    console.log(payload.message);
+  });
+};
