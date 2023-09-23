@@ -15,6 +15,7 @@ import { ValueModule } from './value/value.module';
 import { HomepageModule } from './homepage/homepage.module';
 import { TopStudentsModule } from './top-students/top-students.module';
 import { CounterModule } from "./counter/counter.module";
+import { PartnersModule } from "./partners/partners.module";
 
 // import { DefaultEntities } from './utils/initial-script.utility';
 
@@ -45,6 +46,7 @@ async function bootstrap() {
       HomepageModule,
       TopStudentsModule,
       CounterModule,
+      PartnersModule
     ],
   });
   SwaggerModule.setup('apis', app, document);
