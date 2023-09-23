@@ -29,12 +29,15 @@ export class RoomService {
 
       const exists = await this.roomModel.findOne(createRoomDto)
       if (exists) {
+        console.log(exists)
         return this.socketResponse(false, this.MESSAGES.EXIST)
       }
       let room = await this.roomModel.create(createRoomDto);
+      console.log(room)
       return this.socketResponse(true, this.MESSAGES.CREATED,room)
 
     } catch (err: any) {
+      console.log(err)
       return this.socketResponse(false, this.MESSAGES.BADREQUEST);
     }
   }

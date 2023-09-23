@@ -42,17 +42,25 @@ export class ChatService {
       
             //boradcast this to the CR sockets
             await this.visitorService.addVisitor(data.visitorId)
+            socket.join(data.visitorId)
             io.emit('new-user', { visitorId: data.visitorId })
         
     }
     
     async acceptUser(io: Server, socket: Socket, data: { visitorId: string , representativeId:string}): Promise<void> {
       let response =  await this.roomService.create({ name: `${data.representativeId}_${data.visitorId}`, visitorId: data.visitorId, representativeId: data.representativeId })
+      if(response.success){
         await this.visitorService.updateVisitor(data.visitorId, false)
         socket.join(response.payload._id)
-        io.emit('available-users', { visitors: await this.roomService.getVisitors() })
-        socket.to(data.visitorId).emit('join-room-request', { representative: data.representativeId, room: response.payload._id })
-        socket.emit('join-room-request', { room: response.payload._id })
+        let visitors = await this.roomService.getVisitors()
+        io.emit('available-users', { visitors:visitors  })
+        socket.to(data.visitorId).emit('join-room-request', { representative: data.representativeId, room: response.payload._id.toString() })
+        socket.emit('join-room-request', { room: response.payload._id.toString() })
+      }else{
+        socket.emit('error',{message:"Error"})
+      } 
+
+
     }
 
     joinRoom(socket: Socket, room: string) {
@@ -94,13 +102,13 @@ export class ChatService {
             io.emit('available-users', { visitors })
             console.log(socket.rooms, 'all the rooms in CR')
         } else {
-            //boradcast this to the CR sockets
-            console.log('in remove visitor')
-            let room = await this.visitorService.removeVisitor(socket.id)
-            io.to(room?.representativeId).emit("leave-room-request", { roomId:room.name })
-            console.log(socket.rooms, 'all the rooms in user')
-            let visitors = await this.visitorService.getVisitors()
-            io.emit('available-users', { visitors })
+            // //boradcast this to the CR sockets
+            // console.log('in remove visitor')
+            // let room = await this.visitorService.removeVisitor(socket.id)
+            // io.to(room?.representativeId).emit("leave-room-request", { roomId:room.name })
+            // console.log(socket.rooms, 'all the rooms in user')
+            // let visitors = await this.visitorService.getVisitors()
+            // io.emit('available-users', { visitors })
         }
     }
 }
