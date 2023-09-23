@@ -47,7 +47,7 @@ export class CounterService {
     }
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     try {
       const counter = await this.CounterModel.findById(id);
       if (!counter) {
@@ -61,7 +61,7 @@ export class CounterService {
     }
   }
 
-  async update(id: number, updateCounterDto: UpdateCounterDto) {
+  async update(id: string, updateCounterDto: UpdateCounterDto) {
     try {
       const counter = await this.CounterModel.findById(id);
       if (Object.values(counter).length == 0) {
@@ -77,7 +77,7 @@ export class CounterService {
     }
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     try {
       const deleted = await this.CounterModel.deleteOne({
         _id: id,
