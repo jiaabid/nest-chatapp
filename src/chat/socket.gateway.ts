@@ -34,10 +34,16 @@ export class ChatGateway
 
   //when CR accept the user request, send to join-room request to the user interface
   @SubscribeMessage('accept-user')
-  async acceptUser(socket: Socket, data: { client: string }): Promise<void> {
+  async acceptUser(socket: Socket, data: { visitorId: string , representativeId:string }): Promise<void> {
     this.chatService.acceptUser(this.wss, socket, data);
   }
 
+  //user interface on receiving the join room request, emits the join-room event
+  @SubscribeMessage('connect-visitor')
+  connectVisitor(socket: Socket, data: {visitorId:string}) {
+    this.chatService.connectVisitor(this.wss,socket, data);
+  }
+  
   //user interface on receiving the join room request, emits the join-room event
   @SubscribeMessage('join-room')
   joinRoom(socket: Socket, data: { room: string }) {
@@ -46,7 +52,7 @@ export class ChatGateway
 
   //send message to the room
   @SubscribeMessage('send-message')
-  sendMessage(socket: Socket, data: { to: string; message: string }) {
+  sendMessage(socket: Socket, data: { from:string,to: string; message: string }) {
     this.chatService.sendMessage(socket, data);
   }
 
@@ -56,11 +62,17 @@ export class ChatGateway
     this.chatService.endCall(socket, data);
   }
 
-  //send message to the room
+  //retrieve all the room
   @SubscribeMessage('get-rooms')
-  async getRooms(socket: Socket, data) {
-    this.chatService.getRooms(socket);
+  async getRooms(socket: Socket, data:{representativeId:string}) {
+    this.chatService.getRooms(socket,data);
   }
+
+   //retrieve a  room
+   @SubscribeMessage('get-room')
+   async getRoom(socket: Socket, data:{room:string}) {
+     this.chatService.getRoom(socket,data);
+   }
 
   @SubscribeMessage('leave-room')
   leaveRoom(socket: Socket, data) {

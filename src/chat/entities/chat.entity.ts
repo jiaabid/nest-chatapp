@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
+import { Room } from 'src/room/entities/room.entity';
 
 export type ChatDocument = HydratedDocument<Chat>;
 
@@ -11,8 +12,8 @@ export class Chat {
     @Prop()
     from: string;
 
-    @Prop()
-    room: string;
+    @Prop({type:mongoose.Schema.Types.ObjectId, ref:'Room'})
+    room: Room;
 }
 
 export const ChatSchema = SchemaFactory.createForClass(Chat);

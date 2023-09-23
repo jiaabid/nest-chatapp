@@ -42,7 +42,7 @@ export class VisitorService {
 
   async updateVisitor(id: string, onHold: boolean) {
     try {
-      await this.visitorModel.findByIdAndUpdate(id, { onHold: onHold });
+      await this.visitorModel.findOneAndUpdate({visitorId:id}, { onHold: onHold });
       return this.socketResponse(true, this.MESSAGES.UPDATED)
 
     } catch (err: any) {
