@@ -10,37 +10,39 @@ import { QueryDto } from 'src/utils/query.utility';
 
 @Injectable()
 export class BannerService {
-  constructor(@InjectModel(Banner.name) private bannerModel: Model<Banner>) { }
+  constructor(@InjectModel(Banner.name) private bannerModel: Model<Banner>) {}
 
-  private MESSAGES = generateMessage('Banner')
-  private StatusCode: number = 200;
+  private MESSAGES = generateMessage('Banner');
+  private StatusCode = 200;
   async create(createBannerDto: CreateBannerDto) {
     try {
       const exists = await this.bannerModel.findOne({
-        title: createBannerDto.title
-      })
+        title: createBannerDto.title,
+      });
       if (exists) {
         this.StatusCode = 400;
-        throw new Error(this.MESSAGES.EXIST)
+        throw new Error(this.MESSAGES.EXIST);
       }
       const createdBanner = await this.bannerModel.create(createBannerDto);
-      return new Response(this.StatusCode = 201, this.MESSAGES.CREATED, createdBanner)
+      return new Response(
+        (this.StatusCode = 201),
+        this.MESSAGES.CREATED,
+        createdBanner,
+      );
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
-      return new Response(this.StatusCode, err?.message, err).error()
+      return new Response(this.StatusCode, err?.message, err).error();
     }
-
   }
 
   async findAll() {
     try {
       const Banners = await this.bannerModel.find();
-      return new Response(this.StatusCode, this.MESSAGES.RETRIEVEALL, Banners)
+      return new Response(this.StatusCode, this.MESSAGES.RETRIEVEALL, Banners);
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
-      return new Response(this.StatusCode, err?.message, err).error()
+      return new Response(this.StatusCode, err?.message, err).error();
     }
-
   }
 
   async findOne(id: string) {
@@ -48,12 +50,12 @@ export class BannerService {
       const Banner = await this.bannerModel.findById(id);
       if (!Banner) {
         this.StatusCode = 404;
-        throw new Error(this.MESSAGES.NOTFOUND)
+        throw new Error(this.MESSAGES.NOTFOUND);
       }
-      return new Response(this.StatusCode, this.MESSAGES.RETRIEVE, Banner)
+      return new Response(this.StatusCode, this.MESSAGES.RETRIEVE, Banner);
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
-      return new Response(this.StatusCode, err?.message, err).error()
+      return new Response(this.StatusCode, err?.message, err).error();
     }
   }
 
@@ -62,33 +64,33 @@ export class BannerService {
       const Banner = await this.bannerModel.findById(id);
       if (Object.values(Banner).length == 0) {
         this.StatusCode = 404;
-        throw new Error(this.MESSAGES.NOTFOUND)
+        throw new Error(this.MESSAGES.NOTFOUND);
       }
-      Object.keys(Banner).forEach(key => {
-        Banner[key] = updateBannerDto[key]
-      })
-      await this.bannerModel.findByIdAndUpdate(id, updateBannerDto)
+      Object.keys(Banner).forEach((key) => {
+        Banner[key] = updateBannerDto[key];
+      });
+      await this.bannerModel.findByIdAndUpdate(id, updateBannerDto);
       const updated = await this.bannerModel.findById(id);
-      return new Response(this.StatusCode, this.MESSAGES.UPDATED, updated)
+      return new Response(this.StatusCode, this.MESSAGES.UPDATED, updated);
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
-      return new Response(this.StatusCode, err?.message, err).error()
+      return new Response(this.StatusCode, err?.message, err).error();
     }
   }
 
   async remove(id: string) {
     try {
       const deleted = await this.bannerModel.deleteOne({
-        _id:id
+        _id: id,
       });
-      if(deleted.deletedCount == 0){
+      if (deleted.deletedCount == 0) {
         this.StatusCode = 400;
-        throw new Error(this.MESSAGES.BADREQUEST)
+        throw new Error(this.MESSAGES.BADREQUEST);
       }
-      return new Response(this.StatusCode, this.MESSAGES.DELETED, [])
+      return new Response(this.StatusCode, this.MESSAGES.DELETED, []);
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
-      return new Response(this.StatusCode, err?.message, err).error()
+      return new Response(this.StatusCode, err?.message, err).error();
     }
   }
 }
