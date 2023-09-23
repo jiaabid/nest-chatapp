@@ -4,52 +4,51 @@ import { Section } from 'src/section/entities/section.entity';
 
 export type EventDocument = HydratedDocument<Event>;
 
-@Schema({versionKey:false})
+@Schema({ versionKey: false })
 export class Event {
-    @Prop()
-    title: string;
-    
-    @Prop()
-    description?: string;
+  @Prop()
+  title: string;
 
-    @Prop()
-    location: string;
+  @Prop()
+  description?: string;
 
-    @Prop()
-    date: string;
+  @Prop()
+  location: string;
 
-    @Prop()
-    type: string;
+  @Prop()
+  date: string;
 
-    @Prop()
-    img: string[];
+  @Prop()
+  type: string;
 
-    @Prop({
-        default:false
-    })
-    isRecent: boolean;
+  @Prop()
+  img: string[];
 
-    @Prop()
-    cover: string;
+  @Prop({
+    default: false,
+  })
+  isRecent: boolean;
 
-    @Prop()
-    ar_title: string;
-    
-    @Prop()
-    ar_description?: string;
+  @Prop()
+  cover: string;
 
-    @Prop()
-    ar_location: string;
+  @Prop()
+  ar_title: string;
 
-    @Prop()
-    ar_date: string;
+  @Prop()
+  ar_description?: string;
 
-    @Prop()
-    ar_img: string[];
+  @Prop()
+  ar_location: string;
 
-    @Prop()
-    ar_cover: string;
-   
+  @Prop()
+  ar_date: string;
+
+  @Prop()
+  ar_img: string[];
+
+  @Prop()
+  ar_cover: string;
 }
 
 export const EventSchema = SchemaFactory.createForClass(Event);
