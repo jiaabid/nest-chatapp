@@ -94,6 +94,7 @@ export class ChatService {
     async endCall(socket: Socket, data) {
         await this.deleteChat([data.room]);
         socket.to(data.visitorId).emit('chat-ended', {})
+        //remove rooms also -- pending
     }
 
     leaveRoom(socket: Socket, data) {
