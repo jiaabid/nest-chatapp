@@ -1,0 +1,1 @@
+export const DeleteRoomTimer = 60 * 1000

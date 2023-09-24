@@ -8,6 +8,7 @@ import { generateMessage } from 'src/utils/message.utility';
 import { objectIsEmpty } from 'src/utils/wrapper.utility';
 import { Room } from 'src/room/entities/room.entity';
 
+
 @Injectable()
 export class VisitorService {
   constructor(
@@ -61,8 +62,11 @@ export class VisitorService {
 
   async removeVisitor(id: string) {
     try {
+      console.log('i m in remove visitor')
       let room = await this.roomModel.findOne({ visitorId: id })
-      await this.visitorModel.findByIdAndDelete(id)
+      await this.visitorModel.deleteOne({
+        visitorId:id
+      })
       await this.roomModel.deleteOne({
         visitorId: id
       })
@@ -70,6 +74,7 @@ export class VisitorService {
       // return this.socketResponse(true, this.MESSAGES.UPDATED)
 
     } catch (err: any) {
+      console.log(err)
       // return this.socketResponse(false, this.MESSAGES.BADREQUEST);
     }
   }
@@ -77,7 +82,7 @@ export class VisitorService {
   
   async updateVisitors(id: string) {
     try {
-      let rooms = await this.roomModel.find({ representativeId: id });
+      let rooms = await this.roomModel.find({ representativeId:id  });
       let visitors = [];
        rooms.forEach(room=>{
         visitors.push(room.visitorId)
@@ -94,8 +99,8 @@ export class VisitorService {
       await this.roomModel.deleteMany({
         representativeId:id
       })
-      
-      return await this.visitorModel.find({onHold:true});
+      let visitorsSnap = await this.visitorModel.find({onHold:true});
+      return {visitors:visitorsSnap,rooms}
       // return this.socketResponse(true, this.MESSAGES.UPDATED)
 
     } catch (err: any) {
