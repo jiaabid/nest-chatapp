@@ -25,6 +25,8 @@ import { ValueModule } from './value/value.module';
 import { ServiceModule } from './service/service.module';
 import { HomepageModule } from './homepage/homepage.module';
 import { TopStudentsModule } from './top-students/top-students.module';
+import { CounterModule } from './counter/counter.module';
+import { PartnersModule } from './partners/partners.module';
 ;
 
 @Module({
@@ -53,6 +55,8 @@ import { TopStudentsModule } from './top-students/top-students.module';
     ServiceModule,
     HomepageModule,
     TopStudentsModule,
+    CounterModule,
+    PartnersModule,
   ],
   controllers: [AppController],
   providers: [AppService, DefaultSeed],
