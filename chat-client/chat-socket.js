@@ -6,11 +6,16 @@ window.onload = () => {
   document.querySelector('h3').innerHTML = isRepresentative
   if (isRepresentative == 'yes') {
     socket = io('http://localhost:3000/', {
-      query: { token: "abc" }
+      query: { token: "abc" ,id:id}
     })
     document.querySelector('h3').innerHTML = id
     socket.on('connect', data => {
       console.log(data, socket)
+    })
+
+    socket.on('disconnect',_=>{
+      
+      socket.emit('test')
     })
 
     //CR section
@@ -44,7 +49,9 @@ window.onload = () => {
       socket.emit("accept-user", { visitorId: userid, representativeId:id })
     }
   } else {
-    socket = io('http://localhost:3000/')
+    socket = io('http://localhost:3000/', {
+      query: { id:id}
+    })
     document.querySelector('h3').innerHTML =id
     socket.on('connect', data => {
       console.log(data, socket)
