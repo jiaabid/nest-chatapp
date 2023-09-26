@@ -38,11 +38,7 @@ export class EventService {
   async findAll() {
     try {
       const Events = await this.eventModel.find();
-      return new Response(
-        (this.StatusCode = 200),
-        this.MESSAGES.RETRIEVEALL,
-        Events,
-      );
+      return new Response(this.StatusCode, this.MESSAGES.RETRIEVEALL, Events);
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
       return new Response(this.StatusCode, err?.message, err).error();
