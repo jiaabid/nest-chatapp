@@ -35,9 +35,9 @@ export class EventService {
     }
   }
 
-  async findAll(query: EventQueryDto) {
+  async findAll() {
     try {
-      const Events = await this.eventModel.find(query);
+      const Events = await this.eventModel.find();
       return new Response(
         (this.StatusCode = 200),
         this.MESSAGES.RETRIEVEALL,
