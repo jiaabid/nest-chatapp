@@ -24,11 +24,7 @@ export class EventController {
   create(@Body() createEventDto: CreateEventDto) {
     return this.eventService.create(createEventDto);
   }
-
-  @ApiQuery({
-    name: 'isRecent',
-    required: false,
-  })
+  @Get()
   findAll() {
     return this.eventService.findAll();
   }
