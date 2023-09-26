@@ -30,8 +30,8 @@ export class EventController {
     name: 'isRecent',
     required: false,
   })
-  findAll(@Query() query: EventQueryDto) {
-    return this.eventService.findAll(query);
+  findAll() {
+    return this.eventService.findAll();
   }
 
   @Get(':id')
