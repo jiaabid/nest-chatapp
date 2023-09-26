@@ -1,5 +1,3 @@
-export class EventQueryDto{
-   
-    type:string;
-    isRecent:boolean
+export class EventQueryDto {
+  isRecent: boolean;
 }

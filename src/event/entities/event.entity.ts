@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Date, HydratedDocument } from 'mongoose';
-import { Section } from 'src/section/entities/section.entity';
 
 export type EventDocument = HydratedDocument<Event>;
 
@@ -17,9 +16,6 @@ export class Event {
 
   @Prop()
   date: string;
-
-  @Prop()
-  type: string;
 
   @Prop()
   img: string[];

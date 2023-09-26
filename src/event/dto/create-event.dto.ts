@@ -27,12 +27,6 @@ export class CreateEventDto {
 
   @ApiProperty({
     required: true,
-    example: 'event|news',
-  })
-  type: string;
-
-  @ApiProperty({
-    required: true,
     example: ['/abc/path'],
   })
   img: string[];

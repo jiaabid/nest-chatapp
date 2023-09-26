@@ -1,14 +1,18 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { EventService } from './event.service';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
 
-
-import {
-  ApiBearerAuth,
-  ApiQuery,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { EventQueryDto } from './dto/query.dto';
 @ApiBearerAuth()
@@ -22,16 +26,10 @@ export class EventController {
     return this.eventService.create(createEventDto);
   }
 
-  @Get()
   @ApiQuery({
-    name:'type',
-    required:false
-  }) 
-  @ApiQuery({
-    name:'isRecent',
-    required:false
-  }) 
-  
+    name: 'isRecent',
+    required: false,
+  })
   findAll(@Query() query: EventQueryDto) {
     return this.eventService.findAll(query);
   }
