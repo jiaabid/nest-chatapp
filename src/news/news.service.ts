@@ -1,25 +1,24 @@
-import { Injectable } from "@nestjs/common";
-import { CreateNewsDto } from "./dto/create-news.dto";
-import { UpdateNewsDto } from "./dto/update-news.dto";
-import { InjectModel } from "@nestjs/mongoose";
-import { News } from "./entities/news.entity";
-import { Model } from "mongoose";
-import { generateMessage } from "../utils/message.utility";
-import { objectIsEmpty } from "../utils/wrapper.utility";
-import { Response } from "src/utils/response.utility";
+import { Injectable } from '@nestjs/common';
+import { CreateNewsDto } from './dto/create-news.dto';
+import { UpdateNewsDto } from './dto/update-news.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { News } from './entities/news.entity';
+import { Model } from 'mongoose';
+import { generateMessage } from '../utils/message.utility';
+import { objectIsEmpty } from '../utils/wrapper.utility';
+import { Response } from 'src/utils/response.utility';
 
 @Injectable()
 export class NewsService {
-  constructor(@InjectModel(News.name) private newsModel: Model<News>) {
-  }
+  constructor(@InjectModel(News.name) private newsModel: Model<News>) {}
 
-  private MESSAGES = generateMessage("News");
+  private MESSAGES = generateMessage('News');
   private StatusCode = 200;
 
   async create(createNewsDto: CreateNewsDto) {
     try {
       const exists = await this.newsModel.findOne({
-        title: createNewsDto.title
+        title: createNewsDto.title,
       });
       if (!objectIsEmpty(exists)) {
         this.StatusCode = 400;
@@ -29,7 +28,7 @@ export class NewsService {
       return new Response(
         (this.StatusCode = 201),
         this.MESSAGES.CREATED,
-        createdNews
+        createdNews,
       );
       // const News = await this.new
     } catch (err: any) {
