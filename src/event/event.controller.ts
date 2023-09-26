@@ -14,7 +14,6 @@ import { UpdateEventDto } from './dto/update-event.dto';
 
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
-import { EventQueryDto } from './dto/query.dto';
 @ApiBearerAuth()
 @ApiTags('Event Module')
 @Controller('event')

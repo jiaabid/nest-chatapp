@@ -6,7 +6,6 @@ import { generateMessage } from 'src/utils/message.utility';
 import { InjectModel } from '@nestjs/mongoose';
 import { Response } from 'src/utils/response.utility';
 import { objectIsEmpty } from 'src/utils/wrapper.utility';
-import { EventQueryDto } from './dto/query.dto';
 
 @Injectable()
 export class EventService {
