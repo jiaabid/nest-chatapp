@@ -27,6 +27,7 @@ import { HomepageModule } from './homepage/homepage.module';
 import { TopStudentsModule } from './top-students/top-students.module';
 import { CounterModule } from './counter/counter.module';
 import { PartnersModule } from './partners/partners.module';
+import { NewsModule } from './news/news.module';
 ;
 
 @Module({
@@ -57,6 +58,7 @@ import { PartnersModule } from './partners/partners.module';
     TopStudentsModule,
     CounterModule,
     PartnersModule,
+    NewsModule,
   ],
   controllers: [AppController],
   providers: [AppService, DefaultSeed],
