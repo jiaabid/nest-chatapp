@@ -8,7 +8,7 @@ export class CreateNewsDto {
   description: string;
 
   @ApiProperty()
-  image: string;
+  image: Array<string>;
 
   @ApiProperty()
   data: string;
@@ -22,7 +22,7 @@ export class CreateNewsDto {
   ar_description: string;
 
   @ApiProperty()
-  ar_image: string;
+  ar_image: Array<string>;
 
   @ApiProperty()
   ar_data: string;

@@ -9,7 +9,7 @@ export class News {
   description: string;
 
   @Prop()
-  image: string;
+  image: Array<string>;
 
   @Prop()
   data: string;
@@ -24,7 +24,7 @@ export class News {
   ar_description: string;
 
   @Prop()
-  ar_image: string;
+  ar_image: Array<string>;
 
   @Prop()
   ar_data: string;
