@@ -1,5 +1,5 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { HydratedDocument } from "mongoose";
 
 export type SchoolDocument = HydratedDocument<School>;
 
@@ -21,6 +21,9 @@ export class School {
   trainers?: string;
 
   @Prop()
+  data?: string;
+
+  @Prop()
   ar_name: string;
 
   @Prop()
@@ -40,6 +43,9 @@ export class School {
 
   @Prop()
   video?: string;
+
+  @Prop()
+  ar_data: string;
 }
 
 export const SchoolSchema = SchemaFactory.createForClass(School);
