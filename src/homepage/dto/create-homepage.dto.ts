@@ -1,4 +1,4 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateHomepageDto {
   @ApiProperty()
@@ -29,7 +29,13 @@ export class CreateHomepageDto {
   years: string;
 
   @ApiProperty()
+  ar_years: string;
+
+  @ApiProperty()
   yearsTitle: string;
+
+  @ApiProperty()
+  ar_yearsTitle: string;
 
   @ApiProperty()
   schoolTitle: string;
@@ -79,4 +85,3 @@ export class CreateHomepageDto {
   @ApiProperty()
   ar_policeDescription: string;
 }
-

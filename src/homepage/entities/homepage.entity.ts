@@ -1,5 +1,5 @@
-import { HydratedDocument } from "mongoose";
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { HydratedDocument } from 'mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 export type HomePageDocument = HydratedDocument<Homepage>;
 
@@ -28,6 +28,12 @@ export class Homepage {
 
   @Prop()
   yearsTitle: string;
+
+  @Prop()
+  ar_yearsTitle: string;
+
+  @Prop()
+  ar_years: string;
 
   @Prop({ type: () => [Object] })
   list: any[];
