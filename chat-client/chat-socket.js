@@ -118,4 +118,3 @@ function generateUniqueId(length = 8) {
   socket.on('error', (payload) => {
     console.log(payload.message);
   });
-};
