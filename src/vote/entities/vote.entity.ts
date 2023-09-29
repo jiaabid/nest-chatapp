@@ -6,7 +6,10 @@ export type VoteDocument = HydratedDocument<Vote>;
 @Schema({versionKey:false})
 export class Vote {
     @Prop()
-    reaction: number;
+    title: string;
+
+    @Prop()
+    description?: string;
 
 }
 
