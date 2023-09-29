@@ -4,7 +4,7 @@ export class CreateVoteDto {
 
 
     @ApiProperty({
-        example:"1|2|3"
+        example:"voteID"
     })
     vote: string
     @ApiProperty({
