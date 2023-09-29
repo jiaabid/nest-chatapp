@@ -4,14 +4,13 @@ import { Vote } from './vote.entity';
 
 export type VoteResultDocument = HydratedDocument<VoteResult>;
 
-@Schema({versionKey:false})
+@Schema({ versionKey: false })
 export class VoteResult {
-    @Prop()
-    reaction: number;
+  @Prop()
+  reaction: number;
 
-    @Prop({type:mongoose.Schema.Types.ObjectId, ref:'Vote'})
-    vote: Vote;
-
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Vote' })
+  vote: Vote;
 }
 
 export const VoteResultSchema = SchemaFactory.createForClass(VoteResult);

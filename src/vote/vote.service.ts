@@ -12,59 +12,69 @@ import { objectIsEmpty } from 'src/utils/wrapper.utility';
 
 @Injectable()
 export class VoteService {
-  constructor(@InjectModel(Vote.name) private voteModel: Model<Vote>,
-  @InjectModel(VoteResult.name) private voteResultModel: Model<VoteResult>) { }
+  constructor(
+    @InjectModel(Vote.name) private voteModel: Model<Vote>,
+    @InjectModel(VoteResult.name) private voteResultModel: Model<VoteResult>,
+  ) {}
 
-  private MESSAGES = generateMessage('Vote')
-  private StatusCode: number = 200;
+  private MESSAGES = generateMessage('Vote');
+  private StatusCode = 200;
   async create(createVoteDto: CreateVoteDto) {
     try {
-      if(createVoteDto.reaction < 1 || createVoteDto.reaction > 3 ){
+      if (createVoteDto.reaction < 1 || createVoteDto.reaction > 3) {
         this.StatusCode = 400;
-        throw new Error(this.MESSAGES.BADREQUEST)
+        throw new Error(this.MESSAGES.BADREQUEST);
       }
       const createdVote = await this.voteResultModel.create(createVoteDto);
-      return new Response(this.StatusCode = 201, this.MESSAGES.CREATED, createdVote)
+      return new Response(
+        (this.StatusCode = 201),
+        this.MESSAGES.CREATED,
+        createdVote,
+      );
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
-      return new Response(this.StatusCode, err?.message, err).error()
+      return new Response(this.StatusCode, err?.message, err).error();
     }
   }
 
   async createVoteType(createVoteDto: CreateVoteTypeDto) {
     try {
       const exists = await this.voteModel.findOne({
-        title: createVoteDto.title
-      })
-      if (!(objectIsEmpty(exists))) {
+        title: createVoteDto.title,
+      });
+      if (!objectIsEmpty(exists)) {
         this.StatusCode = 400;
-        throw new Error(this.MESSAGES.EXIST)
+        throw new Error(this.MESSAGES.EXIST);
       }
       const createdVote = await this.voteModel.create(createVoteDto);
-      return new Response(this.StatusCode = 201, this.MESSAGES.CREATED, createdVote)
+      return new Response(
+        (this.StatusCode = 201),
+        this.MESSAGES.CREATED,
+        createdVote,
+      );
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
-      return new Response(this.StatusCode, err?.message, err).error()
+      return new Response(this.StatusCode, err?.message, err).error();
     }
   }
 
-  async findAll(query:{reaction:number}) {
+  async findAll(query: { voteId: number }) {
     try {
       const votes = await this.voteResultModel.find(query).populate('vote');
-      return new Response(this.StatusCode, this.MESSAGES.RETRIEVEALL, votes)
+      return new Response(this.StatusCode, this.MESSAGES.RETRIEVEALL, votes);
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
-      return new Response(this.StatusCode, err?.message, err).error()
+      return new Response(this.StatusCode, err?.message, err).error();
     }
   }
 
   async findTypes() {
     try {
       const votes = await this.voteModel.find();
-      return new Response(this.StatusCode, this.MESSAGES.RETRIEVEALL, votes)
+      return new Response(this.StatusCode, this.MESSAGES.RETRIEVEALL, votes);
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
-      return new Response(this.StatusCode, err?.message, err).error()
+      return new Response(this.StatusCode, err?.message, err).error();
     }
   }
   async update(id: string, updateVoteDto: UpdateVoteDto) {
@@ -72,33 +82,37 @@ export class VoteService {
       const voteType = await this.voteModel.findById(id);
       if (Object.values(voteType).length == 0) {
         this.StatusCode = 404;
-        throw new Error(this.MESSAGES.NOTFOUND)
+        throw new Error(this.MESSAGES.NOTFOUND);
       }
-      Object.keys(voteType).forEach(key => {
-        voteType[key] = updateVoteDto[key]
-      })
-      await this.voteModel.findByIdAndUpdate(id, updateVoteDto)
+      Object.keys(voteType).forEach((key) => {
+        voteType[key] = updateVoteDto[key];
+      });
+      await this.voteModel.findByIdAndUpdate(id, updateVoteDto);
       const updated = await this.voteModel.findById(id);
-      return new Response(this.StatusCode=200, this.MESSAGES.UPDATED, updated)
+      return new Response(
+        (this.StatusCode = 200),
+        this.MESSAGES.UPDATED,
+        updated,
+      );
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
-      return new Response(this.StatusCode, err?.message, err).error()
+      return new Response(this.StatusCode, err?.message, err).error();
     }
   }
 
   async remove(id: string) {
     try {
       const deleted = await this.voteModel.deleteOne({
-        _id:id
+        _id: id,
       });
-      if(deleted.deletedCount == 0){
+      if (deleted.deletedCount == 0) {
         this.StatusCode = 400;
-        throw new Error(this.MESSAGES.BADREQUEST)
+        throw new Error(this.MESSAGES.BADREQUEST);
       }
-      return new Response(this.StatusCode=200, this.MESSAGES.DELETED, [])
+      return new Response((this.StatusCode = 200), this.MESSAGES.DELETED, []);
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
-      return new Response(this.StatusCode, err?.message, err).error()
+      return new Response(this.StatusCode, err?.message, err).error();
     }
   }
 }
