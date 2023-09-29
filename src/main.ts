@@ -13,6 +13,7 @@ import { AssetModule } from './asset/asset.module';
 import { ServiceModule } from './service/service.module';
 import { ValueModule } from './value/value.module';
 import { HomepageModule } from './homepage/homepage.module';
+import { VoteModule } from './vote/vote.module';
 
 // import { DefaultEntities } from './utils/initial-script.utility';
 
@@ -41,6 +42,7 @@ async function bootstrap() {
       ServiceModule,
       ValueModule,
       HomepageModule,
+      VoteModule
     ],
   });
   SwaggerModule.setup('apis', app, document);

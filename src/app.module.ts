@@ -24,6 +24,7 @@ import { AssetModule } from './asset/asset.module';
 import { ValueModule } from './value/value.module';
 import { ServiceModule } from './service/service.module';
 import { HomepageModule } from './homepage/homepage.module';
+import { VoteModule } from './vote/vote.module';
 ;
 
 @Module({
@@ -51,6 +52,7 @@ import { HomepageModule } from './homepage/homepage.module';
     ValueModule,
     ServiceModule,
     HomepageModule,
+    VoteModule,
   ],
   controllers: [AppController],
   providers: [AppService, DefaultSeed],

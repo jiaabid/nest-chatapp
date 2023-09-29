@@ -1,12 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { CreateVisitorDto } from './dto/create-visitor.dto';
-import { UpdateVisitorDto } from './dto/update-visitor.dto';
 import { Visitor } from './entities/visitor.entity';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { generateMessage } from 'src/utils/message.utility';
 import { objectIsEmpty } from 'src/utils/wrapper.utility';
 import { Room } from 'src/room/entities/room.entity';
+import { socketResponse } from 'src/utils/socket-response.utility';
 
 
 @Injectable()
@@ -16,12 +15,7 @@ export class VisitorService {
     @InjectModel(Visitor.name) private visitorModel: Model<Visitor>) { }
   
   private MESSAGES = generateMessage('Visitor')
-  private socketResponse(success, message) {
-    return {
-      success,
-      message
-    }
-  }
+ 
   async addVisitor(visitorId: string) {
     try {
 
@@ -29,14 +23,14 @@ export class VisitorService {
         visitorId
       })
       if (!objectIsEmpty(exists)) {
-        return this.socketResponse(false, this.MESSAGES.EXIST)
+        return socketResponse(false, this.MESSAGES.EXIST)
       }
       let creatd = await this.visitorModel.create({ visitorId });
       console.log(creatd)
-      return this.socketResponse(true, this.MESSAGES.CREATED)
+      return socketResponse(true, this.MESSAGES.CREATED)
 
     } catch (err: any) {
-      return this.socketResponse(false, this.MESSAGES.BADREQUEST);
+      return socketResponse(false, this.MESSAGES.BADREQUEST,err);
     }
   }
 
@@ -44,19 +38,20 @@ export class VisitorService {
   async updateVisitor(id: string, onHold: boolean) {
     try {
       await this.visitorModel.findOneAndUpdate({visitorId:id}, { onHold: onHold });
-      return this.socketResponse(true, this.MESSAGES.UPDATED)
+      return socketResponse(true, this.MESSAGES.UPDATED)
 
     } catch (err: any) {
-      return this.socketResponse(false, this.MESSAGES.BADREQUEST);
+      return socketResponse(false, this.MESSAGES.BADREQUEST,err);
     }
   }
 
   async getVisitors() {
     try {
-      return await this.visitorModel.find({ onHold: true });
+      let visitors =  await this.visitorModel.find({ onHold: true });
+      return socketResponse(false, this.MESSAGES.BADREQUEST,visitors);
 
-    } catch (err: any) {
-      return this.socketResponse(false, this.MESSAGES.BADREQUEST);
+    } catch (err) {
+      return socketResponse(false, this.MESSAGES.BADREQUEST,err);
     }
   }
 
@@ -70,12 +65,11 @@ export class VisitorService {
       await this.roomModel.deleteOne({
         visitorId: id
       })
-      return room;
-      // return this.socketResponse(true, this.MESSAGES.UPDATED)
+      return socketResponse(true, this.MESSAGES.UPDATED,room)
 
     } catch (err: any) {
-      console.log(err)
-      // return this.socketResponse(false, this.MESSAGES.BADREQUEST);
+      
+      return socketResponse(false, this.MESSAGES.BADREQUEST,err);
     }
   }
 
@@ -100,11 +94,10 @@ export class VisitorService {
         representativeId:id
       })
       let visitorsSnap = await this.visitorModel.find({onHold:true});
-      return {visitors:visitorsSnap,rooms}
-      // return this.socketResponse(true, this.MESSAGES.UPDATED)
+      return socketResponse(true, this.MESSAGES.UPDATED,{visitors:visitorsSnap,rooms})
 
     } catch (err: any) {
-      // return this.socketResponse(false, this.MESSAGES.BADREQUEST);
+      return socketResponse(false, this.MESSAGES.BADREQUEST,err);
     }
   }
 }
