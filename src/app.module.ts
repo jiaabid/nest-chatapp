@@ -25,6 +25,10 @@ import { ValueModule } from './value/value.module';
 import { ServiceModule } from './service/service.module';
 import { HomepageModule } from './homepage/homepage.module';
 import { VoteModule } from './vote/vote.module';
+import { TopStudentsModule } from './top-students/top-students.module';
+import { CounterModule } from './counter/counter.module';
+import { PartnersModule } from './partners/partners.module';
+import { NewsModule } from './news/news.module';
 ;
 
 @Module({
@@ -53,6 +57,10 @@ import { VoteModule } from './vote/vote.module';
     ServiceModule,
     HomepageModule,
     VoteModule,
+    TopStudentsModule,
+    CounterModule,
+    PartnersModule,
+    NewsModule,
   ],
   controllers: [AppController],
   providers: [AppService, DefaultSeed],

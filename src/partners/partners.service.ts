@@ -1,33 +1,36 @@
-import { Injectable } from '@nestjs/common';
-import { CreateBannerDto } from './dto/create-banner.dto';
-import { UpdateBannerDto } from './dto/update-banner.dto';
-import { InjectModel } from '@nestjs/mongoose';
-import { Banner } from './entities/banner.entity';
-import { Model } from 'mongoose';
-import { generateMessage } from 'src/utils/message.utility';
-import { Response } from 'src/utils/response.utility';
-import { QueryDto } from 'src/utils/query.utility';
+import { Injectable } from "@nestjs/common";
+import { CreatePartnerDto } from "./dto/create-partner.dto";
+import { UpdatePartnerDto } from "./dto/update-partner.dto";
+import { InjectModel } from "@nestjs/mongoose";
+import { Partner } from "./entities/partner.entity";
+import { Model } from "mongoose";
+import { generateMessage } from "../utils/message.utility";
+import { Response } from "../utils/response.utility";
 
 @Injectable()
-export class BannerService {
-  constructor(@InjectModel(Banner.name) private bannerModel: Model<Banner>) {}
+export class PartnersService {
+  constructor(@InjectModel(Partner.name) private partnerModel: Model<Partner>) {
+  }
 
-  private MESSAGES = generateMessage('Banner');
+  private MESSAGES = generateMessage("Partner");
   private StatusCode = 200;
-  async create(createBannerDto: CreateBannerDto) {
+
+  async create(createPartnerDto: CreatePartnerDto) {
     try {
-      const exists = await this.bannerModel.findOne({
-        title: createBannerDto.title,
+      const exists = await this.partnerModel.findOne({
+        name: createPartnerDto.name
       });
       if (exists) {
         this.StatusCode = 400;
         throw new Error(this.MESSAGES.EXIST);
       }
-      const createdBanner = await this.bannerModel.create(createBannerDto);
+      const createdPartner = await this.partnerModel.create(
+        createPartnerDto
+      );
       return new Response(
-        (this.StatusCode = 201),
+        this.StatusCode = 201,
         this.MESSAGES.CREATED,
-        createdBanner,
+        createdPartner
       );
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
@@ -37,8 +40,8 @@ export class BannerService {
 
   async findAll() {
     try {
-      const Banners = await this.bannerModel.find();
-      return new Response(this.StatusCode, this.MESSAGES.RETRIEVEALL, Banners);
+      const partner = await this.partnerModel.find();
+      return new Response(this.StatusCode, this.MESSAGES.RETRIEVEALL, partner);
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
       return new Response(this.StatusCode, err?.message, err).error();
@@ -47,30 +50,30 @@ export class BannerService {
 
   async findOne(id: string) {
     try {
-      const Banner = await this.bannerModel.findById(id);
-      if (!Banner) {
+      const partner = await this.partnerModel.findById(id);
+      if (!partner) {
         this.StatusCode = 404;
         throw new Error(this.MESSAGES.NOTFOUND);
       }
-      return new Response(this.StatusCode, this.MESSAGES.RETRIEVE, Banner);
+      return new Response(this.StatusCode, this.MESSAGES.RETRIEVE, partner);
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
       return new Response(this.StatusCode, err?.message, err).error();
     }
   }
 
-  async update(id: string, updateBannerDto: UpdateBannerDto) {
+  async update(id: string, updatePartnerDto: UpdatePartnerDto) {
     try {
-      const Banner = await this.bannerModel.findById(id);
-      if (Object.values(Banner).length == 0) {
+      const partner = await this.partnerModel.findById(id);
+      if (Object.values(partner).length == 0) {
         this.StatusCode = 404;
         throw new Error(this.MESSAGES.NOTFOUND);
       }
-      Object.keys(Banner).forEach((key) => {
-        Banner[key] = updateBannerDto[key];
+      Object.keys(partner).forEach((key) => {
+        partner[key] = updatePartnerDto[key];
       });
-      await this.bannerModel.findByIdAndUpdate(id, updateBannerDto);
-      const updated = await this.bannerModel.findById(id);
+      await this.partnerModel.findByIdAndUpdate(id, updatePartnerDto);
+      const updated = await this.partnerModel.findById(id);
       return new Response(this.StatusCode, this.MESSAGES.UPDATED, updated);
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
@@ -80,8 +83,8 @@ export class BannerService {
 
   async remove(id: string) {
     try {
-      const deleted = await this.bannerModel.deleteOne({
-        _id: id,
+      const deleted = await this.partnerModel.deleteOne({
+        _id: id
       });
       if (deleted.deletedCount == 0) {
         this.StatusCode = 400;

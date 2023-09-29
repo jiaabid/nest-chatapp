@@ -29,6 +29,12 @@ export class Homepage {
   @Prop()
   yearsTitle: string;
 
+  @Prop()
+  ar_yearsTitle: string;
+
+  @Prop()
+  ar_years: string;
+
   @Prop({ type: () => [Object] })
   list: any[];
 
@@ -82,6 +88,18 @@ export class Homepage {
 
   @Prop()
   ar_policeDescription: string;
+
+  @Prop()
+  studentsTitle: string;
+
+  @Prop()
+  studentsDescription: string;
+
+  @Prop()
+  ar_studentsTitle: string;
+
+  @Prop()
+  ar_studentsDescription: string;
 }
 
 export const HomePageSchema = SchemaFactory.createForClass(Homepage);

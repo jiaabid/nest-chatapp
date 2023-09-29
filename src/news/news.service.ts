@@ -1,33 +1,36 @@
 import { Injectable } from '@nestjs/common';
-import { CreateEventDto } from './dto/create-event.dto';
-import { UpdateEventDto } from './dto/update-event.dto';
-import { Model } from 'mongoose';
-import { generateMessage } from 'src/utils/message.utility';
+import { CreateNewsDto } from './dto/create-news.dto';
+import { UpdateNewsDto } from './dto/update-news.dto';
 import { InjectModel } from '@nestjs/mongoose';
+import { News } from './entities/news.entity';
+import { Model } from 'mongoose';
+import { generateMessage } from '../utils/message.utility';
+import { objectIsEmpty } from '../utils/wrapper.utility';
 import { Response } from 'src/utils/response.utility';
-import { objectIsEmpty } from 'src/utils/wrapper.utility';
 
 @Injectable()
-export class EventService {
-  constructor(@InjectModel(Event.name) private eventModel: Model<Event>) {}
+export class NewsService {
+  constructor(@InjectModel(News.name) private newsModel: Model<News>) {}
 
-  private MESSAGES = generateMessage('Event');
+  private MESSAGES = generateMessage('News');
   private StatusCode = 200;
-  async create(createEventDto: CreateEventDto) {
+
+  async create(createNewsDto: CreateNewsDto) {
     try {
-      const exists = await this.eventModel.findOne({
-        title: createEventDto.title,
+      const exists = await this.newsModel.findOne({
+        title: createNewsDto.title,
       });
       if (!objectIsEmpty(exists)) {
         this.StatusCode = 400;
         throw new Error(this.MESSAGES.EXIST);
       }
-      const createdEvent = await this.eventModel.create(createEventDto);
+      const createdNews = await this.newsModel.create(createNewsDto);
       return new Response(
         (this.StatusCode = 201),
         this.MESSAGES.CREATED,
-        createdEvent,
+        createdNews,
       );
+      // const News = await this.new
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
       return new Response(this.StatusCode, err?.message, err).error();
@@ -36,65 +39,57 @@ export class EventService {
 
   async findAll() {
     try {
-      const Events = await this.eventModel.find();
-      return new Response(this.StatusCode, this.MESSAGES.RETRIEVEALL, Events);
+      const News = await this.newsModel.find();
+      return new Response(this.StatusCode, this.MESSAGES.RETRIEVEALL, News);
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
       return new Response(this.StatusCode, err?.message, err).error();
     }
   }
 
-  async findOne(id: string) {
+  async findOne(id: number) {
     try {
-      const Event = await this.eventModel.findById(id);
-      if (!Event) {
+      const news = await this.newsModel.findById(id);
+      if (!news) {
         this.StatusCode = 404;
         throw new Error(this.MESSAGES.NOTFOUND);
       }
-      return new Response(
-        (this.StatusCode = 200),
-        this.MESSAGES.RETRIEVE,
-        Event,
-      );
+      return new Response(this.StatusCode, this.MESSAGES.RETRIEVE, news);
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
       return new Response(this.StatusCode, err?.message, err).error();
     }
   }
 
-  async update(id: string, updateEventDto: UpdateEventDto) {
+  async update(id: number, updateNewsDto: UpdateNewsDto) {
     try {
-      const Event = await this.eventModel.findById(id);
-      if (Object.values(Event).length == 0) {
+      const news = await this.newsModel.findById(id);
+      if (Object.values(news).length == 0) {
         this.StatusCode = 404;
         throw new Error(this.MESSAGES.NOTFOUND);
       }
-      Object.keys(Event).forEach((key) => {
-        Event[key] = updateEventDto[key];
+      Object.keys(news).forEach((key) => {
+        news[key] = updateNewsDto[key];
       });
-      await this.eventModel.findByIdAndUpdate(id, updateEventDto);
-      const updated = await this.eventModel.findById(id);
-      return new Response(
-        (this.StatusCode = 200),
-        this.MESSAGES.UPDATED,
-        updated,
-      );
+      await this.newsModel.findByIdAndUpdate(id, updateNewsDto);
+      const updated = await this.newsModel.findById(id);
+      return new Response(this.StatusCode, this.MESSAGES.UPDATED, updated);
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
       return new Response(this.StatusCode, err?.message, err).error();
     }
   }
 
-  async remove(id: string) {
+  async remove(id: number) {
     try {
-      const deleted = await this.eventModel.deleteOne({
+      const deleted = await this.newsModel.deleteOne({
         _id: id,
       });
       if (deleted.deletedCount == 0) {
         this.StatusCode = 400;
         throw new Error(this.MESSAGES.BADREQUEST);
       }
-      return new Response((this.StatusCode = 200), this.MESSAGES.DELETED, []);
+      return new Response(this.StatusCode, this.MESSAGES.DELETED, []);
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
       return new Response(this.StatusCode, err?.message, err).error();

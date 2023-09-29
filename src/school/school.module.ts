@@ -7,6 +7,6 @@ import { School, SchoolSchema } from './entities/school.entity';
 @Module({
   imports: [MongooseModule.forFeature([{ name: School.name, schema: SchoolSchema }])],
   controllers: [SchoolController],
-  providers: [SchoolService]
+  providers: [SchoolService],
 })
 export class SchoolModule {}
