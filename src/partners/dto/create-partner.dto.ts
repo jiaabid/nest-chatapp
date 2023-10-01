@@ -2,7 +2,7 @@ import { ApiProperty } from "@nestjs/swagger";
 
 export class CreatePartnerDto {
   @ApiProperty()
-  icon: string;
+  icon: [];
 
   @ApiProperty()
   name: string;

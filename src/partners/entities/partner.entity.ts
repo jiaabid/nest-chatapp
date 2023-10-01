@@ -3,7 +3,7 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 @Schema({ versionKey: false })
 export class Partner {
   @Prop()
-  icon: string;
+  icon: [];
   @Prop()
   name: string;
   @Prop()

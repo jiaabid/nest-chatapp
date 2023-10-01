@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete,Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { VoteService } from './vote.service';
 import { CreateVoteDto } from './dto/create-vote.dto';
 import { UpdateVoteDto } from './dto/update-votetype.dto';
@@ -21,12 +30,11 @@ export class VoteController {
   }
 
   @ApiQuery({
-    name:'reaction',
-    required:false
-  }) 
-  
+    name: 'voteId',
+    required: false,
+  })
   @Get()
-  findAll(@Query() query:{reaction:number}) {
+  findAll(@Query() query: { voteId: number }) {
     return this.voteService.findAll(query);
   }
 
