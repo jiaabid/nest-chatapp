@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { SchoolService } from './school.service';
 import { CreateSchoolDto } from './dto/create-school.dto';
 import { UpdateSchoolDto } from './dto/update-school.dto';
@@ -17,11 +26,13 @@ export class SchoolController {
   }
 
   @Get()
- 
   findAll() {
     return this.schoolService.findAll();
   }
-
+  @Get('slug/:slug')
+  findOneBySlug(@Param('slug') slug: string) {
+    return this.schoolService.findOneBySlug(slug);
+  }
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.schoolService.findOne(id);

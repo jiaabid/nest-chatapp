@@ -1,5 +1,5 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { HydratedDocument } from "mongoose";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { HydratedDocument } from 'mongoose';
 
 export type SchoolDocument = HydratedDocument<School>;
 
@@ -7,6 +7,8 @@ export type SchoolDocument = HydratedDocument<School>;
 export class School {
   @Prop()
   name: string;
+  @Prop({ unique: true, required: true })
+  slug: string;
 
   @Prop()
   description?: string;
