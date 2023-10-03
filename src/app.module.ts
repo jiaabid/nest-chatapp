@@ -29,6 +29,7 @@ import { TopStudentsModule } from './top-students/top-students.module';
 import { CounterModule } from './counter/counter.module';
 import { PartnersModule } from './partners/partners.module';
 import { NewsModule } from './news/news.module';
+import { ContactformModule } from './contactform/contactform.module';
 ;
 
 @Module({
@@ -61,6 +62,7 @@ import { NewsModule } from './news/news.module';
     CounterModule,
     PartnersModule,
     NewsModule,
+    ContactformModule,
   ],
   controllers: [AppController],
   providers: [AppService, DefaultSeed],
