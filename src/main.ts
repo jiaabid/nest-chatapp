@@ -51,6 +51,7 @@ async function bootstrap() {
       CounterModule,
       PartnersModule,
       NewsModule,
+      CounterModule,
     ],
   });
   SwaggerModule.setup('apis', app, document);

@@ -60,7 +60,7 @@ export class VoteService {
 
   async findAll(query: { voteId: number }) {
     try {
-      const votes = await this.voteResultModel.find(query).populate('vote');
+      const votes = await this.voteModel.find(query).populate('vote');
       return new Response(this.StatusCode, this.MESSAGES.RETRIEVEALL, votes);
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
