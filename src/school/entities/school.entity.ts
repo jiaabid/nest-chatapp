@@ -44,7 +44,7 @@ export class School {
   assets?: string[];
 
   @Prop()
-  video?: string;
+  video?: [];
 
   @Prop()
   ar_data: string;

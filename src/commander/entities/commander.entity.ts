@@ -23,7 +23,7 @@ export class Commander {
   ar_role: string;
 
   @Prop()
-  image: string;
+  image: [];
 }
 
 export const CommanderSchema = SchemaFactory.createForClass(Commander);

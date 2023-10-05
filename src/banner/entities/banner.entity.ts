@@ -9,7 +9,7 @@ export class Banner {
   title: string;
 
   @Prop()
-  media: string;
+  media: [];
 
   @Prop()
   outerLink: string;
@@ -26,7 +26,7 @@ export class Banner {
   ar_title: string;
 
   @Prop()
-  ar_media: string;
+  ar_media: [];
 
   @Prop()
   ar_outerTitle: string;

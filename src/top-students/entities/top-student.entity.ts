@@ -21,7 +21,7 @@ export class TopStudent {
   present: string;
 
   @Prop()
-  image: string;
+  image: [];
 
   @Prop()
   ar_name: string;
@@ -39,7 +39,7 @@ export class TopStudent {
   ar_present: string;
 
   @Prop()
-  ar_image: string;
+  ar_image: [];
 }
 
 export const TopStudentsSchema = SchemaFactory.createForClass(TopStudent)
