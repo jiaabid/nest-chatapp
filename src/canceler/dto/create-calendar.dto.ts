@@ -14,6 +14,9 @@ export class CreateCalendarDto {
   ar_description: string;
 
   @ApiProperty()
+  slug: string;
+
+  @ApiProperty()
   image: [];
 
   @ApiProperty()

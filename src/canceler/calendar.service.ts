@@ -6,6 +6,7 @@ import { Calendar } from './entities/calendar.entity';
 import { Model } from 'mongoose';
 import { generateMessage } from '../utils/message.utility';
 import { Response } from '../utils/response.utility';
+import { nameToSlug } from "../utils/wrapper.utility";
 
 @Injectable()
 export class CalendarService {
@@ -23,6 +24,13 @@ export class CalendarService {
         this.StatusCode = 400;
         throw new Error(this.MESSAGES.EXIST);
       }
+      createCalendarDto.slug = nameToSlug(createCalendarDto.title)
+      const createCalender =await this.calenderModel.create(createCalendarDto)
+  return new Response(
+    (this.StatusCode = 201),
+    this.MESSAGES.CREATED,
+    createCalender
+  )
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
       return new Response(this.StatusCode, err?.message, err).error();
@@ -38,15 +46,29 @@ export class CalendarService {
       return new Response(this.StatusCode, err?.message, err).error();
     }
   }
-
+  async findOneBySlug(slug:string) {
+    try {
+      const calender = await this.calenderModel.findOne({
+        slug
+      })
+      if(!calender) {
+        this.StatusCode = 404;
+        throw new Error(this.MESSAGES.NOTFOUND)
+      }
+      return new Response(this.StatusCode,this.MESSAGES.RETRIEVE,calender)
+    }catch (err:any) {
+      this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
+      return new Response(this.StatusCode, err?.message, err).error();
+    }
+  }
   async findOne(id: string) {
     try {
-      const canleder = await this.calenderModel.findById(id);
-      if (!canleder) {
+      const canceler = await this.calenderModel.findById(id);
+      if (!canceler) {
         this.StatusCode = 400;
         throw new Error(this.MESSAGES.NOTFOUND);
       }
-      return new Response(this.StatusCode, this.MESSAGES.RETRIEVE, canleder);
+      return new Response(this.StatusCode, this.MESSAGES.RETRIEVE, canceler);
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
       return new Response(this.StatusCode, err.message, err).error();

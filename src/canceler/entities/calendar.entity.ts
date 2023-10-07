@@ -15,6 +15,9 @@ export class Calendar {
   ar_description: string;
 
   @Prop()
+  slug: string;
+
+  @Prop()
   image: [];
 
   @Prop()

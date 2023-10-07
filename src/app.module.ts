@@ -30,7 +30,7 @@ import { CounterModule } from './counter/counter.module';
 import { PartnersModule } from './partners/partners.module';
 import { NewsModule } from './news/news.module';
 import { CommanderModule } from './commander/commander.module';
-import { CalendarModule } from './calendar/calendar.module';
+import { CalendarModule } from './canceler/calendar.module';
 
 
 @Module({
