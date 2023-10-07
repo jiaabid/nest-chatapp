@@ -18,6 +18,7 @@ import { TopStudentsModule } from './top-students/top-students.module';
 import { CounterModule } from "./counter/counter.module";
 import { PartnersModule } from "./partners/partners.module";
 import { NewsModule } from "./news/news.module";
+import { CalendarModule } from "./canceler/calendar.module";
 
 // import { DefaultEntities } from './utils/initial-script.utility';
 
@@ -52,6 +53,7 @@ async function bootstrap() {
       PartnersModule,
       NewsModule,
       CounterModule,
+      CalendarModule
     ],
   });
   SwaggerModule.setup('apis', app, document);
