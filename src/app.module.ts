@@ -30,6 +30,7 @@ import { CounterModule } from './counter/counter.module';
 import { PartnersModule } from './partners/partners.module';
 import { NewsModule } from './news/news.module';
 import { CommanderModule } from './commander/commander.module';
+import { CalendarModule } from './calendar/calendar.module';
 
 
 @Module({
@@ -63,6 +64,7 @@ import { CommanderModule } from './commander/commander.module';
     PartnersModule,
     NewsModule,
     CommanderModule,
+    CalendarModule,
   ],
   controllers: [AppController],
   providers: [AppService, DefaultSeed],

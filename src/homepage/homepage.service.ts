@@ -82,7 +82,7 @@ export class HomepageService {
     }
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     try {
       const deleted = await this.homepageModal.deleteOne({
         _id: id,
