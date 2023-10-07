@@ -12,7 +12,7 @@ export class AboutUs {
   description?: string;
 
   @Prop()
-  image: string;
+  image: [];
 
   @Prop()
   ar_title: string;
@@ -21,7 +21,7 @@ export class AboutUs {
   ar_description?: string;
 
   @Prop()
-  ar_image: string;
+  ar_image: [];
 }
 
 export const AboutUsSchema = SchemaFactory.createForClass(AboutUs);

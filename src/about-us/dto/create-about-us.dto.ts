@@ -8,7 +8,7 @@ export class CreateAboutUsDto {
   description?: string;
 
   @ApiProperty()
-  image: string;
+  image: [];
 
   @ApiProperty()
   ar_title: string;
@@ -17,5 +17,5 @@ export class CreateAboutUsDto {
   ar_description?: string;
 
   @ApiProperty()
-  ar_image: string;
+  ar_image: [];
 }
