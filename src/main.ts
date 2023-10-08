@@ -55,7 +55,7 @@ async function bootstrap() {
       NewsModule,
       CounterModule,
       CalendarModule,
-      LifeModule
+      LifeModule,
     ],
   });
   SwaggerModule.setup('apis', app, document);

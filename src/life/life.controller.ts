@@ -2,7 +2,9 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { LifeService } from './life.service';
 import { CreateLifeDto } from './dto/create-life.dto';
 import { UpdateLifeDto } from './dto/update-life.dto';
-
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+@ApiBearerAuth()
+@ApiTags('life Page')
 @Controller('life')
 export class LifeController {
   constructor(private readonly lifeService: LifeService) {}
