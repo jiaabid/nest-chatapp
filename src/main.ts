@@ -53,7 +53,7 @@ async function bootstrap() {
       PartnersModule,
       NewsModule,
       CounterModule,
-      CalendarModule
+      CalendarModule,
     ],
   });
   SwaggerModule.setup('apis', app, document);

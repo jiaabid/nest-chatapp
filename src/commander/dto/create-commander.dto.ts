@@ -23,5 +23,5 @@ export class CreateCommanderDto {
   ar_role: string;
 
   @ApiProperty()
-  slug: string
+  slug: string;
 }
