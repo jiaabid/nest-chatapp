@@ -75,7 +75,6 @@ export class LifeService {
       return new Response(this.StatusCode, err?.message, err).error();
     }
   }
-
   async remove(id: string) {
     try {
       const deleted = await this.lifeModel.deleteOne({
