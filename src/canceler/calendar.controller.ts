@@ -24,7 +24,10 @@ export class CalendarController {
   findAll() {
     return this.calendarService.findAll();
   }
-
+  @Get('slug/:slug')
+  findOneBySlug(@Param('slug') slug: string) {
+    return this.calendarService.findOneBySlug(slug);
+  }
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.calendarService.findOne(id);
