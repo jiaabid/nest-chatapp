@@ -9,7 +9,10 @@ export class CreateSchoolDto {
 
   @ApiProperty()
   description?: string;
+
+  @ApiProperty()
   slug: string;
+
   @ApiProperty()
   location: string;
 
@@ -42,4 +45,46 @@ export class CreateSchoolDto {
 
   @ApiProperty()
   ar_data?: string;
+
+  @ApiProperty()
+  academyDescription: string;
+
+  @ApiProperty()
+  ar_academyDescription: string;
+
+  @ApiProperty()
+  academyFile: string;
+
+  @ApiProperty()
+  academyImage: [];
+
+  @ApiProperty()
+  messageFromTitle: string;
+
+  @ApiProperty()
+  ar_messageFromTitle: string;
+
+  @ApiProperty()
+  leaderImage: [];
+
+  @ApiProperty()
+  leaderName: string;
+
+  @ApiProperty()
+  ar_leaderName: string;
+
+  @ApiProperty()
+  leaderSchool: string;
+
+  @ApiProperty()
+  leaderPosition: string;
+
+  @ApiProperty()
+  ar_leaderPosition: string;
+
+  @ApiProperty()
+  leaderDescription: string;
+
+  @ApiProperty()
+  ar_leaderDescription: string;
 }

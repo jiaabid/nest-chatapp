@@ -1,4 +1,4 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateNewsDto {
   @ApiProperty()
@@ -12,6 +12,7 @@ export class CreateNewsDto {
 
   @ApiProperty()
   data: string;
+
   @ApiProperty()
   author: string;
 
