@@ -1,4 +1,4 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateTopStudentDto {
   @ApiProperty()
@@ -36,5 +36,7 @@ export class CreateTopStudentDto {
 
   @ApiProperty()
   ar_image: [];
-}
 
+  @ApiProperty()
+  gender: number;
+}
