@@ -23,6 +23,12 @@ export class Commander {
   ar_role: string;
 
   @Prop()
+  position: string;
+
+  @Prop()
+  ar_position: string;
+
+  @Prop()
   image: [];
 }
 

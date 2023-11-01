@@ -20,7 +20,13 @@ export class CreateCommanderDto {
   role: string;
 
   @ApiProperty()
+  position: string;
+
+  @ApiProperty()
   ar_role: string;
+
+  @ApiProperty()
+  ar_position: string;
 
   @ApiProperty()
   slug: string;
