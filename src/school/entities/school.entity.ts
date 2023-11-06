@@ -56,7 +56,7 @@ export class School {
   ar_academyDescription: string;
 
   @Prop()
-  academyFile: string;
+  academyFile: [];
 
   @Prop()
   academyImage: [];

@@ -53,7 +53,7 @@ export class CreateSchoolDto {
   ar_academyDescription: string;
 
   @ApiProperty()
-  academyFile: string;
+  academyFile: [];
 
   @ApiProperty()
   academyImage: [];
