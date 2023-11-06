@@ -15,20 +15,17 @@ import { ValueModule } from './value/value.module';
 import { HomepageModule } from './homepage/homepage.module';
 import { VoteModule } from './vote/vote.module';
 import { TopStudentsModule } from './top-students/top-students.module';
-import { CounterModule } from './counter/counter.module';
-import { PartnersModule } from './partners/partners.module';
-import { NewsModule } from './news/news.module';
-import { CalendarModule } from './canceler/calendar.module';
-import { LifeModule } from './life/life.module';
-import * as bodyParser from 'body-parser';
+import { CounterModule } from "./counter/counter.module";
+import { PartnersModule } from "./partners/partners.module";
+import { NewsModule } from "./news/news.module";
+import { ContactformModule } from './contactform/contactform.module';
+
 // import { DefaultEntities } from './utils/initial-script.utility';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors();
   //Swagger Configuration
-  app.use(bodyParser.json({ limit: '50mb' }));
-  app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
   const config = new DocumentBuilder()
     .setTitle('Chat App')
     .setDescription('Chat App API Documentation')
@@ -55,9 +52,7 @@ async function bootstrap() {
       CounterModule,
       PartnersModule,
       NewsModule,
-      CounterModule,
-      CalendarModule,
-      LifeModule,
+      ContactformModule
     ],
   });
   SwaggerModule.setup('apis', app, document);

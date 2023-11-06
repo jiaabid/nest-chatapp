@@ -19,17 +19,21 @@ export class VisitorService {
   async addVisitor(visitorId: string) {
     try {
 
-      const exists = await this.visitorModel.findOne({
+      const exists:any = await this.visitorModel.findOne({
         visitorId
       })
       if (!objectIsEmpty(exists)) {
-        return socketResponse(false, this.MESSAGES.EXIST)
+        if(exists?.onHold){
+          return socketResponse(true, this.MESSAGES.CREATED,{})
+        }
+        return socketResponse(false, this.MESSAGES.EXIST,{message:"Already exist"})
       }
       let creatd = await this.visitorModel.create({ visitorId });
       console.log(creatd)
-      return socketResponse(true, this.MESSAGES.CREATED)
+      return socketResponse(true, this.MESSAGES.CREATED,{})
 
     } catch (err: any) {
+      console.log(err,'in add visitor')
       return socketResponse(false, this.MESSAGES.BADREQUEST,err);
     }
   }
@@ -38,7 +42,7 @@ export class VisitorService {
   async updateVisitor(id: string, onHold: boolean) {
     try {
       await this.visitorModel.findOneAndUpdate({visitorId:id}, { onHold: onHold });
-      return socketResponse(true, this.MESSAGES.UPDATED)
+      return socketResponse(true, this.MESSAGES.UPDATED,{})
 
     } catch (err: any) {
       return socketResponse(false, this.MESSAGES.BADREQUEST,err);
@@ -48,7 +52,7 @@ export class VisitorService {
   async getVisitors() {
     try {
       let visitors =  await this.visitorModel.find({ onHold: true });
-      return socketResponse(false, this.MESSAGES.BADREQUEST,visitors);
+      return socketResponse(true, this.MESSAGES.BADREQUEST,visitors);
 
     } catch (err) {
       return socketResponse(false, this.MESSAGES.BADREQUEST,err);
@@ -57,8 +61,9 @@ export class VisitorService {
 
   async removeVisitor(id: string) {
     try {
-      console.log('i m in remove visitor')
+      console.log('i m in remove visitor',id)
       let room = await this.roomModel.findOne({ visitorId: id })
+      console.log(room,"the room we are deleting")
       await this.visitorModel.deleteOne({
         visitorId:id
       })

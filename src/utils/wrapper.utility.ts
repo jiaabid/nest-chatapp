@@ -14,6 +14,8 @@ export const comparePassword = (
 ): Promise<string> => {
   return compare(password, hashedPwd);
 };
+
+
 export const generateToken = (payload: User): string => {
   return sign(
     {
@@ -28,6 +30,8 @@ export const objectIsEmpty = (payload: any): boolean => {
   console.log(_.isEmpty(payload));
   return _.isEmpty(payload);
 };
+
+
 export let nameToSlug = (name) => {
   // Convert to lowercase and replace spaces with hyphens
   const slug = name.toLowerCase().replace(/\s+/g, '-');

@@ -29,10 +29,8 @@ import { TopStudentsModule } from './top-students/top-students.module';
 import { CounterModule } from './counter/counter.module';
 import { PartnersModule } from './partners/partners.module';
 import { NewsModule } from './news/news.module';
-import { CommanderModule } from './commander/commander.module';
-import { CalendarModule } from './canceler/calendar.module';
-import { LifeModule } from './life/life.module';
-
+import { ContactformModule } from './contactform/contactform.module';
+;
 
 @Module({
   imports: [
@@ -64,9 +62,7 @@ import { LifeModule } from './life/life.module';
     CounterModule,
     PartnersModule,
     NewsModule,
-    CommanderModule,
-    CalendarModule,
-    LifeModule,
+    ContactformModule,
   ],
   controllers: [AppController],
   providers: [AppService, DefaultSeed],

@@ -52,9 +52,14 @@ export class ChatGateway
     //user interface on receiving the join room request, emits the join-room event
     @SubscribeMessage('join-room')
     joinRoom(socket: Socket, data: RoomDto) {
-        this.chatService.joinRoom(socket, data.room);
+        this.chatService.joinRoom(socket, data);
     }
 
+     //user interface on receiving the join room request, emits the join-room event
+     @SubscribeMessage('update-visitor')
+     updateVisitor(socket: Socket, data: VisitorDto) {
+         this.chatService.updateVisitor(socket, data);
+     }
     //send message to the room
     @SubscribeMessage('send-message')
     sendMessage(socket: Socket, data:SendMessageDto) {
@@ -64,7 +69,7 @@ export class ChatGateway
     //send message to the room
     @SubscribeMessage('end-call')
     endCall(socket: Socket, data: EndCallDto) {
-        this.chatService.endCall(socket, data);
+        this.chatService.endCall(this.wss,socket, data);
     }
 
     //retrieve all the room
@@ -83,5 +88,8 @@ export class ChatGateway
     leaveRoom(socket: Socket, data) {
         this.chatService.leaveRoom(socket, data);
     }
-  
+    @SubscribeMessage('test')
+    test(socket: Socket, data) {
+        console.log(socket.id,'its a test')
+    }
 }
