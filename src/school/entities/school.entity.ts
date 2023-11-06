@@ -48,6 +48,48 @@ export class School {
 
   @Prop()
   ar_data: string;
+
+  @Prop()
+  academyDescription: string;
+
+  @Prop()
+  ar_academyDescription: string;
+
+  @Prop()
+  academyFile: string;
+
+  @Prop()
+  academyImage: [];
+
+  @Prop()
+  messageFromTitle: string;
+
+  @Prop()
+  ar_messageFromTitle: string;
+
+  @Prop()
+  leaderImage: [];
+
+  @Prop()
+  leaderName: string;
+
+  @Prop()
+  ar_leaderName: string;
+
+  @Prop()
+  leaderSchool: string;
+
+  @Prop()
+  leaderPosition: string;
+
+  @Prop()
+  ar_leaderPosition: string;
+
+  @Prop()
+  leaderDescription: string;
+
+  @Prop()
+  ar_leaderDescription: string;
 }
 
 export const SchoolSchema = SchemaFactory.createForClass(School);
