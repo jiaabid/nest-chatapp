@@ -189,13 +189,15 @@ export class ChatService {
             this.roomService.remove(data.room) //delete the created room
             await this.deleteChat([data.room]);
             socket.to(data.visitorId).emit('chat-ended', {})
-            await this.visitorService.updateVisitor(data.visitorId,true)
 
-            let getVisitorresponse = await this.roomService.getVisitors()
-            if (!getVisitorresponse.success) {
-                throw new Error(getVisitorresponse.payload?.message)
-            }
-            io.emit('available-users', { visitors: getVisitorresponse.payload }) // broadcast the available user list
+            //no need to update the visitor again
+            // await this.visitorService.updateVisitor(data.visitorId,true)
+
+            // let getVisitorresponse = await this.roomService.getVisitors()
+            // if (!getVisitorresponse.success) {
+            //     throw new Error(getVisitorresponse.payload?.message)
+            // }
+            // io.emit('available-users', { visitors: getVisitorresponse.payload }) // broadcast the available user list
 
             
         } catch (err) {
