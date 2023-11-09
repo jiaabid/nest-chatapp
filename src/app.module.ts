@@ -30,6 +30,7 @@ import { CounterModule } from './counter/counter.module';
 import { PartnersModule } from './partners/partners.module';
 import { NewsModule } from './news/news.module';
 import { ContactformModule } from './contactform/contactform.module';
+import { CommanderModule } from './commander/commander.module';
 ;
 
 @Module({
@@ -52,6 +53,7 @@ import { ContactformModule } from './contactform/contactform.module';
     SchoolModule,
     PageModule,
     SectionModule,
+    CommanderModule,
     EventModule,
     AssetModule,
     ValueModule,
