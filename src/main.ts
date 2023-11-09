@@ -19,6 +19,7 @@ import { CounterModule } from "./counter/counter.module";
 import { PartnersModule } from "./partners/partners.module";
 import { NewsModule } from "./news/news.module";
 import { ContactformModule } from './contactform/contactform.module';
+import { CommanderModule } from 'src/commander/commander.module';
 
 // import { DefaultEntities } from './utils/initial-script.utility';
 
@@ -52,7 +53,8 @@ async function bootstrap() {
       CounterModule,
       PartnersModule,
       NewsModule,
-      ContactformModule
+      ContactformModule,
+      CommanderModule,
     ],
   });
   SwaggerModule.setup('apis', app, document);
