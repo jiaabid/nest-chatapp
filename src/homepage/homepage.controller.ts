@@ -31,7 +31,7 @@ export class HomepageController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: number) {
+  remove(@Param('id') id: string) {
     return this.homepageService.remove(id);
   }
 }

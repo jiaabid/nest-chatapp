@@ -1,20 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CreateNewsDto {
+export class CreateLifeDto {
   @ApiProperty()
   title: string;
 
   @ApiProperty()
   description: string;
-
-  @ApiProperty()
-  image: Array<string>;
-
-  @ApiProperty()
-  data: string;
-
-  @ApiProperty()
-  author: string;
 
   @ApiProperty()
   ar_title: string;
@@ -23,11 +14,14 @@ export class CreateNewsDto {
   ar_description: string;
 
   @ApiProperty()
-  ar_image: Array<string>;
+  images: [];
 
   @ApiProperty()
-  ar_data: string;
+  cover: [];
 
   @ApiProperty()
-  ar_author: string;
+  file: string;
+
+  @ApiProperty()
+  slug: string;
 }

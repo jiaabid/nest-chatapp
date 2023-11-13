@@ -1,4 +1,4 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateTopStudentDto {
   @ApiProperty()
@@ -17,7 +17,7 @@ export class CreateTopStudentDto {
   present: string;
 
   @ApiProperty()
-  image: string;
+  image: [];
 
   @ApiProperty()
   ar_name: string;
@@ -35,6 +35,8 @@ export class CreateTopStudentDto {
   ar_present: string;
 
   @ApiProperty()
-  ar_image: string;
-}
+  ar_image: [];
 
+  @ApiProperty()
+  gender: number;
+}

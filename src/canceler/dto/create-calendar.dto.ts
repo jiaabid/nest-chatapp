@@ -1,21 +1,24 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CreateAboutUsDto {
+export class CreateCalendarDto {
   @ApiProperty()
   title: string;
-
-  @ApiProperty()
-  description?: string;
-
-  @ApiProperty()
-  image: [];
 
   @ApiProperty()
   ar_title: string;
 
   @ApiProperty()
-  ar_description?: string;
+  description: string;
 
   @ApiProperty()
-  ar_image: [];
+  ar_description: string;
+
+  @ApiProperty()
+  slug: string;
+
+  @ApiProperty()
+  image: [];
+
+  @ApiProperty()
+  file: string;
 }

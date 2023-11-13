@@ -5,7 +5,7 @@ export class CreateBannerDto {
   title: string;
 
   @ApiProperty()
-  media: string;
+  media: [];
 
   @ApiProperty()
   outerLink: string;
@@ -25,7 +25,7 @@ export class CreateBannerDto {
   ar_title: string;
 
   @ApiProperty()
-  ar_media: string;
+  ar_media: [];
 
   @ApiProperty()
   ar_outerTitle: string;

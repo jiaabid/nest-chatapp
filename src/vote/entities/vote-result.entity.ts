@@ -7,7 +7,7 @@ export type VoteResultDocument = HydratedDocument<VoteResult>;
 @Schema({ versionKey: false })
 export class VoteResult {
   @Prop()
-  reaction: number;
+  voteId: number;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Vote' })
   vote: Vote;

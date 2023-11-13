@@ -1,5 +1,5 @@
 import { HydratedDocument } from 'mongoose';
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 export type TopStudents = HydratedDocument<TopStudent>;
 
@@ -21,7 +21,7 @@ export class TopStudent {
   present: string;
 
   @Prop()
-  image: string;
+  image: [];
 
   @Prop()
   ar_name: string;
@@ -39,7 +39,10 @@ export class TopStudent {
   ar_present: string;
 
   @Prop()
-  ar_image: string;
+  ar_image: [];
+
+  @Prop()
+  gender: number;
 }
 
-export const TopStudentsSchema = SchemaFactory.createForClass(TopStudent)
+export const TopStudentsSchema = SchemaFactory.createForClass(TopStudent);

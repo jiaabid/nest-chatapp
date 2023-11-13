@@ -1,33 +1,27 @@
 import { Injectable } from '@nestjs/common';
-import { CreateHomepageDto } from './dto/create-homepage.dto';
-import { UpdateHomepageDto } from './dto/update-homepage.dto';
-import { InjectModel } from '@nestjs/mongoose';
-import { Homepage } from './entities/homepage.entity';
+import { CreateLifeDto } from './dto/create-life.dto';
+import { UpdateLifeDto } from './dto/update-life.dto';
+import { Life } from './entities/life.entity';
 import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
 import { generateMessage } from '../utils/message.utility';
 import { Response } from '../utils/response.utility';
 
 @Injectable()
-export class HomepageService {
-  constructor(
-    @InjectModel(Homepage.name) private homepageModal: Model<Homepage>,
-  ) {}
-
-  private MESSAGES = generateMessage('HomePage');
+export class LifeService {
+  constructor(@InjectModel(Life.name) private lifeModel: Model<Life>) {}
+  private MESSAGES = generateMessage('Life');
   private StatusCode = 200;
-
-  async create(createHomepageDto: CreateHomepageDto) {
+  async create(createLifeDto: CreateLifeDto) {
     try {
-      const exists = await this.homepageModal.findOne({
-        introTitle: createHomepageDto.introTitle,
+      const exists = await this.lifeModel.findOne({
+        introTitle: createLifeDto.title,
       });
       if (exists) {
         this.StatusCode = 400;
         throw new Error(this.MESSAGES.EXIST);
       }
-      const createdHomePage = await this.homepageModal.create(
-        createHomepageDto,
-      );
+      const createdHomePage = await this.lifeModel.create(createLifeDto);
       return new Response(
         (this.StatusCode = 201),
         this.MESSAGES.CREATED,
@@ -41,8 +35,8 @@ export class HomepageService {
 
   async findAll() {
     try {
-      const homepage = await this.homepageModal.find();
-      return new Response(this.StatusCode, this.MESSAGES.RETRIEVEALL, homepage);
+      const lifepage = await this.lifeModel.find();
+      return new Response(this.StatusCode, this.MESSAGES.RETRIEVEALL, lifepage);
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
       return new Response(this.StatusCode, err?.message, err).error();
@@ -51,40 +45,39 @@ export class HomepageService {
 
   async findOne(id: string) {
     try {
-      const homepage = await this.homepageModal.findById(id);
-      if (!homepage) {
+      const lifePage = await this.lifeModel.findById(id);
+      if (!lifePage) {
         this.StatusCode = 404;
         throw new Error(this.MESSAGES.NOTFOUND);
       }
-      return new Response(this.StatusCode, this.MESSAGES.RETRIEVE, homepage);
+      return new Response(this.StatusCode, this.MESSAGES.RETRIEVE, lifePage);
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
       return new Response(this.StatusCode, err.message, err).error();
     }
   }
 
-  async update(id: string, updateHomepageDto: UpdateHomepageDto) {
+  async update(id: string, updateLifeDto: UpdateLifeDto) {
     try {
-      const HomePage = await this.homepageModal.findById(id);
-      if (Object.values(HomePage).length == 0) {
+      const lifePage = await this.lifeModel.findById(id);
+      if (Object.values(lifePage).length == 0) {
         this.StatusCode = 404;
         throw new Error(this.MESSAGES.NOTFOUND);
       }
-      Object.keys(HomePage).forEach((key) => {
-        HomePage[key] = updateHomepageDto[key];
+      Object.keys(lifePage).forEach((key) => {
+        lifePage[key] = updateLifeDto[key];
       });
-      await this.homepageModal.findByIdAndUpdate(id, updateHomepageDto);
-      const updated = await this.homepageModal.findById(id);
+      await this.lifeModel.findByIdAndUpdate(id, updateLifeDto);
+      const updated = await this.lifeModel.findById(id);
       return new Response(this.StatusCode, this.MESSAGES.UPDATED, updated);
     } catch (err) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
       return new Response(this.StatusCode, err?.message, err).error();
     }
   }
-
   async remove(id: string) {
     try {
-      const deleted = await this.homepageModal.deleteOne({
+      const deleted = await this.lifeModel.deleteOne({
         _id: id,
       });
       if (deleted.deletedCount == 0) {
