@@ -22,17 +22,18 @@ export class AssetService {
   // private 
 
 
-  async create(files, type) {
+  async create(files) {
     try {
       if (files.length == 0) {
         return new Response(this.StatusCode = 400, this.MESSAGES.BADREQUEST, {}).error()
       }
       let uploadPromises = files.map(file => {
-        console.log(file.mimeType, file)
+      
         let mimetype = file.mimetype.slice(0,file.mimetype.indexOf("/"))
-        console.log(mimetype)
+       
         return cloudinary.uploader.upload(file.path, {
-          resource_type: mimetype
+          resource_type:mimetype
+
         })
       })
       let result = await Promise.all(uploadPromises);
@@ -43,7 +44,7 @@ export class AssetService {
         } catch (Err) {
           console.log(Err)
           this.StatusCode = 400;
-          return new Response(Err.http_code || this.StatusCode, Err?.message, Err).error()
+          return new Response(Err.http_code || this.StatusCode,Err.http_code?"File size is too large": Err?.message, Err).error()
 
         }
       })

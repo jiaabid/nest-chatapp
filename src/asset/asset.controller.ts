@@ -33,12 +33,11 @@ export class AssetController {
   schema:{
     type:'object',
     properties:{
-      files:{type:'array',example:["Array of files"]},
-      type:{type:'string',example:"image/video"},
+      files:{type:'array',example:["Array of files"]}
     }
   }})
-  create(@UploadedFiles() files, @Body('type') type:string ) {
-    return this.assetService.create(files,type);
+  create(@UploadedFiles() files ) {
+    return this.assetService.create(files);
   }
   
 }
