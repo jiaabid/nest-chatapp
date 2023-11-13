@@ -10,13 +10,13 @@ import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AssetService {
-  constructor(private configService: ConfigService ) {
+  constructor(private configService: ConfigService) {
     cloudinary.config({
       cloud_name: process.env.CLOUDNAME,
       api_key: process.env.APIKEY,
       api_secret: process.env.APISECRET
-  })
-}
+    })
+  }
   private MESSAGES = generateMessage('Assets')
   private StatusCode: number = 200;
   // private 
@@ -24,13 +24,15 @@ export class AssetService {
 
   async create(files, type) {
     try {
-      if(files.length == 0){
-        return new Response(this.StatusCode=400,this.MESSAGES.BADREQUEST, {}).error()
+      if (files.length == 0) {
+        return new Response(this.StatusCode = 400, this.MESSAGES.BADREQUEST, {}).error()
       }
       let uploadPromises = files.map(file => {
-
+        console.log(file.mimeType, file)
+        let mimetype = file.mimetype.slice(0,file.mimetype.indexOf("/"))
+        console.log(mimetype)
         return cloudinary.uploader.upload(file.path, {
-          resource_type: type
+          resource_type: mimetype
         })
       })
       let result = await Promise.all(uploadPromises);
@@ -48,7 +50,7 @@ export class AssetService {
       return new Response(this.StatusCode = 200, this.MESSAGES.CREATED, result)
 
     } catch (err) {
-      this.StatusCode = this.StatusCode == 200 ?err.http_code || 500 : this.StatusCode;
+      this.StatusCode = this.StatusCode == 200 ? err.http_code || 500 : this.StatusCode;
       return new Response(this.StatusCode, err?.message, err).error()
     }
 
