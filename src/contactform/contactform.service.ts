@@ -16,13 +16,13 @@ export class ContactformService {
   private StatusCode: number = 200;
   async create(createFormDto: CreateContactformDto) {
     try {
-      const exists = await this.formModel.findOne({
-        name: createFormDto.name
-      })
-      if (!(objectIsEmpty(exists))) {
-        this.StatusCode = 400;
-        throw new Error(this.MESSAGES.EXIST)
-      }
+      // const exists = await this.formModel.findOne({
+      //   name: createFormDto.name
+      // })
+      // if (!(objectIsEmpty(exists))) {
+      //   this.StatusCode = 400;
+      //   throw new Error(this.MESSAGES.EXIST)
+      // }
       const createdForm = await this.formModel.create(createFormDto);
       return new Response(this.StatusCode = 201, this.MESSAGES.CREATED, createdForm)
     } catch (err: any) {
