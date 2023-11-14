@@ -1,25 +1,24 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateContactformDto {
-
-    @ApiProperty({
-        example:"form 1"
-    })
-    name: string;
-    @ApiProperty({
-        example:"abc@gmail.com"
-    })
-    email: string;
-    @ApiProperty({
-        example:"subject"
-    })
-    subject: string;
-    @ApiProperty({
-        example:"hello world"
-    })
-    message: string;
-    @ApiProperty({
-        example:"090078601"
-    })
-    contact: string;
+  @ApiProperty()
+  title: string;
+  @ApiProperty()
+  parentFirstName: string;
+  @ApiProperty()
+  parentLastName: string;
+  @ApiProperty()
+  childFirstName: string;
+  @ApiProperty()
+  childLastName: string;
+  @ApiProperty()
+  schoolName: string;
+  @ApiProperty()
+  phoneNumber: string;
+  @ApiProperty()
+  email: string;
+  @ApiProperty()
+  howToContact: string;
+  @ApiProperty()
+  status: boolean;
 }

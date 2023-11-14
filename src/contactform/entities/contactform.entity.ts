@@ -3,18 +3,28 @@ import { HydratedDocument } from 'mongoose';
 
 export type FormDocument = HydratedDocument<Form>;
 
-@Schema({versionKey:false})
+@Schema({ versionKey: false })
 export class Form {
-    @Prop()
-    name: string;
-    @Prop()
-    email: string;
-    @Prop()
-    subject: string;
-    @Prop()
-    message: string;
-    @Prop()
-    contact: string;
+  @Prop()
+  title: string;
+  @Prop()
+  parentFirstName: string;
+  @Prop()
+  parentLastName: string;
+  @Prop()
+  childFirstName: string;
+  @Prop()
+  childLastName: string;
+  @Prop()
+  schoolName: string;
+  @Prop()
+  phoneNumber: string;
+  @Prop()
+  email: string;
+  @Prop()
+  howToContact: string;
+  @Prop({ default: false })
+  status: Boolean;
 }
 
 export const FormSchema = SchemaFactory.createForClass(Form);
