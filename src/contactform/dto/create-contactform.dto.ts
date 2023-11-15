@@ -18,7 +18,9 @@ export class CreateContactformDto {
   @ApiProperty()
   email: string;
   @ApiProperty()
-  howToContact: string;
+  contactEmail: boolean;
+  @ApiProperty()
+  contactPhone: boolean;
   @ApiProperty()
   status: boolean;
 }

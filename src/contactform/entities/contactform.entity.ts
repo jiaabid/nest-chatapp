@@ -25,6 +25,10 @@ export class Form {
   howToContact: string;
   @Prop({ default: false })
   status: Boolean;
+  @Prop({ default: false })
+  contactEmail: Boolean;
+  @Prop({ default: false })
+  contactPhone: Boolean;
 }
 
 export const FormSchema = SchemaFactory.createForClass(Form);
