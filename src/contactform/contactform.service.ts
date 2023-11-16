@@ -10,9 +10,9 @@ import { Response } from 'src/utils/response.utility';
 
 @Injectable()
 export class ContactformService {
-  constructor(@InjectModel(Form.name) private formModel: Model<Form>) { }
+  constructor(@InjectModel(Form.name) private formModel: Model<Form>) {}
 
-  private MESSAGES = generateMessage('Form')
+  private MESSAGES = generateMessage('Form');
   private StatusCode: number = 200;
   async create(createFormDto: CreateContactformDto) {
     try {
@@ -24,37 +24,49 @@ export class ContactformService {
       //   throw new Error(this.MESSAGES.EXIST)
       // }
       const createdForm = await this.formModel.create(createFormDto);
-      return new Response(this.StatusCode = 201, this.MESSAGES.CREATED, createdForm)
+      return new Response(
+        (this.StatusCode = 201),
+        this.MESSAGES.CREATED,
+        createdForm,
+      );
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
-      return new Response(this.StatusCode, err?.message, err).error()
+      return new Response(this.StatusCode, err?.message, err).error();
     }
-
   }
 
-  async findAll( ) {
+  async findAll() {
     try {
       const forms = await this.formModel.find();
-      return new Response(this.StatusCode=200, this.MESSAGES.RETRIEVEALL, forms)
+      return new Response(
+        (this.StatusCode = 200),
+        this.MESSAGES.RETRIEVEALL,
+        forms,
+      );
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
-      return new Response(this.StatusCode, err?.message, err).error()
+      return new Response(this.StatusCode, err?.message, err).error();
     }
-
   }
 
   async findOne(id: string) {
     try {
-      const form = await this.formModel.findById(id);
+      const form = await this.formModel.findByIdAndUpdate(id, {
+        $set: { status: true },
+      });
       if (!form) {
         this.StatusCode = 404;
-        throw new Error(this.MESSAGES.NOTFOUND)
+        throw new Error(this.MESSAGES.NOTFOUND);
       }
-      return new Response(this.StatusCode=200, this.MESSAGES.RETRIEVE, form)
+      return new Response(
+        (this.StatusCode = 200),
+        this.MESSAGES.RETRIEVE,
+        form,
+      );
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
-      return new Response(this.StatusCode, err?.message, err).error()
+      return new Response(this.StatusCode, err?.message, err).error();
     }
   }
-//hello
+  //hello
 }
