@@ -31,6 +31,7 @@ import { PartnersModule } from './partners/partners.module';
 import { NewsModule } from './news/news.module';
 import { ContactformModule } from './contactform/contactform.module';
 import { CommanderModule } from './commander/commander.module';
+import { SocialModule } from './social/social.module';
 ;
 
 @Module({
@@ -65,6 +66,7 @@ import { CommanderModule } from './commander/commander.module';
     PartnersModule,
     NewsModule,
     ContactformModule,
+    SocialModule,
   ],
   controllers: [AppController],
   providers: [AppService, DefaultSeed],

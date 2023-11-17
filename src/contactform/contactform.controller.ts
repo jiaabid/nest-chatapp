@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { ContactformService } from './contactform.service';
 import { CreateContactformDto } from './dto/create-contactform.dto';
 import { UpdateContactformDto } from './dto/update-contactform.dto';
@@ -23,5 +31,4 @@ export class ContactformController {
   findOne(@Param('id') id: string) {
     return this.contactformService.findOne(id);
   }
-
 }

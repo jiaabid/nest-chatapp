@@ -1,8 +1,16 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { HomepageService } from './homepage.service';
 import { CreateHomepageDto } from './dto/create-homepage.dto';
 import { UpdateHomepageDto } from './dto/update-homepage.dto';
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @ApiBearerAuth()
 @ApiTags('Home Page')
@@ -26,7 +34,10 @@ export class HomepageController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateHomepageDto: UpdateHomepageDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateHomepageDto: UpdateHomepageDto,
+  ) {
     return this.homepageService.update(id, updateHomepageDto);
   }
 
