@@ -47,7 +47,7 @@ export class SocialService {
   async findOne(id: number) {
     try {
       const social = await this.socialModel.findById(id);
-      if (social) {
+      if (!social) {
         this.StatusCode = 404;
         throw new Error(this.MESSAGES.NOTFOUND);
       }

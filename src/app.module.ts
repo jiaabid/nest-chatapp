@@ -32,6 +32,7 @@ import { NewsModule } from './news/news.module';
 import { ContactformModule } from './contactform/contactform.module';
 import { CommanderModule } from './commander/commander.module';
 import { SocialModule } from './social/social.module';
+import { TalentModule } from './talent/talent.module';
 ;
 
 @Module({
@@ -67,6 +68,7 @@ import { SocialModule } from './social/social.module';
     NewsModule,
     ContactformModule,
     SocialModule,
+    TalentModule,
   ],
   controllers: [AppController],
   providers: [AppService, DefaultSeed],
