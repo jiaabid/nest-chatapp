@@ -60,17 +60,15 @@ export class SocialService {
   // update data by id
   async update(id: string, updateSocialDto: UpdateSocialDto) {
     try {
-      const social = await this.socialModel.findById(id);
+      const social = await this.socialModel.findByIdAndUpdate(id, {
+        $set: updateSocialDto,
+      });
       if (Object.values(social).length == 0) {
         this.StatusCode = 404;
         throw new Error(this.MESSAGES.NOTFOUND);
       }
-      Object.keys(social).forEach((key) => {
-        social[key] = updateSocialDto[key];
-      });
-      await this.socialModel.findByIdAndUpdate(id, updateSocialDto);
-      const updated = this.socialModel.findById(id);
-      return new Response(this.StatusCode, this.MESSAGES.UPDATED, updated);
+
+      return new Response(this.StatusCode, this.MESSAGES.UPDATED, social);
     } catch (err: any) {
       this.StatusCode = this.StatusCode = 200 ? 500 : this.StatusCode;
       return new Response(this.StatusCode, err?.message, err).error();
