@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { SocialService } from './social.service';
 import { CreateSocialDto } from './dto/create-social.dto';
 import { UpdateSocialDto } from './dto/update-social.dto';
@@ -19,16 +27,16 @@ export class SocialController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.socialService.findOne(+id);
+    return this.socialService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateSocialDto: UpdateSocialDto) {
-    return this.socialService.update(+id, updateSocialDto);
+    return this.socialService.update(id, updateSocialDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.socialService.remove(+id);
+    return this.socialService.remove(id);
   }
 }

@@ -44,7 +44,7 @@ export class SocialService {
     }
   }
   //  get by :id
-  async findOne(id: number) {
+  async findOne(id: string) {
     try {
       const social = await this.socialModel.findById(id);
       if (!social) {
@@ -77,7 +77,7 @@ export class SocialService {
     }
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} social`;
   }
 }
