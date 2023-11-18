@@ -46,7 +46,7 @@ export class TalentService {
     }
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     try {
       const talents = await this.talentModel.findById(id);
       if (!talents) {
@@ -60,7 +60,7 @@ export class TalentService {
     }
   }
 
-  async update(id: number, updateTalentDto: UpdateTalentDto) {
+  async update(id: string, updateTalentDto: UpdateTalentDto) {
     try {
       const talents = await this.talentModel.findById(id);
       if (Object.values(talents).length == 0) {
@@ -79,7 +79,7 @@ export class TalentService {
     }
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     try {
       const deleted = await this.talentModel.deleteOne({
         _id: id,
