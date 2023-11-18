@@ -10,7 +10,7 @@ import { Response } from 'src/utils/response.utility';
 export class SocialService {
   constructor(@InjectModel(Social.name) private socialModel: Model<Social>) {}
 
-  private MESSAGES = generateMessage('social');
+  private MESSAGES = generateMessage('Social');
   private StatusCode = 200;
   // create
   async create(createSocialDto: CreateSocialDto) {
@@ -58,7 +58,7 @@ export class SocialService {
     }
   }
   // update data by id
-  async update(id: number, updateSocialDto: UpdateSocialDto) {
+  async update(id: string, updateSocialDto: UpdateSocialDto) {
     try {
       const social = await this.socialModel.findById(id);
       if (Object.values(social).length == 0) {
