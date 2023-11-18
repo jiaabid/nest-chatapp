@@ -8,7 +8,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { RoleModule } from './role/role.module';
 import { UserModule } from './user/user.module';
 import { env } from 'process';
-import { ConfigModule } from '@nestjs/config'; import { DefaultSeed } from './seeder/default.seeder';
+import { ConfigModule } from '@nestjs/config';
+import { DefaultSeed } from './seeder/default.seeder';
 import { Role, RoleSchema } from './role/entities/role.entity';
 import { User, UserSchema } from './user/entities/user.entity';
 import { ChatModule } from './chat/chat.module';
@@ -35,8 +36,6 @@ import { SocialModule } from './social/social.module';
 import { TalentModule } from './talent/talent.module';
 import { QualityEduModule } from './quality-edu/quality-edu.module';
 import { ValuesEduModule } from './values-edu/values-edu.module';
-;
-
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -44,7 +43,9 @@ import { ValuesEduModule } from './values-edu/values-edu.module';
       rootPath: join(__dirname, '..', 'chat-client'),
       exclude: ['/api/(.*)'],
     }),
-    MongooseModule.forRoot(process.env.DATABASE_URL, { dbName: process.env.DATABASE_NAME }),
+    MongooseModule.forRoot(process.env.DATABASE_URL, {
+      dbName: process.env.DATABASE_NAME,
+    }),
     UserModule,
     RoleModule,
     MongooseModule.forFeature([{ name: Role.name, schema: RoleSchema }]),
