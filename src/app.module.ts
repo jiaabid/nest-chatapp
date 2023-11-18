@@ -33,6 +33,7 @@ import { ContactformModule } from './contactform/contactform.module';
 import { CommanderModule } from './commander/commander.module';
 import { SocialModule } from './social/social.module';
 import { TalentModule } from './talent/talent.module';
+import { QualityEduModule } from './quality-edu/quality-edu.module';
 ;
 
 @Module({
@@ -69,6 +70,7 @@ import { TalentModule } from './talent/talent.module';
     ContactformModule,
     SocialModule,
     TalentModule,
+    QualityEduModule,
   ],
   controllers: [AppController],
   providers: [AppService, DefaultSeed],
