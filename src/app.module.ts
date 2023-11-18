@@ -34,6 +34,7 @@ import { CommanderModule } from './commander/commander.module';
 import { SocialModule } from './social/social.module';
 import { TalentModule } from './talent/talent.module';
 import { QualityEduModule } from './quality-edu/quality-edu.module';
+import { ValuesEduModule } from './values-edu/values-edu.module';
 ;
 
 @Module({
@@ -71,6 +72,7 @@ import { QualityEduModule } from './quality-edu/quality-edu.module';
     SocialModule,
     TalentModule,
     QualityEduModule,
+    ValuesEduModule,
   ],
   controllers: [AppController],
   providers: [AppService, DefaultSeed],
