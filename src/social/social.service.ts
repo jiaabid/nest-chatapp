@@ -77,7 +77,19 @@ export class SocialService {
     }
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} social`;
+  async remove(id: string) {
+    try {
+      const deleted = await this.socialModel.deleteOne({
+        _id: id,
+      });
+      if (deleted.deletedCount == 0) {
+        this.StatusCode = 400;
+        throw new Error(this.MESSAGES.BADREQUEST);
+      }
+      return new Response(this.StatusCode, this.MESSAGES.DELETED, []);
+    } catch (err: any) {
+      this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
+      return new Response(this.StatusCode, err?.message, err).error();
+    }
   }
 }
