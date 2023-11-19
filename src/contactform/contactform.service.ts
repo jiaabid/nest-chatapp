@@ -7,6 +7,7 @@ import { Form } from './entities/contactform.entity';
 import { generateMessage } from 'src/utils/message.utility';
 import { objectIsEmpty } from 'src/utils/wrapper.utility';
 import { Response } from 'src/utils/response.utility';
+import { sendEmail } from 'src/utils/email.utility';
 
 @Injectable()
 export class ContactformService {
@@ -24,6 +25,21 @@ export class ContactformService {
       //   throw new Error(this.MESSAGES.EXIST)
       // }
       const createdForm = await this.formModel.create(createFormDto);
+      await sendEmail({
+        subject:"Contact Form Created",
+        body:`
+        <h3>Form Data</h3>
+        <p><b>title: <b/>${createFormDto.title}</p>
+        <p><b>parentName: <b/>${createFormDto.parentFirstName} ${createFormDto.parentLastName}</p>
+        <p><b>childName: <b/>${createFormDto.childFirstName} ${createFormDto.childLastName}</p>
+        <p><b>schoolName: <b/>${createFormDto.schoolName}</p>
+        <p><b>phoneNumber: <b/>${createFormDto.phoneNumber}</p>
+        <p><b>email: <b/>${createFormDto.email}</p>
+        <p><b>status: <b/>${createFormDto.status}</p>
+        <p><b>contactEmail: <b/>${createFormDto.contactEmail}</p>
+        <p><b>contactPhone: <b/>${createFormDto.contactPhone}</p>
+        `
+      })
       return new Response(this.StatusCode = 201, this.MESSAGES.CREATED, createdForm)
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
