@@ -47,7 +47,7 @@ export class ValuesEduService {
     }
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     try {
       const valuesEdu = await this.valuesEduModel.findById(id);
       if (!valuesEdu) {
@@ -61,7 +61,7 @@ export class ValuesEduService {
     }
   }
 
-  async update(id: number, updateValuesEduDto: UpdateValuesEduDto) {
+  async update(id: string, updateValuesEduDto: UpdateValuesEduDto) {
     try {
       const ValuesEdu = await this.valuesEduModel.findById(id);
       if (Object.values(ValuesEdu).length == 0) {
@@ -80,7 +80,7 @@ export class ValuesEduService {
     }
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     try {
       const deleted = await this.valuesEduModel.deleteOne({
         _id: id,
