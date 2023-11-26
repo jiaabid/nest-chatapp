@@ -36,6 +36,7 @@ import { SocialModule } from './social/social.module';
 import { TalentModule } from './talent/talent.module';
 import { QualityEduModule } from './quality-edu/quality-edu.module';
 import { ValuesEduModule } from './values-edu/values-edu.module';
+import { ParentsModule } from './parents/parents.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -74,6 +75,7 @@ import { ValuesEduModule } from './values-edu/values-edu.module';
     TalentModule,
     QualityEduModule,
     ValuesEduModule,
+    ParentsModule,
   ],
   controllers: [AppController],
   providers: [AppService, DefaultSeed],
