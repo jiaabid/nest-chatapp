@@ -96,4 +96,16 @@ export class CreateHomepageDto {
 
   @ApiProperty()
   ar_studentsDescription: string;
+
+  @ApiProperty()
+  parentsTitle: string;
+
+  @ApiProperty()
+  ar_parentsTitle: string;
+
+  @ApiProperty()
+  parentsDescription: string;
+
+  @ApiProperty()
+  ar_parentsDescription: string;
 }

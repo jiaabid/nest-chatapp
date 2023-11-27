@@ -100,6 +100,18 @@ export class Homepage {
 
   @Prop()
   ar_studentsDescription: string;
+
+  @Prop()
+  parentsTitle: string;
+
+  @Prop()
+  ar_parentsTitle: string;
+
+  @Prop()
+  parentsDescription: string;
+
+  @Prop()
+  ar_parentsDescription: string;
 }
 
 export const HomePageSchema = SchemaFactory.createForClass(Homepage);
