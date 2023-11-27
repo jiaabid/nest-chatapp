@@ -51,7 +51,7 @@ export class QualityEduService {
     }
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     try {
       const qualityEdu = await this.qualityEduModel.findById(id);
       if (!qualityEdu) {
@@ -65,7 +65,7 @@ export class QualityEduService {
     }
   }
 
-  async update(id: number, updateQualityEduDto: UpdateQualityEduDto) {
+  async update(id: string, updateQualityEduDto: UpdateQualityEduDto) {
     try {
       const QualityEdu = await this.qualityEduModel.findById(id);
       if (Object.values(QualityEdu).length == 0) {
@@ -84,7 +84,7 @@ export class QualityEduService {
     }
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     try {
       const deleted = await this.qualityEduModel.deleteOne({
         _id: id,
