@@ -38,6 +38,7 @@ import { QualityEduModule } from './quality-edu/quality-edu.module';
 import { ValuesEduModule } from './values-edu/values-edu.module';
 import { ParentsModule } from './parents/parents.module';
 import { AwardsModule } from './awards/awards.module';
+import { LifeModule } from 'src/life/life.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -78,6 +79,7 @@ import { AwardsModule } from './awards/awards.module';
     ValuesEduModule,
     ParentsModule,
     AwardsModule,
+    LifeModule,
   ],
   controllers: [AppController],
   providers: [AppService, DefaultSeed],
