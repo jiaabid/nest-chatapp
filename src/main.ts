@@ -26,6 +26,7 @@ import { SocialModule } from 'src/social/social.module';
 import { TalentModule } from 'src/talent/talent.module';
 import { ParentsModule } from 'src/parents/parents.module';
 import { AwardsModule } from 'src/awards/awards.module';
+import { LifeModule } from 'src/life/life.module';
 
 // import { DefaultEntities } from './utils/initial-script.utility';
 
@@ -68,6 +69,7 @@ async function bootstrap() {
       TalentModule,
       ParentsModule,
       AwardsModule,
+      LifeModule,
     ],
   });
   SwaggerModule.setup('apis', app, document);
