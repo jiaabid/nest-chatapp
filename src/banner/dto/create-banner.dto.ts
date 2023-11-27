@@ -35,6 +35,4 @@ export class CreateBannerDto {
 
   @ApiProperty()
   ar_description?: string;
-
-  
 }
