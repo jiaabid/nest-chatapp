@@ -39,6 +39,7 @@ import { ValuesEduModule } from './values-edu/values-edu.module';
 import { ParentsModule } from './parents/parents.module';
 import { AwardsModule } from './awards/awards.module';
 import { LifeModule } from 'src/life/life.module';
+import { FooterModule } from './footer/footer.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -80,6 +81,7 @@ import { LifeModule } from 'src/life/life.module';
     ParentsModule,
     AwardsModule,
     LifeModule,
+    FooterModule,
   ],
   controllers: [AppController],
   providers: [AppService, DefaultSeed],
