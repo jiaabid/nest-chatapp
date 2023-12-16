@@ -41,6 +41,7 @@ import { AwardsModule } from './awards/awards.module';
 import { LifeModule } from 'src/life/life.module';
 import { FooterModule } from './footer/footer.module';
 import { AchievementModule } from './achievement/achievement.module';
+import { StudioModule } from './studio/studio.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -84,6 +85,7 @@ import { AchievementModule } from './achievement/achievement.module';
     LifeModule,
     FooterModule,
     AchievementModule,
+    StudioModule,
   ],
   controllers: [AppController],
   providers: [AppService, DefaultSeed],
