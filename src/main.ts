@@ -28,6 +28,7 @@ import { ParentsModule } from 'src/parents/parents.module';
 import { AwardsModule } from 'src/awards/awards.module';
 import { LifeModule } from 'src/life/life.module';
 import { FooterModule } from 'src/footer/footer.module';
+import { AchievementModule } from 'src/achievement/achievement.module';
 
 // import { DefaultEntities } from './utils/initial-script.utility';
 
@@ -72,6 +73,7 @@ async function bootstrap() {
       AwardsModule,
       LifeModule,
       FooterModule,
+      AchievementModule,
     ],
   });
   SwaggerModule.setup('apis', app, document);
