@@ -27,7 +27,7 @@ export class QualityEduController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.qualityEduService.findOne(+id);
+    return this.qualityEduService.findOne(id);
   }
 
   @Patch(':id')
@@ -35,11 +35,11 @@ export class QualityEduController {
     @Param('id') id: string,
     @Body() updateQualityEduDto: UpdateQualityEduDto,
   ) {
-    return this.qualityEduService.update(+id, updateQualityEduDto);
+    return this.qualityEduService.update(id, updateQualityEduDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.qualityEduService.remove(+id);
+    return this.qualityEduService.remove(id);
   }
 }

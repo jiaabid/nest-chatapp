@@ -27,16 +27,16 @@ export class TalentController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.talentService.findOne(+id);
+    return this.talentService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateTalentDto: UpdateTalentDto) {
-    return this.talentService.update(+id, updateTalentDto);
+    return this.talentService.update(id, updateTalentDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.talentService.remove(+id);
+    return this.talentService.remove(id);
   }
 }

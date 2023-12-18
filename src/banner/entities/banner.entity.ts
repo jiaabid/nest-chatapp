@@ -38,6 +38,4 @@ export class Banner {
   ar_description?: string;
 }
 
-
-
 export const BannerSchema = SchemaFactory.createForClass(Banner);

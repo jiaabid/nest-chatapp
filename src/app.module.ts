@@ -36,6 +36,12 @@ import { SocialModule } from './social/social.module';
 import { TalentModule } from './talent/talent.module';
 import { QualityEduModule } from './quality-edu/quality-edu.module';
 import { ValuesEduModule } from './values-edu/values-edu.module';
+import { ParentsModule } from './parents/parents.module';
+import { AwardsModule } from './awards/awards.module';
+import { LifeModule } from 'src/life/life.module';
+import { FooterModule } from './footer/footer.module';
+import { AchievementModule } from './achievement/achievement.module';
+import { StudioModule } from './studio/studio.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -74,6 +80,12 @@ import { ValuesEduModule } from './values-edu/values-edu.module';
     TalentModule,
     QualityEduModule,
     ValuesEduModule,
+    ParentsModule,
+    AwardsModule,
+    LifeModule,
+    FooterModule,
+    AchievementModule,
+    StudioModule,
   ],
   controllers: [AppController],
   providers: [AppService, DefaultSeed],

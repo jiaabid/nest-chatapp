@@ -1,34 +1,33 @@
 import { Injectable } from '@nestjs/common';
-import { CreateTalentDto } from './dto/create-talent.dto';
-import { UpdateTalentDto } from './dto/update-talent.dto';
+import { CreateAwardDto } from './dto/create-award.dto';
+import { UpdateAwardDto } from './dto/update-award.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Talent } from 'src/talent/entities/talent.entity';
+import { Award } from 'src/awards/entities/award.entity';
 import { Model } from 'mongoose';
 import { generateMessage } from 'src/utils/message.utility';
-import { objectIsEmpty } from 'src/utils/wrapper.utility';
 import { Response } from 'src/utils/response.utility';
-@Injectable()
-export class TalentService {
-  constructor(@InjectModel(Talent.name) private talentModel: Model<Talent>) {}
 
-  private MESSAGES = generateMessage('Talent');
+@Injectable()
+export class AwardsService {
+  constructor(@InjectModel(Award.name) private awardModel: Model<Award>) {}
+
+  private MESSAGES = generateMessage('Award');
   private StatusCode = 200;
-  // create
-  async create(createTalentDto: CreateTalentDto) {
+
+  async create(createAwardDto: CreateAwardDto) {
     try {
-      const exists = await this.talentModel.findOne({
-        title: createTalentDto.title,
+      const exist = await this.awardModel.findOne({
+        title: createAwardDto.title,
       });
-      if (!objectIsEmpty(exists)) {
+      if (exist) {
         this.StatusCode = 400;
         throw new Error(this.MESSAGES.EXIST);
       }
-      const createdTalent = await this.talentModel.create(createTalentDto);
-
+      const createAward = await this.awardModel.create(createAwardDto);
       return new Response(
         (this.StatusCode = 201),
         this.MESSAGES.CREATED,
-        createdTalent,
+        createAward,
       );
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
@@ -38,8 +37,8 @@ export class TalentService {
 
   async findAll() {
     try {
-      const talents = await this.talentModel.find();
-      return new Response(this.StatusCode, this.MESSAGES.RETRIEVEALL, talents);
+      const awards = await this.awardModel.find();
+      return new Response(this.StatusCode, this.MESSAGES.RETRIEVEALL, awards);
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
       return new Response(this.StatusCode, err?.message, err).error();
@@ -48,30 +47,30 @@ export class TalentService {
 
   async findOne(id: string) {
     try {
-      const talents = await this.talentModel.findById(id);
-      if (!talents) {
+      const award = await this.awardModel.findById(id);
+      if (!award) {
         this.StatusCode = 404;
         throw new Error(this.MESSAGES.NOTFOUND);
       }
-      return new Response(this.StatusCode, this.MESSAGES.RETRIEVE, talents);
+      return new Response(this.StatusCode, this.MESSAGES.RETRIEVE, award);
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
       return new Response(this.StatusCode, err?.message, err).error();
     }
   }
 
-  async update(id: string, updateTalentDto: UpdateTalentDto) {
+  async update(id: string, updateAwardDto: UpdateAwardDto) {
     try {
-      const talents = await this.talentModel.findById(id);
-      if (Object.values(talents).length == 0) {
+      const award = await this.awardModel.findById(id);
+      if (Object.values(award).length == 0) {
         this.StatusCode = 404;
         throw new Error(this.MESSAGES.NOTFOUND);
       }
-      Object.keys(talents).forEach((key) => {
-        talents[key] = updateTalentDto[key];
+      Object.keys(award).forEach((key) => {
+        award[key] = updateAwardDto[key];
       });
-      await this.talentModel.findByIdAndUpdate(id, updateTalentDto);
-      const updated = await this.talentModel.findById(id);
+      await this.awardModel.findByIdAndUpdate(id, updateAwardDto);
+      const updated = await this.awardModel.findById(id);
       return new Response(this.StatusCode, this.MESSAGES.UPDATED, updated);
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
@@ -81,7 +80,7 @@ export class TalentService {
 
   async remove(id: string) {
     try {
-      const deleted = await this.talentModel.deleteOne({
+      const deleted = await this.awardModel.deleteOne({
         _id: id,
       });
       if (deleted.deletedCount == 0) {

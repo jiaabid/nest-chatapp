@@ -1,34 +1,33 @@
 import { Injectable } from '@nestjs/common';
-import { CreateTalentDto } from './dto/create-talent.dto';
-import { UpdateTalentDto } from './dto/update-talent.dto';
+import { CreateFooterDto } from './dto/create-footer.dto';
+import { UpdateFooterDto } from './dto/update-footer.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Talent } from 'src/talent/entities/talent.entity';
+import { Footer } from 'src/footer/entities/footer.entity';
 import { Model } from 'mongoose';
 import { generateMessage } from 'src/utils/message.utility';
-import { objectIsEmpty } from 'src/utils/wrapper.utility';
-import { Response } from 'src/utils/response.utility';
-@Injectable()
-export class TalentService {
-  constructor(@InjectModel(Talent.name) private talentModel: Model<Talent>) {}
+import { Response } from '../utils/response.utility';
 
-  private MESSAGES = generateMessage('Talent');
+@Injectable()
+export class FooterService {
+  constructor(@InjectModel(Footer.name) private footerModel: Model<Footer>) {}
+
+  private MESSAGES = generateMessage('Footer');
   private StatusCode = 200;
-  // create
-  async create(createTalentDto: CreateTalentDto) {
+
+  async create(createFooterDto: CreateFooterDto) {
     try {
-      const exists = await this.talentModel.findOne({
-        title: createTalentDto.title,
+      const exist = await this.footerModel.findOne({
+        title: createFooterDto.title,
       });
-      if (!objectIsEmpty(exists)) {
+      if (exist) {
         this.StatusCode = 400;
         throw new Error(this.MESSAGES.EXIST);
       }
-      const createdTalent = await this.talentModel.create(createTalentDto);
-
+      const createdFooter = await this.footerModel.create(createFooterDto);
       return new Response(
         (this.StatusCode = 201),
         this.MESSAGES.CREATED,
-        createdTalent,
+        createdFooter,
       );
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
@@ -38,8 +37,8 @@ export class TalentService {
 
   async findAll() {
     try {
-      const talents = await this.talentModel.find();
-      return new Response(this.StatusCode, this.MESSAGES.RETRIEVEALL, talents);
+      const footer = await this.footerModel.find();
+      return new Response(this.StatusCode, this.MESSAGES.RETRIEVEALL, footer);
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
       return new Response(this.StatusCode, err?.message, err).error();
@@ -48,30 +47,31 @@ export class TalentService {
 
   async findOne(id: string) {
     try {
-      const talents = await this.talentModel.findById(id);
-      if (!talents) {
+      const footer = await this.footerModel.findById(id);
+      if (!footer) {
         this.StatusCode = 404;
         throw new Error(this.MESSAGES.NOTFOUND);
       }
-      return new Response(this.StatusCode, this.MESSAGES.RETRIEVE, talents);
+      return new Response(this.StatusCode, this.MESSAGES.RETRIEVE, footer);
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
-      return new Response(this.StatusCode, err?.message, err).error();
+      return new Response(this.StatusCode, err.message, err).error();
     }
   }
 
-  async update(id: string, updateTalentDto: UpdateTalentDto) {
+  async update(id: string, updateFooterDto: UpdateFooterDto) {
     try {
-      const talents = await this.talentModel.findById(id);
-      if (Object.values(talents).length == 0) {
+      const footer = await this.footerModel.findById(id);
+      if (Object.values(footer).length == 0) {
         this.StatusCode = 404;
         throw new Error(this.MESSAGES.NOTFOUND);
       }
-      Object.keys(talents).forEach((key) => {
-        talents[key] = updateTalentDto[key];
+      Object.keys(footer).forEach((key) => {
+        footer[key] = updateFooterDto[key];
       });
-      await this.talentModel.findByIdAndUpdate(id, updateTalentDto);
-      const updated = await this.talentModel.findById(id);
+      await this.footerModel.findByIdAndUpdate(id, updateFooterDto);
+
+      const updated = await this.footerModel.findById(id);
       return new Response(this.StatusCode, this.MESSAGES.UPDATED, updated);
     } catch (err: any) {
       this.StatusCode = this.StatusCode == 200 ? 500 : this.StatusCode;
@@ -81,7 +81,7 @@ export class TalentService {
 
   async remove(id: string) {
     try {
-      const deleted = await this.talentModel.deleteOne({
+      const deleted = await this.footerModel.deleteOne({
         _id: id,
       });
       if (deleted.deletedCount == 0) {

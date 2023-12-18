@@ -24,6 +24,12 @@ import { QualityEduModule } from 'src/quality-edu/quality-edu.module';
 import { ValuesEduModule } from 'src/values-edu/values-edu.module';
 import { SocialModule } from 'src/social/social.module';
 import { TalentModule } from 'src/talent/talent.module';
+import { ParentsModule } from 'src/parents/parents.module';
+import { AwardsModule } from 'src/awards/awards.module';
+import { LifeModule } from 'src/life/life.module';
+import { FooterModule } from 'src/footer/footer.module';
+import { AchievementModule } from 'src/achievement/achievement.module';
+import { StudioModule } from 'src/studio/studio.module';
 
 // import { DefaultEntities } from './utils/initial-script.utility';
 
@@ -64,6 +70,12 @@ async function bootstrap() {
       ValuesEduModule,
       SocialModule,
       TalentModule,
+      ParentsModule,
+      AwardsModule,
+      LifeModule,
+      FooterModule,
+      AchievementModule,
+      StudioModule,
     ],
   });
   SwaggerModule.setup('apis', app, document);
