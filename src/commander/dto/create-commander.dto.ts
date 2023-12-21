@@ -14,7 +14,7 @@ export class CreateCommanderDto {
   ar_description: string;
 
   @ApiProperty()
-  image: [];
+  image: any[];
 
   @ApiProperty()
   role: string;
