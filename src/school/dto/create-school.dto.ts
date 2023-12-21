@@ -77,6 +77,9 @@ export class CreateSchoolDto {
   leaderSchool: string;
 
   @ApiProperty()
+  ar_leaderSchool: string;
+
+  @ApiProperty()
   leaderPosition: string;
 
   @ApiProperty()
