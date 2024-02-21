@@ -1,14 +1,21 @@
-import { Injectable, CanActivate, ExecutionContext, createParamDecorator, NestInterceptor, CallHandler } from '@nestjs/common';
+import {
+  Injectable,
+  CanActivate,
+  ExecutionContext,
+  createParamDecorator,
+  NestInterceptor,
+  CallHandler,
+} from '@nestjs/common';
 import { AuthGuard, IAuthGuard } from '@nestjs/passport';
 import { generateMessage, roleEnums } from 'src/utils/message.utility';
 import { Response } from 'src/utils/response.utility';
 
 export const IsAllowed = createParamDecorator(
   (data: unknown, ctx: ExecutionContext) => {
-    console.log(data, ctx)
+    console.log(data, ctx);
     const request = ctx.switchToHttp().getRequest();
     if (request.user.role.name == roleEnums.CR) {
-      return new Response(400, generateMessage('User').FORBIDDEN, {}).error()
+      return new Response(400, generateMessage('User').FORBIDDEN, {}).error();
     }
     return request.body;
   },
@@ -16,16 +23,11 @@ export const IsAllowed = createParamDecorator(
 
 export const IsRepresentative = createParamDecorator(
   (data: unknown, ctx: ExecutionContext) => {
-    console.log(data, ctx)
+    console.log(data, ctx);
     const request = ctx.switchToHttp().getRequest();
     if (request.user.role.name !== roleEnums.CR) {
-      return new Response(403, generateMessage('User').FORBIDDEN, {}).error()
+      return new Response(403, generateMessage('User').FORBIDDEN, {}).error();
     }
     return request.body;
   },
 );
-
-
-
-
-
