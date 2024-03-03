@@ -80,6 +80,9 @@ export class School {
   leaderSchool: string;
 
   @Prop()
+  ar_leaderSchool: string;
+
+  @Prop()
   leaderPosition: string;
 
   @Prop()

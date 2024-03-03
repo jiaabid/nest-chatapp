@@ -1,22 +1,21 @@
 window.onload = () => {
-  let socket = ""
-  let room = ""
-  let id = generateUniqueId()
-  let isRepresentative = prompt('are u representative')
-  document.querySelector('h3').innerHTML = isRepresentative
+  let socket = '';
+  let room = '';
+  let id = generateUniqueId();
+  let isRepresentative = prompt('are u representative');
+  document.querySelector('h3').innerHTML = isRepresentative;
   if (isRepresentative == 'yes') {
     socket = io('http://localhost:3000/', {
-      query: { token: "abc" ,id:id}
-    })
-    document.querySelector('h3').innerHTML = id
-    socket.on('connect', data => {
-      console.log(data, socket)
-    })
+      query: { token: 'abc', id: id },
+    });
+    document.querySelector('h3').innerHTML = id;
+    socket.on('connect', (data) => {
+      console.log(data, socket);
+    });
 
-    socket.on('disconnect',_=>{
-      
-      socket.emit('test')
-    })
+    socket.on('disconnect', (_) => {
+      socket.emit('test');
+    });
 
     //CR section
     socket.on('available-users', (data) => {
@@ -32,11 +31,11 @@ window.onload = () => {
       console.log(data);
     });
     //on recieving new user
-    socket.on('new-user', data => {
-      let ul = document.querySelector('ul')
-      ul.innerHTML += `<li>${data.visitorId}<button class='btn'>Accept</button></li>`
-      attachEvent()
-    })
+    socket.on('new-user', (data) => {
+      let ul = document.querySelector('ul');
+      ul.innerHTML += `<li>${data.visitorId}<button class='btn'>Accept</button></li>`;
+      attachEvent();
+    });
     function attachEvent() {
       document.querySelectorAll('.btn').forEach((btn) => {
         btn.addEventListener('click', acceptUser);
@@ -45,32 +44,32 @@ window.onload = () => {
 
     //accept the user
     function acceptUser() {
-      let userid = prompt('Enter the user id')
-      socket.emit("accept-user", { visitorId: userid, representativeId:id })
+      let userid = prompt('Enter the user id');
+      socket.emit('accept-user', { visitorId: userid, representativeId: id });
     }
   } else {
     socket = io('http://localhost:3000/', {
-      query: { id:id}
-    })
-    document.querySelector('h3').innerHTML =id
-    socket.on('connect', data => {
-      console.log(data, socket)
-    })
-    socket.emit('connect-visitor',{visitorId:id})
+      query: { id: id },
+    });
+    document.querySelector('h3').innerHTML = id;
+    socket.on('connect', (data) => {
+      console.log(data, socket);
+    });
+    socket.emit('connect-visitor', { visitorId: id });
     //user section
-    socket.on("join-room-request", data => {
-      console.log(data)
-      room = data.room
-      socket.emit('join-room', { room })
-    })
+    socket.on('join-room-request', (data) => {
+      console.log(data);
+      room = data.room;
+      socket.emit('join-room', { room });
+    });
   }
 
-  socket.on("join-room-request", data => {
-    console.log(data)
+  socket.on('join-room-request', (data) => {
+    console.log(data);
 
-    room = data.room
-    socket.emit('join-room', { room })
-  })
+    room = data.room;
+    socket.emit('join-room', { room });
+  });
 
   document.getElementById('sendMsg').addEventListener('click', (e) => {
     e.preventDefault();
@@ -78,29 +77,29 @@ window.onload = () => {
     socket.emit('send-message', {
       message,
       to: room,
-      from:id
+      from: id,
     });
-  })
+  });
 
-  socket.on('message', data => {
-    alert(data.message)
-  })
-  socket.on('error', payload => {
-    console.log(payload.message)
-  })
+  socket.on('message', (data) => {
+    alert(data.message);
+  });
+  socket.on('error', (payload) => {
+    console.log(payload.message);
+  });
 
-  document.getElementById('sendRequest').addEventListener('click',e=>{
-    e.preventDefault()
-    let room = prompt('Enter room id')
-    socket.emit('get-room',{room})
-  })
-  socket.on('chat-history',data=>{
-    console.log(data)
-  })
-
-}
+  document.getElementById('sendRequest').addEventListener('click', (e) => {
+    e.preventDefault();
+    let room = prompt('Enter room id');
+    socket.emit('get-room', { room });
+  });
+  socket.on('chat-history', (data) => {
+    console.log(data);
+  });
+};
 function generateUniqueId(length = 8) {
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const characters =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   let id = '';
 
   for (let i = 0; i < length; i++) {
@@ -111,10 +110,9 @@ function generateUniqueId(length = 8) {
   return id;
 }
 
-
-  socket.on('message', (data) => {
-    alert(data.message);
-  });
-  socket.on('error', (payload) => {
-    console.log(payload.message);
-  });
+socket.on('message', (data) => {
+  alert(data.message);
+});
+socket.on('error', (payload) => {
+  console.log(payload.message);
+});

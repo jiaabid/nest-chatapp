@@ -29,7 +29,7 @@ export class Commander {
   ar_position: string;
 
   @Prop()
-  image: [];
+  image: any[];
 }
 
 export const CommanderSchema = SchemaFactory.createForClass(Commander);
