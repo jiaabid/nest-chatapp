@@ -30,12 +30,15 @@ import { LifeModule } from 'src/life/life.module';
 import { FooterModule } from 'src/footer/footer.module';
 import { AchievementModule } from 'src/achievement/achievement.module';
 import { StudioModule } from 'src/studio/studio.module';
+import * as bodyParser from 'body-parser';
 
 // import { DefaultEntities } from './utils/initial-script.utility';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors();
+  app.use(bodyParser.json({ limit: '10mb' }));
+  app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
   //Swagger Configuration
   const config = new DocumentBuilder()
     .setTitle('Chat App')
